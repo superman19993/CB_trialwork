@@ -20,18 +20,19 @@ class BaseModel extends Database{
         }
 
         $query= $this->_query($sql);
-
-        $data=[];
-        while ($row = mysqli_fetch_assoc($query)){
-            array_push($data, $row);
-        }
-        return $data;
+        return $query;
+        // $data=[];
+        // while ($row = mysqli_fetch_assoc($query)){
+        //     array_push($data, $row);
+        // }
+        // return $data;
     }
 
     public function getById($table, $id){
         $sql= "SELECT * FROM ${table} WHERE id= ${id}";
         $query= $this->_query($sql);
-        return mysqli_fetch_assoc($query);
+        return $query;
+        //return mysqli_fetch_assoc($query);
     }
 
     public function create($table, $data=[]){
