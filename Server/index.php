@@ -25,9 +25,4 @@ if (isset($uri[5])) $id = $uri[5];
 else $id ='';
 $controllerObject= new $controllerName($requestMethod, $id);
 $controllerObject-> processRequest();
-
-
-
-
-
 ?>
