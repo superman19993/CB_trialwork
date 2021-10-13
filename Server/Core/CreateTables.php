@@ -60,37 +60,6 @@ if ($conn->query($sql) === TRUE) {
 
 //many to many (users-workspaces)
 
-
-//columns table
-$sql = "CREATE TABLE if not exists columns (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    column_name VARCHAR(45) NOT NULL,
-    workspaceid INT UNSIGNED,
-    FOREIGN KEY (workspaceid) REFERENCES workspaces (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (id));";
-
-if ($conn->query($sql) === TRUE) {
-  echo "Table columns created successfully";
-} else {
-  echo "Error creating table: " . $conn->error;
-}
-
-//cards table
-$sql = "CREATE TABLE if not exists cards (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    card_name VARCHAR(40) NOT NULL,
-    description VARCHAR(255) NULL,
-    columnid INT UNSIGNED,
-    FOREIGN KEY (columnid) REFERENCES columns (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (id));";
-
-if ($conn->query($sql) === TRUE) {
-  echo "Table cards created successfully";
-} else {
-  echo "Error creating table: " . $conn->error;
-}
-
-
 $sql = "CREATE TABLE if not exists users_workspaces (
   userid INT UNSIGNED,
   workspaceid INT UNSIGNED,
@@ -105,6 +74,41 @@ if ($conn->query($sql) === TRUE) {
 } else {
   echo "Error creating table: " . $conn->error;
 }
+
+
+//columns table
+$sql = "CREATE TABLE if not exists columns (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    column_name VARCHAR(45) NOT NULL,
+    workspaceid INT UNSIGNED,
+    FOREIGN KEY (workspaceid) REFERENCES workspaces (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (id))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;";
+
+if ($conn->query($sql) === TRUE) {
+  echo "Table columns created successfully";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+
+//cards table
+$sql = "CREATE TABLE if not exists cards (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    card_name VARCHAR(40) NOT NULL,
+    description VARCHAR(255) NULL,
+    columnid INT UNSIGNED,
+    FOREIGN KEY (columnid) REFERENCES columns (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (id))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;";
+
+if ($conn->query($sql) === TRUE) {
+  echo "Table cards created successfully";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+
 
 //many-to-many (users-cards)
 $sql = "CREATE TABLE if not exists users_cards (
