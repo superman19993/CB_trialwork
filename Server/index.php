@@ -21,4 +21,9 @@ if (isset($uri[5])) $id = $uri[5];
 else $id ='';
 $controllerObject= new $controllerName($requestMethod, $id);
 $controllerObject-> processRequest();
+
+//
+// $columnId= isset($_REQUEST['columnId']) ? $_REQUEST['columnId']: '';
+// $cardId= isset($_REQUEST['cardId'])? $_REQUEST['cardId']: '';
+
 ?>
