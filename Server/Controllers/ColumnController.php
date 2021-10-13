@@ -45,7 +45,10 @@ class ColumnController extends BaseController {
         $result= $this->columnModel->find($id);
         $num= mysqli_num_rows($result);
 
-        if ($num<=0) echo json_encode(array('message'=> 'No columns found.'));
+        if ($num<=0){
+            http_response_code(400);
+            echo json_encode(array('message'=> 'No columns found.'));
+        } 
         
         else{
             $response= array();
