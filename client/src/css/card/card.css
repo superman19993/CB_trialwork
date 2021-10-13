@@ -1,5 +1,8 @@
 .container{
-    margin-top: 30px;
+    margin-top: 100px;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .card-collumn {
@@ -114,6 +117,39 @@
     margin-right: 5px;
 }
 
+.btn-add-collumn {
+    background-color: rgb(34, 165, 121);
+    color: black;
+    float: right;
+    min-width: 80px;
+}
+
+.btn-cancle-add {
+    background-color: rgb(238, 95, 95);
+    color: black;
+    float: right;
+    margin-right: 10px;
+}
+
 .collumn{
     margin-bottom: 30px;
+}
+
+.addCollumn{
+    background-color: #78c2ad;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    padding: 0px 18.5px;
+    font-size: 35px;
+    font-weight: 600;
+    right: 3%;
+    top: 85%;
+    position: fixed;
+    color: black;
+}
+
+.row{
+    flex-wrap: nowrap;
+    
 }
