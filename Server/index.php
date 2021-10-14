@@ -25,5 +25,3 @@ $controllerObject-> processRequest();
 //
 // $columnId= isset($_REQUEST['columnId']) ? $_REQUEST['columnId']: '';
 // $cardId= isset($_REQUEST['cardId'])? $_REQUEST['cardId']: '';
-
-?>

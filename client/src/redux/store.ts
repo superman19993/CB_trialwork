@@ -1,9 +1,12 @@
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import { configureStore } from "@reduxjs/toolkit";
+import columnsSlice from "./slices/collumns";
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    columns: columnsSlice,
+  },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
