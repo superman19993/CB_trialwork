@@ -17,9 +17,7 @@ $controllerName= ucfirst((strtolower($uri[4])). 'Controller');
 require "./Controllers/${controllerName}.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
-if (isset($uri[5])) $id = $uri[5];
-else $id ='';
-$controllerObject= new $controllerName($requestMethod, $id);
+$controllerObject= new $controllerName($requestMethod);
 $controllerObject-> processRequest();
 
 //

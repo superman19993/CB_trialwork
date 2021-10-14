@@ -25,5 +25,10 @@ class ColumnModel extends BaseModel{
     public function login($username, $password){
         return $this->getInfo(self::TABLE, $username, $password);
     }
+
+    public function getAllCards($select=['*'], $orderBys=[], $limit= 15){
+        return $this->all('cards', $select, $orderBys, $limit);
+    }
+
 }
 ?>
