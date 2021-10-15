@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import DeleteCardForm from "./DeleteCardForm";
+import UpdateCardForm from "./UpdateCardForm";
 
 const CardKanban = ({
   id,
@@ -17,10 +18,19 @@ const CardKanban = ({
     setOpenDeleteModal(!openDeleteModal);
   };
 
+  const [updateCardModal, setUpdateCardModal] = useState(false);
+
+  const onClickUpdateCard = () => {
+    setUpdateCardModal(!updateCardModal);
+  };
+
   return (
     <>
+      {updateCardModal ? (
+        <UpdateCardForm id={id} title={title} description={description} />
+      ) : null}
       {openDeleteModal ? <DeleteCardForm id={id} /> : null}
-      <Card className="card-kanban">
+      <Card onClick={onClickUpdateCard} className="card-kanban">
         <Card.Body>
           <Card.Title className="card-kanban-header">{title}</Card.Title>
           <Card.Title
