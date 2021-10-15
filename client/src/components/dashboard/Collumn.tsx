@@ -9,14 +9,14 @@ import CreateCardForm from "./CreateCardForm";
 import DeleteCollumn from "./DeleteCollumn";
 
 interface ICard {
-  id: number;
+  card_id: number;
   title: string;
   description: string;
 }
 
 export interface ICollumn {
   id: number;
-  title: string;
+  column_name: string;
   cards: ICard[];
 }
 
@@ -41,14 +41,14 @@ const Collumn = ({ collumn }: { collumn: ICollumn }) => {
           <Card.Title onClick={onClickDeleteCollumn} style={{ float: "right" }}>
             x
           </Card.Title>
-          <Card.Title>{collumn.title}</Card.Title>
+          <Card.Title>{collumn.column_name}</Card.Title>
 
           {openFormCol ? (
             <>
               <h2 className="hide-create" onClick={onClickFormCol}>
                 -
               </h2>
-              <CreateCardForm />
+              <CreateCardForm id={collumn.id} />
             </>
           ) : (
             <Button onClick={onClickFormCol} className="card-btn">
@@ -58,8 +58,9 @@ const Collumn = ({ collumn }: { collumn: ICollumn }) => {
 
           {collumn.cards.map((card) => (
             <CardKanban
-              key={card.id}
-              id={card.id}
+              key={card.card_id}
+              colId={collumn.id}
+              id={card.card_id}
               title={card.title}
               description={card.description}
             />

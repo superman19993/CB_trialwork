@@ -22,4 +22,3 @@ class CardModel extends BaseModel{
         return $this->delete(self::TABLE, $id);
     }
 }
-?>

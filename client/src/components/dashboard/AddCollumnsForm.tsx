@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { Modal, Button, FormControl, FormLabel } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
+import { createColumn } from "../../redux/slices/collumns";
+import { useDispatch } from "react-redux";
+
 const AddCollumnsForm = () => {
   const [showModal, setShowModal] = useState(true);
 
+  const dispatch = useDispatch();
+
   const handlerSubmit = (values: any, { resetForm }: any) => {
+    dispatch(createColumn(values));
+    setShowModal(!showModal);
     resetForm();
   };
 
@@ -13,22 +20,23 @@ const AddCollumnsForm = () => {
       <Modal.Header>Add new collumn</Modal.Header>
       <Modal.Body>
         <Formik
-          initialValues={{ title: "", cards: [] }}
+          initialValues={{ column_name: "", workspace_id: 1 }}
           onSubmit={handlerSubmit}
         >
-          {({ values, errors, handleBlur, handleChange }) => (
-            <Form>
+          {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
+            <Form onSubmit={handleSubmit}>
               <FormControl
                 className="create-input"
-                name="title"
+                name="column_name"
                 placeholder="Title"
                 type="text"
-                value={values.title}
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
 
-              <Button className="btn-add-collumn">Add</Button>
+              <Button type="submit" className="btn-add-collumn">
+                Add
+              </Button>
               <Button className="btn-cancle-add">Cancle</Button>
             </Form>
           )}

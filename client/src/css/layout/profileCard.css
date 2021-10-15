@@ -1,0 +1,32 @@
+.card-side {
+    position: relative fixed;
+    height: 400px;
+    margin-left: 50px;
+    margin-top: 100px;
+    width: 80%;
+}
+
+.card-header-side {
+    text-align: center;
+    font-weight: 800;
+    font-size: 22px;
+    color: black;
+}
+
+.avatar {
+    position: absolute;
+    top: 22%;
+    left: 32%;
+    border-radius: 50%;
+}
+
+.card-info-side {
+    position: absolute;
+    top: 55%;
+    font-weight: 600;
+    font-size: 18px;
+    color: black;
+    text-align: center;
+    width: 100;
+    left: 10%;
+}

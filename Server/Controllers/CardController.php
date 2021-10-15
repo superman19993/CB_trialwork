@@ -1,46 +1,42 @@
 <?php
 
-class CardController extends BaseController {
+class CardController extends BaseController
+{
 
     private $requesMethod;
 
     public function __construct($method)
     {
         $this->loadModel('CardModel');
-        $this->cardModel= new CardModel;
-        $this->requesMethod= $method;
+        $this->cardModel = new CardModel;
+        $this->requesMethod = $method;
     }
 
-    
+
     // POST: http://localhost/practice2/Server/index.php/card?columnId={int}
-    public function create(){
+    public function create()
+    {
         if (!isset($_REQUEST['columnId'])) {
-            echo json_encode(array('message'=> "Invalid columnId."));
+            echo json_encode(array('message' => "Invalid columnId."));
             return http_response_code(400);
         }
-        $input= (array) json_decode(file_get_contents('php://input'),TRUE);
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        $cardName= isset($input['title']) ? $input['title'] : '';
-        $des= isset($input['description']) ? $input['description'] : '';
-        $data=[
-            'card_name'=> $cardName,
-            'description'=> $des,
-            'columnid'=> $_REQUEST['columnId']
+        $cardName = isset($input['title']) ? $input['title'] : '';
+        $des = isset($input['description']) ? $input['description'] : '';
+        $data = [
+            'card_name' => $cardName,
+            'description' => $des,
+            'columnid' => $_REQUEST['columnId']
         ];
 
-        $insertedId= $this->cardModel->store($data);
-        if ($insertedId ==0) {
-            echo json_encode(array('message'=> "Invalid columnId."));
-            return http_response_code(400);
-        }
-        $data['cardId']= $insertedId;
-        $response['data']= $data;
-        $response['message']= 'Success';
-
+        $this->cardModel->store($data);
+        $response['message'] = 'Success';
         echo json_encode($response);
     }
 
-    public function read(){
+    public function read()
+    {
         $columns = ['*'];
         $orderBys = ['column' => 'id', 'order' => 'desc'];
         $limit = 15;
@@ -63,51 +59,50 @@ class CardController extends BaseController {
     }
 
     // http://localhost/practice2/Server/index.php/card?columnId={}&cardId={}
-    public function update(){
+    public function update()
+    {
 
-        $columnId= isset($_REQUEST['columnId']) ? $_REQUEST['columnId']:'';
-        $cardId= isset($_REQUEST['cardId']) ? $_REQUEST['cardId']:'';
-        if ($columnId<=0 || $cardId<=0) {
-            echo json_encode(array('message'=> 'Parameters not found'));
-            return http_response_code(400);
-        };
+        $columnId = isset($_REQUEST['columnId']) ? $_REQUEST['columnId'] : '';
+        $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
 
-        $oldCard= $this->readOne();
+        $oldCard = $this->readOne();
         if (!$oldCard) {
-            echo json_encode(array('message'=> 'Card not found'));
+            echo json_encode(array('message' => 'Card not found'));
             return http_response_code(400);
         };
-        $input= (array) json_decode(file_get_contents('php://input'),TRUE);
-        $cardName= isset($input['title']) ? $input['title'] : $oldCard['card_name'];
-        $des= isset($input['description']) ? $input['description'] : $oldCard['description'];
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $cardName = isset($input['title']) ? $input['title'] : $oldCard['card_name'];
+        $des = isset($input['description']) ? $input['description'] : $oldCard['description'];
 
-        $data=[
-            'card_name'=> $cardName,
-            'description'=> $des,
-            'columnid'=> $_REQUEST['columnId']
+        $data = [
+            'card_name' => $cardName,
+            'description' => $des,
+            'columnid' => $columnId
         ];
         $this->cardModel->updateData($cardId, $data);
-        $response['message']= 'Success';
+        $response['message'] = 'Success';
         echo json_encode($response);
     }
 
-    public function delete(){
-        $cardId= isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
+    public function delete()
+    {
+        $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
         if (!$cardId) {
-            echo json_encode(array('message'=> 'URL parameters not found'));
+            echo json_encode(array('message' => 'URL parameters not found'));
             return http_response_code(400);
         }
         if (!$this->readOne()) {
-            echo json_encode(array('message'=> 'Card not found'));
+            echo json_encode(array('message' => 'Card not found'));
             return http_response_code(400);
         }
-        $response['message']= 'Success';
+        $response['message'] = 'Success';
         echo json_encode($response);
         return $this->cardModel->destroy($cardId);
     }
 
-    public function processRequest(){
-        switch ($this->requesMethod){
+    public function processRequest()
+    {
+        switch ($this->requesMethod) {
             case 'GET':
                 if (isset($_REQUEST['cardId'])) $this->readOne();
                 else $this->read();
@@ -124,8 +119,6 @@ class CardController extends BaseController {
             default:
                 echo "Response not found!";
                 break;
-           
         }
     }
-
 }

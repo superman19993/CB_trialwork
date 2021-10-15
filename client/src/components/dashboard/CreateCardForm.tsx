@@ -2,12 +2,17 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { Button, FormControl } from "react-bootstrap";
 import "../../css/card/card.css";
+import { createCard } from "../../redux/slices/card";
+import { useDispatch } from "react-redux";
 
-const CreateCardForm: React.FC = () => {
+const CreateCardForm = ({ id }: { id: number }) => {
   const initialValue = { title: "", description: "" };
 
+  const dispatch = useDispatch();
+
   const handlerSubmit = (values: any, { resetForm }: any) => {
-    console.log(values);
+    const bodyData = { ...values, id };
+    dispatch(createCard(bodyData));
     resetForm();
   };
 

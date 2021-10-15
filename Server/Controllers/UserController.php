@@ -1,9 +1,10 @@
 <?php
 
-class UserController extends BaseController {
+class UserController extends BaseController
+{
 
-    public function index() {
+    public function index()
+    {
         echo __METHOD__;
     }
-    
 }

@@ -31,4 +31,3 @@ class ColumnModel extends BaseModel{
     }
 
 }
-?>
