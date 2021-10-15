@@ -50,14 +50,13 @@ class CardController extends BaseController
             echo json_encode($response);
         }
     }
-    public function readOne()
-    {
-        $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
-        if ($cardId <= 0) return http_response_code(400);
-        $card = $this->cardModel->find($cardId);
+
+    public function readOne(){
+        $cardId= isset($_REQUEST['cardId']) ? $_REQUEST['cardId']:'';
+        if ($cardId<=0) return http_response_code(400);
+        $card=$this->cardModel->find($cardId);
         return $card;
     }
-
 
     // http://localhost/practice2/Server/index.php/card?columnId={}&cardId={}
     public function update()
@@ -65,10 +64,6 @@ class CardController extends BaseController
 
         $columnId = isset($_REQUEST['columnId']) ? $_REQUEST['columnId'] : '';
         $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
-        if ($columnId <= 0 || $cardId <= 0) {
-            echo json_encode(array('message' => 'Parameters not found'));
-            return http_response_code(400);
-        };
 
         $oldCard = $this->readOne();
         if (!$oldCard) {
@@ -82,7 +77,7 @@ class CardController extends BaseController
         $data = [
             'card_name' => $cardName,
             'description' => $des,
-            'columnid' => $_REQUEST['columnId']
+            'columnid' => $columnId
         ];
         $this->cardModel->updateData($cardId, $data);
         $response['message'] = 'Success';

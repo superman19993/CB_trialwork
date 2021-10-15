@@ -18,7 +18,7 @@ const initialState: State = {
 export const fetchColumns = createAsyncThunk(
   "/questions/fetchColumns",
   async () => {
-    const response = await axios.get(`http://localhost:5000/index.php/column`);
+    const response = await axios.get(`http://localhost/practice2/Server/index.php/column`);
 
     return response.data.data;
   }
@@ -28,9 +28,9 @@ export const createColumn = createAsyncThunk(
   "/column/create",
   async (columnForm: any) => {
     try {
-      await axios.post(`http://localhost:5000/index.php/column`, columnForm);
+      await axios.post(`http://localhost/practice2/Server/index.php/column`, columnForm);
       const response = await axios.get(
-        `http://localhost:5000/index.php/column`
+        `http://localhost/practice2/Server/index.php/column`
       );
       return response.data.data;
     } catch (error) {}

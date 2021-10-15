@@ -10,15 +10,15 @@
 // $PASSWORD = getenv('DB_PASSWORD');
 // $DB_NAME = getenv('DB_NAME');
 
-$HOST = '127.0.0.1';
-$USERNAME = 'root';
-$PASSWORD = 'LocT@2031';
-$DB_NAME = 'practice2';
-
-// $HOST = 'localhost';
+// $HOST = '127.0.0.1';
 // $USERNAME = 'root';
-// $PASSWORD = '';
+// $PASSWORD = 'LocT@2031';
 // $DB_NAME = 'practice2';
+
+$HOST = 'localhost';
+$USERNAME = 'root';
+$PASSWORD = '';
+$DB_NAME = 'practice2';
 
 // Create connection
 $conn = new mysqli($HOST, $USERNAME, $PASSWORD, $DB_NAME);

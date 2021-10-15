@@ -47,7 +47,6 @@ class ColumnController extends BaseController
             }
             array_push($response['data'], $key);
         }
-        header('Content-Type: application/json');
         $response['message'] = "Success";
         echo json_encode($response);
     }
@@ -55,12 +54,7 @@ class ColumnController extends BaseController
     public function readOne($id)
     {
         $result = $this->columnModel->find($id);
-        if (!$result) echo json_encode(array('message' => 'No columns found.'));
-        else {
-            $response['data'] = $result;
-            $response['message'] = 'Success.';
-            echo json_encode($response);
-        }
+        return $result;
     }
 
     private function validateColumn($input)
@@ -92,19 +86,63 @@ class ColumnController extends BaseController
         echo json_encode($response);
     }
 
+    //DELETE: http://localhost/practice2/Server/index.php/column?columnId={}
+    public function delete($columnId){
+        $column= $this->readOne($columnId);
+        if (!$column) {
+            echo json_encode(array('message' => 'No columns found.'));
+            return http_response_code(400);
+        } 
+
+        else{
+            $this->columnModel->destroy($columnId);
+            $response['message'] = 'Success';
+            echo json_encode($response);
+        }
+    }
+
+    //PUT: http://localhost/practice2/Server/index.php/column?columnId={}
+    public function update($columnId){
+        //check if column is not existed
+        $oldColumn= $this->readOne($columnId);
+        if (!$oldColumn) {
+            echo json_encode(array('message' => 'No columns found.'));
+            return http_response_code(400);
+        }
+        else{
+            $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+            $columnName = isset($input['column_name']) ? $input['column_name'] : $oldColumn['column_name'];
+            $workspaceId = isset($input['workspace_id']) ? $input['workspace_id'] : $oldColumn['workspaceid'];
+            $data = [
+                'column_name' => $columnName,
+                'workspaceid' => $workspaceId
+            ];
+            if (!$this->columnModel->updateData($columnId, $data)){
+                echo json_encode(array('message' => 'Workspace not found.'));
+                return http_response_code(400);
+            }
+            $response['message'] = 'Success';
+            echo json_encode($response);
+        }
+    }
+
     public function processRequest()
     {
         switch ($this->requesMethod) {
             case 'GET':
-                if (!isset($_REQUEST['columnId'])) return $this->read();
+                if (!isset($_REQUEST['columnId'])) $this->read();
                 else $this->readOne($_REQUEST['columnId']);
                 break;
             case 'POST':
                 $this->create();
                 break;
             case 'PUT':
+                if (isset($_REQUEST['columnId'])) $this->update($_REQUEST['columnId']);
+                else echo json_encode(array('message'=> 'columnId not found.'));
                 break;
             case 'DELETE':
+                if (isset($_REQUEST['columnId'])) $this->delete($_REQUEST['columnId']);
+                else echo json_encode(array('message'=> 'columnId not found.'));
                 break;
             default:
                 echo "Response not found!";

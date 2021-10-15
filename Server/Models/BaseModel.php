@@ -42,7 +42,6 @@ class BaseModel extends Database{
         }, array_values($data));
         $newValues= implode(',', array_values($newValues));
         $sql= "INSERT INTO ${table}(${columns}) VALUES (${newValues})";
-        
         return $this->_query($sql);
     }
 
@@ -54,7 +53,7 @@ class BaseModel extends Database{
         }
         $dataSetString= implode(',', $dataSets);
         $sql= "UPDATE ${table} SET ${dataSetString} WHERE id = ${id}";
-        $this->_query($sql);
+        return $this->_query($sql);
         
     }
 
