@@ -1,103 +1,103 @@
 <?php
 
-class ColumnController extends BaseController {
+class ColumnController extends BaseController
+{
 
     private $requesMethod;
-    private $id;
 
-    public function __construct($method, $id)
+    public function __construct($method)
     {
         $this->loadModel('ColumnModel');
-        $this->columnModel= new ColumnModel;
-        $this->requesMethod= $method;
-        $this->id= $id;
+        $this->columnModel = new ColumnModel;
+        $this->requesMethod = $method;
     }
 
-    public function read(){
 
-        $columns= ['*'];
-        $orderBys= ['column'=> 'id', 'order'=>'desc'];
-        $limit=15;
-        $results = $this->columnModel->getAll($columns, $orderBys , $limit);
+    public function read()
+    {
+        $columns = ['*'];
+        $orderBys = ['column' => 'id', 'order' => 'asc'];
+        $limit = 15;
+        $columns = $this->columnModel->getAll($columns, $orderBys, $limit);
 
-        $num= mysqli_num_rows($results);
-        if ($num <=0) echo json_encode(array('message'=> 'No columns found.'));
+        if (!$columns) echo json_encode(array('message' => 'No columns found.'));
+        else $response['data'] = $columns;
 
-        else {
-            $response= array();
-            $response['data']= array();
-            while($row = mysqli_fetch_assoc($results)) {
-                extract($row);
-                $col_item= array(
-                    'id'=> $id,
-                    'column_name'=> $column_name,
-                    'workspace_id'=> $workspaceid
-                );
-                array_push($response['data'], $col_item);
-            }
-            $response['message']= 'Success';
-            echo json_encode($response);
-            
+        $cards = $this->columnModel->getAllCards(['*'], $orderBys, 100);
+
+        $response2 = array();
+        $response2['data'] = array();
+        foreach ($response['data'] as $key) {
+            $key['cards'] = array();
+            array_push($response2['data'], $key);
         }
+
+        $response = array();
+        $response['data'] = array();
+        foreach ($response2['data'] as $key) {
+            foreach ($cards as $key2) {
+                if ($key2['columnid'] == $key['id']) {
+                    $temp = array(
+                        'card_id' => $key2['id'],
+                        'title' => $key2['card_name'],
+                        'description' => $key2['description']
+                    );
+                    array_push($key['cards'], $temp);
+                }
+            }
+            array_push($response['data'], $key);
+        }
+        header('Content-Type: application/json');
+        $response['message'] = "Success";
+        echo json_encode($response);
     }
 
-    public function readOne($id){
-        $result= $this->columnModel->find($id);
-        $num= mysqli_num_rows($result);
-
-        if ($num<=0){
-            http_response_code(400);
-            echo json_encode(array('message'=> 'No columns found.'));
-        } 
-        
-        else{
-            $response= array();
-            $response['data']= array();
-            $row = mysqli_fetch_assoc($result);
-            extract($row);
-            $col_item= array(
-                'id'=> $id,
-                'column_name'=> $column_name,
-                'workspace_id'=> $workspaceid
-            );
-            array_push($response['data'], $col_item);
-            $response['message']= 'Success';
+    public function readOne($id)
+    {
+        $result = $this->columnModel->find($id);
+        if (!$result) echo json_encode(array('message' => 'No columns found.'));
+        else {
+            $response['data'] = $result;
+            $response['message'] = 'Success.';
             echo json_encode($response);
-        } 
+        }
     }
 
     private function validateColumn($input)
     {
-        if (! isset($input['column_name'])) {
+        if (!isset($input['column_name'])) {
             return false;
         }
-        if (! isset($input['workspace_id'])) {
+        if (!isset($input['workspace_id'])) {
             return false;
         }
         return true;
     }
 
-    public function create(){
-        $input= (array) json_decode(file_get_contents('php://input'),TRUE);
-        if (! $this->validateColumn($input)) {
+    public function create()
+    {
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        if (!$this->validateColumn($input)) {
             http_response_code(400);
-            echo json_encode(array('message'=> 'Invalid input'));
+            echo json_encode(array('message' => 'Invalid input'));
             die;
         }
-        $data=[
-            'column_name'=> $input['column_name'],
-            'workspaceid'=> $input['workspace_id']
+        $data = [
+            'column_name' => $input['column_name'],
+            'workspaceid' => $input['workspace_id']
         ];
-        $this->columnModel->store($data);
-        $response['message']= 'Success';
+        $res = $this->columnModel->store($data);
+        $response['message'] = 'Success';
+        $response['data'] = $res;
         echo json_encode($response);
     }
 
-    public function processRequest(){
-        switch ($this->requesMethod){
+    public function processRequest()
+    {
+        switch ($this->requesMethod) {
             case 'GET':
-                if (!$this->id) return $this->read();
-                else $this->readOne($this->id);
+                if (!isset($_REQUEST['columnId'])) return $this->read();
+                else $this->readOne($_REQUEST['columnId']);
                 break;
             case 'POST':
                 $this->create();
@@ -109,8 +109,6 @@ class ColumnController extends BaseController {
             default:
                 echo "Response not found!";
                 break;
-           
         }
     }
-
 }

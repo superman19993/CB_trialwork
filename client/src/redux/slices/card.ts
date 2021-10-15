@@ -15,24 +15,42 @@ const initialState: State = {
   error: null,
 };
 
-export const fetchColumns = createAsyncThunk(
-  "/questions/fetchColumns",
-  async () => {
-    const response = await axios.get(`http://localhost:5000/index.php/column`);
-
-    return response.data.data;
-  }
-);
-
-export const createColumn = createAsyncThunk(
+export const createCard = createAsyncThunk(
   "/column/create",
-  async (columnForm: any) => {
+  async (cardForm: any) => {
     try {
-      await axios.post(`http://localhost:5000/index.php/column`, columnForm);
+      const { id, ...bodyData } = cardForm;
+      await axios.post(
+        `http://localhost:5000/index.php/card?columnId=${id}`,
+        bodyData
+      );
       const response = await axios.get(
         `http://localhost:5000/index.php/column`
       );
       return response.data.data;
+    } catch (error) {}
+  }
+);
+
+export const deleteCard = createAsyncThunk(
+  "/column/delete",
+  async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:5000/index.php/card?cardId=${id}`);
+    } catch (error) {}
+  }
+);
+
+export const updateCard = createAsyncThunk(
+  "/column/update",
+  async (updateForm: any) => {
+    const { id, colId, ...bodyData } = updateForm;
+    try {
+      await axios.put(
+        `http://localhost:5000/index.php/card?columnId=${colId}&cardId=${id}
+        `,
+        bodyData
+      );
     } catch (error) {}
   }
 );
@@ -42,22 +60,12 @@ const columnsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [fetchColumns.pending.toString()]: (state, action) => {
-      state.status = "loading";
-    },
-    [fetchColumns.fulfilled.toString()]: (state, action) => {
+    [createCard.fulfilled.toString()]: (state, action) => {
       state.status = "succeeded";
       state.columns = action.payload;
     },
-    [fetchColumns.rejected.toString()]: (state, action) => {
-      state.status = "failed";
-      state.error = action.error.message;
-    },
-
-    [createColumn.fulfilled.toString()]: (state, action) => {
+    [deleteCard.fulfilled.toString()]: (state, action) => {
       state.status = "succeeded";
-      //   state.columns = [...state.columns, action.payload];
-      state.columns = action.payload;
     },
   },
 });

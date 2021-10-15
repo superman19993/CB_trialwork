@@ -20,19 +20,17 @@ class BaseModel extends Database{
         }
 
         $query= $this->_query($sql);
-        return $query;
-        // $data=[];
-        // while ($row = mysqli_fetch_assoc($query)){
-        //     array_push($data, $row);
-        // }
-        // return $data;
+        $data=[];
+        while ($row = mysqli_fetch_assoc($query)){
+            array_push($data, $row);
+        }
+        return $data;
     }
 
     public function getById($table, $id){
         $sql= "SELECT * FROM ${table} WHERE id= ${id}";
         $query= $this->_query($sql);
-        return $query;
-        //return mysqli_fetch_assoc($query);
+        return mysqli_fetch_assoc($query);
     }
 
     public function create($table, $data=[]){
@@ -77,4 +75,3 @@ class BaseModel extends Database{
         return mysqli_query($this->connect, $sql);
     }
 }
-?>

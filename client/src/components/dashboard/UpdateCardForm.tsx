@@ -1,18 +1,34 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Button, FormControl, Modal } from "react-bootstrap";
+import { updateCard } from "../../redux/slices/card";
+import { useDispatch } from "react-redux";
+import { fetchColumns } from "../../redux/slices/collumns";
+
 const UpdateCardForm = ({
+  colId,
   id,
   title,
   description,
 }: {
+  colId: number;
   id: number;
   title: string;
   description: string;
 }) => {
   const [showModal, setShowModal] = useState(true);
 
-  const handlerSubmit = (values: any, { resetForm }: any) => {
+  const dispatch = useDispatch();
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const handlerSubmit = async (values: any, { resetForm }: any) => {
+    const bodyData = { ...values, id, colId };
+    await dispatch(updateCard(bodyData));
+    await dispatch(fetchColumns());
+    toggleModal();
     resetForm();
   };
 
@@ -23,8 +39,8 @@ const UpdateCardForm = ({
       <Modal.Header>Update card</Modal.Header>
       <Modal.Body>
         <Formik initialValues={initializeValues} onSubmit={handlerSubmit}>
-          {({ values, errors, handleBlur, handleChange }) => (
-            <Form>
+          {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
+            <Form onSubmit={handleSubmit}>
               <FormControl
                 className="create-input"
                 name="title"
@@ -45,8 +61,12 @@ const UpdateCardForm = ({
                 onBlur={handleBlur}
               />
 
-              <Button className="btn-add-collumn">Update</Button>
-              <Button className="btn-cancle-add">Cancle</Button>
+              <Button type="submit" className="btn-add-collumn">
+                Update
+              </Button>
+              <Button onClick={toggleModal} className="btn-cancle-add">
+                Cancle
+              </Button>
             </Form>
           )}
         </Formik>

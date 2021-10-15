@@ -4,10 +4,12 @@ import DeleteCardForm from "./DeleteCardForm";
 import UpdateCardForm from "./UpdateCardForm";
 
 const CardKanban = ({
+  colId,
   id,
   title,
   description,
 }: {
+  colId: number;
   id: number;
   title: string;
   description: string;
@@ -27,12 +29,22 @@ const CardKanban = ({
   return (
     <>
       {updateCardModal ? (
-        <UpdateCardForm id={id} title={title} description={description} />
+        <UpdateCardForm
+          colId={colId}
+          id={id}
+          title={title}
+          description={description}
+        />
       ) : null}
       {openDeleteModal ? <DeleteCardForm id={id} /> : null}
-      <Card onClick={onClickUpdateCard} className="card-kanban">
+      <Card className="card-kanban">
         <Card.Body>
-          <Card.Title className="card-kanban-header">{title}</Card.Title>
+          <Card.Title
+            onClick={onClickUpdateCard}
+            className="card-kanban-header"
+          >
+            {title}
+          </Card.Title>
           <Card.Title
             onClick={onClickDeleteCard}
             className="card-kanban-delete"

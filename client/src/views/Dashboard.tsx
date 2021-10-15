@@ -1,26 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Collumn, { ICollumn } from "../components/dashboard/Collumn";
 import { board } from "../data/data";
 import { Row, Col, Container } from "react-bootstrap";
 import "../css/card/card.css";
+import NavbarKanban from "../components/layouts/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchColumns } from "../redux/slices/collumns";
+import { RootState } from "../redux/store";
 import AddCollumnsForm from "../components/dashboard/AddCollumnsForm";
 import AddCollumnsButton from "../components/dashboard/AddCollumnsButton";
-import NavbarKanban from "../components/layouts/Navbar";
 
 const Dashboard = () => {
-  const [openAddModal, setOpenAddModal] = useState(false);
+  const columns = useSelector((state: RootState) => state.columns);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchColumns());
+  }, [dispatch]);
+
+  const [openAddModal, setOpenAddModal] = useState(false);
   const onClickAddCollumn = () => {
     setOpenAddModal(!openAddModal);
   };
-  const colList = board.columns;
+
   return (
     <>
       <NavbarKanban />
+      {openAddModal ? <AddCollumnsForm /> : null}
+
       <Container className="container">
-        {openAddModal ? <AddCollumnsForm /> : null}
         <Row>
-          {colList.map((collumn: ICollumn, index) => (
+          {columns.columns.map((collumn: ICollumn) => (
             <Col
               className="collumn"
               style={{ display: "inline-block", float: "none" }}
