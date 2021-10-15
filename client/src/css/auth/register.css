@@ -1,21 +1,15 @@
-.bg-login {
-    background: url("../../assets/bg.png") no-repeat center center/cover;
-    height: 100vh;
-    position: relative;
-}
-
 .bg-register {
     background: url("../../assets/bg.png") no-repeat center center/cover;
     height: 150vh;
     position: relative;
 }
 
-.input-form {
+.input-form-1 {
     min-width: 200px;
     min-height: 40px;
 }
 
-.input-form input {
+.input-form-1 input {
     min-width: 300px;
     min-height: 40px;
     background-color: #b2d6eb;
@@ -24,34 +18,29 @@
     font-size: 16px;
 }
 
-.btn-form {
+.btn-form-1 {
     float: right;
     margin-right: 30px;
+    margin-top: 0px;
     width: 123px;
     height: 40px;
     background-color: #8ccbee;
     border-radius: 0;
-
 }
 
-a {
-    text-decoration: none;
-    color: #000;
-}
-
-.container-form {
+.container-form-1 {
     position: absolute;
-    top: 29%;
+    top: 18%;
     left: 34%;
-    width: 400px;
-    height: 250px;
+    width: 450px;
+    height: 320px;
     background-color: white;
     border: 1px solid black;
 }
 
-.title-form {
+.title-form-1 {
     position: absolute;
-    top: 15%;
+    top: 8%;
     left: 42%;
     font-size: 40px;
     font-weight: 600;
@@ -61,12 +50,12 @@ a {
     color: white;
 }
 
-.form-control {
+.form-control-1 {
     margin: 0 auto;
     border-radius: 0;
 }
 
-.subtitle-form {
+.subtitle-form-1 {
     font-size: 20px;
     font-weight: 500;
     color: #000;
@@ -76,7 +65,12 @@ a {
     margin-left: 20px;
 }
 
-.goto {
+.goto-1 {
     margin-left: 20px;
     margin-top: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
 }

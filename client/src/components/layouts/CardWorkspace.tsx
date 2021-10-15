@@ -1,11 +1,12 @@
 import React from "react";
 import { Card, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "../../css/layout/workspace.css";
 
 const Workspace = () => {
   return (
     <>
-      <Row>
+      <Row className="side">
         <Col lg={3}>
           <Card className="cardw-side">
             <Card.Body className="card-position">
@@ -15,7 +16,7 @@ const Workspace = () => {
         </Col>
         <Col lg={3}>
           <Card className="cardw-side">
-            <Card.Body className="card-position">
+            <Card.Body to="/dashboard" as={Link} className="card-position">
               <Card.Text>Workspace</Card.Text>
             </Card.Body>
           </Card>
