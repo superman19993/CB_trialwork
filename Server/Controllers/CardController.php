@@ -28,8 +28,15 @@ class CardController extends BaseController {
             'columnid'=> $_REQUEST['columnId']
         ];
 
-        $this->cardModel->store($data);
+        $insertedId= $this->cardModel->store($data);
+        if ($insertedId ==0) {
+            echo json_encode(array('message'=> "Invalid columnId."));
+            return http_response_code(400);
+        }
+        $data['cardId']= $insertedId;
+        $response['data']= $data;
         $response['message']= 'Success';
+
         echo json_encode($response);
     }
 
@@ -47,13 +54,13 @@ class CardController extends BaseController {
             echo json_encode($response);
         }
     }
+
     public function readOne(){
         $cardId= isset($_REQUEST['cardId']) ? $_REQUEST['cardId']:'';
         if ($cardId<=0) return http_response_code(400);
         $card=$this->cardModel->find($cardId);
         return $card;
     }
-
 
     // http://localhost/practice2/Server/index.php/card?columnId={}&cardId={}
     public function update(){

@@ -42,8 +42,8 @@ class BaseModel extends Database{
         }, array_values($data));
         $newValues= implode(',', array_values($newValues));
         $sql= "INSERT INTO ${table}(${columns}) VALUES (${newValues})";
-        
-        return $this->_query($sql);
+        $this->_query($sql);
+        return  mysqli_insert_id($this->connect);
     }
 
     public function update($table, $id, $data){
