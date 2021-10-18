@@ -1,6 +1,6 @@
 <?php
-class ColumnModel extends BaseModel{
-    const TABLE= 'columns';
+class UserModel extends BaseModel{
+    const TABLE= 'users';
 
     public function getAll($select=['*'], $orderBys=[], $limit= 15){
  
@@ -22,8 +22,10 @@ class ColumnModel extends BaseModel{
         return $this->delete(self::TABLE, $id);
     }
 
-    public function getAllCards($select=['*'], $orderBys=[], $limit= 15){
-        return $this->all('cards', $select, $orderBys, $limit);
+    public function login($username, $password){
+        return $this->getInfo(self::TABLE, $username, $password);
     }
+
+
 
 }

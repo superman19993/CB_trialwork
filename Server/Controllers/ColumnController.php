@@ -31,7 +31,6 @@ class ColumnController extends BaseController
             $key['cards'] = array();
             array_push($response2['data'], $key);
         }
-
         $response = array();
         $response['data'] = array();
         foreach ($response2['data'] as $key) {
