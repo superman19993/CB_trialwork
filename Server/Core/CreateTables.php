@@ -10,15 +10,15 @@
 // $PASSWORD = getenv('DB_PASSWORD');
 // $DB_NAME = getenv('DB_NAME');
 
-$HOST = '127.0.0.1';
-$USERNAME = 'root';
-$PASSWORD = 'LocT@2031';
-$DB_NAME = 'practice2';
-
-// $HOST = 'localhost';
+// $HOST = '127.0.0.1';
 // $USERNAME = 'root';
-// $PASSWORD = '';
+// $PASSWORD = 'LocT@2031';
 // $DB_NAME = 'practice2';
+
+$HOST = 'localhost';
+$USERNAME = 'root';
+$PASSWORD = '';
+$DB_NAME = 'practice2';
 
 // Create connection
 $conn = new mysqli($HOST, $USERNAME, $PASSWORD, $DB_NAME);
@@ -120,7 +120,7 @@ if ($conn->query($sql) === False) {
 $sql = "CREATE TABLE if not exists checklists (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   title VARCHAR(255) NULL,
-  status BOOLEAN DEFAULT FALSE,
+  status INT DEFAULT (0),
   cardid INT UNSIGNED,
   FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (id))
@@ -136,6 +136,7 @@ $sql = "CREATE TABLE if not exists comments (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   content VARCHAR(255) NULL,
   cardid INT UNSIGNED,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (id))
 ENGINE = InnoDB
@@ -161,14 +162,28 @@ if ($conn->query($sql) === False) {
   echo "Error creating table: " . $conn->error;
 }
 
+$sql = "CREATE TABLE if not exists items (
+  id INT UNSIGNED,
+  title VARCHAR(255) NULL,
+  checklistid INT UNSIGNED,
+  FOREIGN KEY (checklistid) REFERENCES checklists (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (id))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;";
+
+
+if ($conn->query($sql) === False) {
+  echo "Error creating table: " . $conn->error;
+}
+
 //has table between cards & checklists
 $sql = "CREATE TABLE if not exists has (
-  cardid INT UNSIGNED,
+  itemid INT UNSIGNED,
   checklistid INT UNSIGNED,
   percent FLOAT,
-  FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (itemid) REFERENCES items (id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (checklistid) REFERENCES checklists (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (cardid, checklistid))
+  PRIMARY KEY (itemid, checklistid))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
 

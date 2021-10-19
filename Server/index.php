@@ -1,5 +1,5 @@
 <?php
-require './Core/CreateTables.php';        //if db has existed, please comment this line
+//require './Core/CreateTables.php';        //if db has existed, please comment this line
 require './Controllers/BaseController.php';
 require './Core/Database.php';
 require './Models/BaseModel.php';
@@ -14,16 +14,12 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
 
-$controllerName = ucfirst((strtolower($uri[2])) . 'Controller');
+$controllerName = ucfirst((strtolower($uri[4])) . 'Controller');
 require "./Controllers/${controllerName}.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 $controllerObject = new $controllerName($requestMethod);
-if ($uri[2] === "auth")
-    $controllerObject->processRequest($uri[3]);
+if ($uri[4] === "auth")
+    $controllerObject->processRequest($uri[5]);
 else
     $controllerObject->processRequest();
-
-//
-// $columnId= isset($_REQUEST['columnId']) ? $_REQUEST['columnId']: '';
-// $cardId= isset($_REQUEST['cardId'])? $_REQUEST['cardId']: '';
