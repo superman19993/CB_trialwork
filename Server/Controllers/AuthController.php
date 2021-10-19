@@ -34,6 +34,9 @@ class AuthController extends BaseController
                 }
                 $_SESSION['id'] = $user['id'];
 
+                // setcookie("Token", $_COOKIE['PHPSESSID'])
+
+
                 echo json_encode($user);
             } else {
                 echo json_encode(array('message' => 'input or password is not provided'));
