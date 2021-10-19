@@ -1,10 +1,3 @@
-export enum EAction {
-  showModal = "SHOW_MODAL",
-  login = "SET_AUTH",
-  showRegisterModal = "SHOW_REGISTER_MODAL",
-  showUpdateModal = "SHOW_UPDATE_MODAL",
-}
-
 export type User = {
   username: string;
   email: string;

@@ -10,15 +10,15 @@
 // $PASSWORD = getenv('DB_PASSWORD');
 // $DB_NAME = getenv('DB_NAME');
 
-// $HOST = '127.0.0.1';
-// $USERNAME = 'root';
-// $PASSWORD = 'LocT@2031';
-// $DB_NAME = 'practice2';
-
-$HOST = 'localhost';
+$HOST = '127.0.0.1';
 $USERNAME = 'root';
-$PASSWORD = '';
+$PASSWORD = 'LocT@2031';
 $DB_NAME = 'practice2';
+
+// $HOST = 'localhost';
+// $USERNAME = 'root';
+// $PASSWORD = '';
+// $DB_NAME = 'practice2';
 
 // Create connection
 $conn = new mysqli($HOST, $USERNAME, $PASSWORD, $DB_NAME);
@@ -31,16 +31,15 @@ if ($conn->connect_error) {
 // users table
 $sql = "CREATE TABLE if not exists users (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    email VARCHAR(225) NOT NULL,
-    username VARCHAR(45) NOT NULL,
-    password VARCHAR(45) NOT NULL,
+    email VARCHAR(500) NOT NULL unique,
+    username VARCHAR(255) NOT NULL unique,
+    password VARCHAR(500) NOT NULL,
     PRIMARY KEY (id))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;";
 
-if ($conn->query($sql) === TRUE) {
-  echo "Table users created successfully";
-} else {
+if ($conn->query($sql) === False) {
+
   echo "Error creating table: " . $conn->error;
 }
 
@@ -52,9 +51,7 @@ $sql = "CREATE TABLE if not exists workspaces (
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;";
 
-if ($conn->query($sql) === TRUE) {
-  echo "Table workspace created successfully";
-} else {
+if ($conn->query($sql) === False) {
   echo "Error creating table: " . $conn->error;
 }
 
@@ -69,9 +66,7 @@ $sql = "CREATE TABLE if not exists users_workspaces (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
 
-if ($conn->query($sql) === TRUE) {
-  echo "Table users-workspaces created successfully";
-} else {
+if ($conn->query($sql) === False) {
   echo "Error creating table: " . $conn->error;
 }
 
@@ -86,9 +81,7 @@ $sql = "CREATE TABLE if not exists columns (
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;";
 
-if ($conn->query($sql) === TRUE) {
-  echo "Table columns created successfully";
-} else {
+if ($conn->query($sql) === False) {
   echo "Error creating table: " . $conn->error;
 }
 
@@ -103,9 +96,7 @@ $sql = "CREATE TABLE if not exists cards (
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;";
 
-if ($conn->query($sql) === TRUE) {
-  echo "Table cards created successfully";
-} else {
+if ($conn->query($sql) === False) {
   echo "Error creating table: " . $conn->error;
 }
 
@@ -121,9 +112,7 @@ $sql = "CREATE TABLE if not exists users_cards (
   DEFAULT CHARACTER SET = utf8;";
 
 
-if ($conn->query($sql) === TRUE) {
-  echo "Table users-cards created successfully";
-} else {
+if ($conn->query($sql) === False) {
   echo "Error creating table: " . $conn->error;
 }
 
@@ -138,9 +127,7 @@ $sql = "CREATE TABLE if not exists checklists (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
 
-if ($conn->query($sql) === TRUE) {
-  echo "Table checklists created successfully";
-} else {
+if ($conn->query($sql) === False) {
   echo "Error creating table: " . $conn->error;
 }
 
@@ -154,9 +141,7 @@ $sql = "CREATE TABLE if not exists comments (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
 
-if ($conn->query($sql) === TRUE) {
-  echo "Table comments created successfully";
-} else {
+if ($conn->query($sql) === False) {
   echo "Error creating table: " . $conn->error;
 }
 
@@ -172,10 +157,8 @@ $sql = "CREATE TABLE if not exists includes (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
 
-if ($conn->query($sql) === TRUE) {
-echo "Table includes created successfully";
-} else {
-echo "Error creating table: " . $conn->error;
+if ($conn->query($sql) === False) {
+  echo "Error creating table: " . $conn->error;
 }
 
 //has table between cards & checklists
@@ -190,10 +173,8 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
 
 
-if ($conn->query($sql) === TRUE) {
-echo "Table has created successfully";
-} else {
-echo "Error creating table: " . $conn->error;
+if ($conn->query($sql) === False) {
+  echo "Error creating table: " . $conn->error;
 }
 
 $conn->close();

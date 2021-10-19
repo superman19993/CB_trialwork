@@ -18,7 +18,7 @@ const initialState: State = {
 export const fetchColumns = createAsyncThunk(
   "/questions/fetchColumns",
   async () => {
-    const response = await axios.get(`http://localhost/practice2/Server/index.php/column`);
+    const response = await axios.get(`${apiUrl}/column`);
 
     return response.data.data;
   }
@@ -28,10 +28,8 @@ export const createColumn = createAsyncThunk(
   "/column/create",
   async (columnForm: any) => {
     try {
-      await axios.post(`http://localhost/practice2/Server/index.php/column`, columnForm);
-      const response = await axios.get(
-        `http://localhost/practice2/Server/index.php/column`
-      );
+      await axios.post(`${apiUrl}/column`, columnForm);
+      const response = await axios.get(`${apiUrl}/column`);
       return response.data.data;
     } catch (error) {}
   }
@@ -42,13 +40,8 @@ export const updateColumn = createAsyncThunk(
   async (columnUpdateForm: any) => {
     const { id, ...bodyData } = columnUpdateForm;
     try {
-      await axios.put(
-        `http://localhost/practice2/Server/index.php/column?columnId=${id}`,
-        bodyData
-      );
-      const response = await axios.get(
-        `http://localhost/practice2/Server/index.php/column`
-      );
+      await axios.put(`${apiUrl}/column?columnId=${id}`, bodyData);
+      const response = await axios.get(`${apiUrl}/column`);
       return response.data.data;
     } catch (error) {}
   }
@@ -58,12 +51,8 @@ export const deleteColumn = createAsyncThunk(
   "column/delete",
   async (id: number) => {
     try {
-      await axios.delete(
-        `http://localhost/practice2/Server/index.php/column?columnId=${id}`
-      );
-      const response = await axios.get(
-        `http://localhost/practice2/Server/index.php/column`
-      );
+      await axios.delete(`${apiUrl}/column?columnId=${id}`);
+      const response = await axios.get(`${apiUrl}/column`);
       return response.data.data;
     } catch (error) {}
   }
