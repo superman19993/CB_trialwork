@@ -2,8 +2,16 @@ import React from "react";
 import { Button, Nav, Navbar, FormText } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import "../../css/layout/navbar.css";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/slices/user";
 
 const NavbarKanban = () => {
+  const dispatch = useDispatch();
+
+  const onClickLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <Navbar
       className="navKanban shadow"
@@ -37,9 +45,7 @@ const NavbarKanban = () => {
             Welcome Loc
           </Nav.Link>
           <Button>
-            <Nav.Link to="/login" as={Link}>
-              Logout
-            </Nav.Link>
+            <Nav.Link onClick={onClickLogout}>Logout</Nav.Link>
           </Button>
         </Nav>
       </Navbar.Collapse>

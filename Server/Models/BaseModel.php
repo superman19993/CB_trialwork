@@ -45,8 +45,8 @@ class BaseModel extends Database
         $newValues = array_map(function ($values) {
             return "'" . $values . "'";
         }, array_values($data));
-        $newValues= implode(',', array_values($newValues));
-        $sql= "INSERT INTO ${table}(${columns}) VALUES (${newValues})";
+        $newValues = implode(',', array_values($newValues));
+        $sql = "INSERT INTO ${table}(${columns}) VALUES (${newValues})";
         $this->_query($sql);
         return mysqli_insert_id($this->connect);
     }
@@ -68,25 +68,27 @@ class BaseModel extends Database
         $sql = "DELETE FROM ${table} WHERE id = ${id}";
         $this->_query($sql);
     }
-    
+
     //for login
-    public function getInfo($table, $username, $password){
-        $sql= "SELECT * FROM ${table} WHERE username =" . "'${username}'" ." AND password =" ."'${password}'";
+    public function getInfo($table, $username, $password)
+    {
+        $sql = "SELECT * FROM ${table} WHERE username =" . "'${username}'" . " AND password =" . "'${password}'";
         $result = $this->_query($sql);
         return mysqli_fetch_assoc($result);
     }
 
-    public function readChecklistByCardId($table, $cardId){
-        $sql= "SELECT * FROM checklists WHERE cardid = ${cardId}";
-        $result= $this->_query($sql);
-        $data=[];
-        while ($row = mysqli_fetch_assoc($result)){
+    public function readChecklistByCardId($table, $cardId)
+    {
+        $sql = "SELECT * FROM checklists WHERE cardid = ${cardId}";
+        $result = $this->_query($sql);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
             array_push($data, $row);
         }
         return $data;
     }
 
-    private function _query($sql)
+    public function _query($sql)
     {
         return mysqli_query($this->connect, $sql);
     }

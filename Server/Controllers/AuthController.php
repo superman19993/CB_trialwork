@@ -26,6 +26,7 @@ class AuthController extends BaseController
 
                 if (!$user) {
                     echo json_encode(array('message' => 'Wrong username or password provided'));
+                    return http_response_code(400);
                 }
 
                 if (!$this->userModel->checkPassword($username, $password)) {
@@ -33,9 +34,6 @@ class AuthController extends BaseController
                     return http_response_code(400);
                 }
                 $_SESSION['id'] = $user['id'];
-
-                // setcookie("Token", $_COOKIE['PHPSESSID'])
-
 
                 echo json_encode($user);
             } else {
@@ -73,6 +71,10 @@ class AuthController extends BaseController
 
             $createdUser = $this->userModel->register($email, $username, $hash);
 
+            $foundUser = $this->userModel->findUserByUsername($username);
+
+            $_SESSION['id'] = $foundUser['id'];
+
             echo json_encode($createdUser);
         } catch (Exception $e) {
             echo json_encode(array('message' => "$e"));
@@ -80,10 +82,21 @@ class AuthController extends BaseController
         }
     }
 
-
-    public function logOut()
+    public function loadUser()
     {
-        unset($_SESSION['username']);
+        if (isset($_SESSION['id'])) {
+            $user_id = $_SESSION['id'];
+            $foundUser = $this->userModel->findUserById($user_id);
+            return json_encode($foundUser);
+        }
+        return null;
+    }
+
+
+    public function logout()
+    {
+        session_start();
+        session_unset();
         echo json_encode(array('message' => 'Logged out'));
     }
 
@@ -91,7 +104,11 @@ class AuthController extends BaseController
     {
         switch ($this->requesMethod) {
             case 'GET':
-                $this->logOut();
+                if ($type === "logout") {
+                    $this->logout();
+                } else if ($type === "loaduser") {
+                    $this->loadUser();
+                }
                 break;
             case 'POST':
                 if ($type === "login") {

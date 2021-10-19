@@ -48,12 +48,19 @@ class UserModel extends BaseModel
     {
         $sql = "SELECT * FROM users WHERE username ='${username}'";
         $user = $this->_query($sql);
-        return json_encode(mysqli_fetch_assoc($user));
+        return mysqli_fetch_assoc($user);
     }
 
-    public function findUserByEmail($username)
+    public function findUserById($id)
     {
-        $sql = "SELECT * FROM users WHERE username ='${username}'";
+        $sql = "SELECT * FROM users WHERE id ='${id}'";
+        $user = $this->_query($sql);
+        return mysqli_fetch_assoc($user);
+    }
+
+    public function findUserByEmail($email)
+    {
+        $sql = "SELECT * FROM users WHERE email ='${email}'";
         $user = $this->_query($sql);
         return mysqli_num_rows($user);
     }

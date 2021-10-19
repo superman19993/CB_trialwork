@@ -19,7 +19,6 @@ export const fetchColumns = createAsyncThunk(
   "/questions/fetchColumns",
   async () => {
     const response = await axios.get(`${apiUrl}/column`);
-
     return response.data.data;
   }
 );

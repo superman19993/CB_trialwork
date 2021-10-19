@@ -18,7 +18,7 @@ const LoginForm = () => {
 
   const handlerSubmit = (values: any, { resetForm }: any) => {
     dispatch(login(values));
-    resetForm();
+    // resetForm();
   };
 
   const initialValues = {

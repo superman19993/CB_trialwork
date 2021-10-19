@@ -10,10 +10,14 @@ import {
 } from "react-bootstrap";
 import "../../css/auth/login.css";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { register } from "../../redux/slices/user";
 
 const RegisterForm = () => {
-  const handlerSubmit = (values: any, { resetForm }: any) => {
-    resetForm();
+  const dispatch = useDispatch();
+
+  const handlerSubmit = (values: any) => {
+    dispatch(register(values));
   };
 
   const initialValues = {
@@ -82,9 +86,7 @@ const RegisterForm = () => {
               </Col>
               <Col lg={6}>
                 <Button className="btn-form-1" type="submit">
-                  <FormText to="/dashboard" as={Link}>
-                    Register
-                  </FormText>
+                  <FormText>Register</FormText>
                 </Button>
               </Col>
             </Row>
