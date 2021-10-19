@@ -1,15 +1,15 @@
 <?php
 class Database
 {
-    const HOST= 'localhost';
-    const USERNAME= 'root';
-    const PASSWORD= '';
-    const DB_NAME= 'practice2';
+    // const HOST= 'localhost';
+    // const USERNAME= 'root';
+    // const PASSWORD= '';
+    // const DB_NAME= 'practice2';
 
-    // const HOST = '127.0.0.1';
-    // const USERNAME = 'root';
-    // const PASSWORD = 'LocT@2031';
-    // const DB_NAME = 'practice2';
+    const HOST = '127.0.0.1';
+    const USERNAME = 'root';
+    const PASSWORD = 'LocT@2031';
+    const DB_NAME = 'practice2';
 
     public function connect()
     {

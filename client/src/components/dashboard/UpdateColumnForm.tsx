@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, FormControl, Modal } from "react-bootstrap";
 import { updateCard } from "../../redux/slices/card";
 import { useDispatch } from "react-redux";
-import { fetchColumns } from "../../redux/slices/collumns";
+import { fetchColumns, updateColumn } from "../../redux/slices/collumns";
 
 const UpdateColumnForm = ({
   colId,
@@ -20,15 +20,14 @@ const UpdateColumnForm = ({
     setShowModal(!showModal);
   };
 
-  const handlerSubmit = async (values: any, { resetForm }: any) => {
-    const bodyData = { ...values, colId };
-    await dispatch(updateCard(bodyData));
+  const handlerSubmit = async (values: any) => {
+    const bodyData = { ...values, id: colId };
+    await dispatch(updateColumn(bodyData));
     await dispatch(fetchColumns());
     toggleModal();
-    resetForm();
   };
 
-  const initializeValues = { title: title };
+  const initializeValues = { column_name: title, workspace_id: 1 };
 
   return (
     <Modal show={showModal} onHide={() => setShowModal(!showModal)}>
@@ -39,10 +38,10 @@ const UpdateColumnForm = ({
             <Form onSubmit={handleSubmit}>
               <FormControl
                 className="create-input"
-                name="title"
+                name="column_name"
                 placeholder="Title"
                 type="text"
-                value={values.title}
+                value={values.column_name}
                 onBlur={handleBlur}
                 onChange={handleChange}
               />

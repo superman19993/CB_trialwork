@@ -21,11 +21,11 @@ export const createCard = createAsyncThunk(
     try {
       const { id, ...bodyData } = cardForm;
       await axios.post(
-        `http://localhost/practice2/Server/index.php/card?columnId=${id}`,
+        `http://localhost:5000/index.php/card?columnId=${id}`,
         bodyData
       );
       const response = await axios.get(
-        `http://localhost/practice2/Server/index.php/column`
+        `http://localhost:5000/index.php/column`
       );
       return response.data.data;
     } catch (error) {}
@@ -36,7 +36,11 @@ export const deleteCard = createAsyncThunk(
   "/column/delete",
   async (id: number) => {
     try {
-      await axios.delete(`http://localhost/practice2/Server/index.php/card?cardId=${id}`);
+      await axios.delete(`http://localhost:5000/index.php/card?cardId=${id}`);
+      const response = await axios.get(
+        `http://localhost:5000/index.php/column`
+      );
+      return response.data.data;
     } catch (error) {}
   }
 );
@@ -47,10 +51,14 @@ export const updateCard = createAsyncThunk(
     const { id, colId, ...bodyData } = updateForm;
     try {
       await axios.put(
-        `http://localhost/practice2/Server/index.php/card?columnId=${colId}&cardId=${id}
+        `http://localhost:5000/index.php/card?columnId=${colId}&cardId=${id}
         `,
         bodyData
       );
+      const response = await axios.get(
+        `http://localhost:5000/index.php/column`
+      );
+      return response.data.data;
     } catch (error) {}
   }
 );
@@ -66,6 +74,11 @@ const columnsSlice = createSlice({
     },
     [deleteCard.fulfilled.toString()]: (state, action) => {
       state.status = "succeeded";
+      state.columns = action.payload;
+    },
+    [updateCard.fulfilled.toString()]: (state, action) => {
+      state.status = "succeeded";
+      state.columns = action.payload;
     },
   },
 });
