@@ -127,4 +127,38 @@ if ($conn->query($sql) === TRUE) {
   echo "Error creating table: " . $conn->error;
 }
 
+//checklists table
+$sql = "CREATE TABLE if not exists checklists (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NULL,
+  status BOOLEAN DEFAULT FALSE,
+  cardid INT UNSIGNED,
+  FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (id))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;";
+
+if ($conn->query($sql) === TRUE) {
+echo "Table checklists created successfully";
+} else {
+echo "Error creating table: " . $conn->error;
+}
+
+//oomments table
+$sql = "CREATE TABLE if not exists comments (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  content VARCHAR(255) NULL,
+  cardid INT UNSIGNED,
+  FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (id))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;";
+
+if ($conn->query($sql) === TRUE) {
+echo "Table comments created successfully";
+} else {
+echo "Error creating table: " . $conn->error;
+}
+
+
 $conn->close();

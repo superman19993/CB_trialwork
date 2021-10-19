@@ -10,9 +10,15 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../../css/auth/login.css";
+import { useDispatch } from "react-redux";
+import { logIn } from "../../redux/slices/user";
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+
   const handlerSubmit = (values: any, { resetForm }: any) => {
+    const bodyData = { ...values };
+    dispatch(logIn(bodyData));
     resetForm();
   };
 
@@ -44,7 +50,7 @@ const LoginForm = () => {
               name="password"
               placeholder="Password"
               type="password"
-              value={values.username}
+              value={values.password}
               onBlur={handleBlur}
               onChange={handleChange}
             />
