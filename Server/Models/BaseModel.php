@@ -42,7 +42,8 @@ class BaseModel extends Database{
         }, array_values($data));
         $newValues= implode(',', array_values($newValues));
         $sql= "INSERT INTO ${table}(${columns}) VALUES (${newValues})";
-        return $this->_query($sql);
+        $this->_query($sql);
+        return mysqli_insert_id($this->connect);
     }
 
     public function update($table, $id, $data){
@@ -62,11 +63,21 @@ class BaseModel extends Database{
         $this->_query($sql);
     }
     
-    //
+    //for login
     public function getInfo($table, $username, $password){
         $sql= "SELECT * FROM ${table} WHERE username =" . "'${username}'" ." AND password =" ."'${password}'";
         $result = $this->_query($sql);
         return mysqli_fetch_assoc($result);
+    }
+
+    public function readChecklistByCardId($table, $cardId){
+        $sql= "SELECT * FROM checklists WHERE cardid = ${cardId}";
+        $result= $this->_query($sql);
+        $data=[];
+        while ($row = mysqli_fetch_assoc($result)){
+            array_push($data, $row);
+        }
+        return $data;
     }
 
     private function _query($sql)

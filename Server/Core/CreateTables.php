@@ -131,7 +131,7 @@ if ($conn->query($sql) === TRUE) {
 $sql = "CREATE TABLE if not exists checklists (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   title VARCHAR(255) NULL,
-  status BOOLEAN DEFAULT FALSE,
+  status INT DEFAULT (0),
   cardid INT UNSIGNED,
   FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (id))
