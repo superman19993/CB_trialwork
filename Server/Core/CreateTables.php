@@ -139,9 +139,9 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
 
 if ($conn->query($sql) === TRUE) {
-echo "Table checklists created successfully";
+  echo "Table checklists created successfully";
 } else {
-echo "Error creating table: " . $conn->error;
+  echo "Error creating table: " . $conn->error;
 }
 
 //oomments table
@@ -155,9 +155,9 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
 
 if ($conn->query($sql) === TRUE) {
-echo "Table comments created successfully";
+  echo "Table comments created successfully";
 } else {
-echo "Error creating table: " . $conn->error;
+  echo "Error creating table: " . $conn->error;
 }
 
 
