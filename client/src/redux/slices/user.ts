@@ -21,7 +21,6 @@ export const logIn = createAsyncThunk(
         try {
             const {...bodyData }= loginForm;
             const response = await axios.post(`http://localhost/practice2/Server/index.php/user`, bodyData);
-            console.log(sessionStorage)
         } catch (error){}
     }
 )

@@ -10,15 +10,15 @@
 // $PASSWORD = getenv('DB_PASSWORD');
 // $DB_NAME = getenv('DB_NAME');
 
-$HOST = '127.0.0.1';
-$USERNAME = 'root';
-$PASSWORD = 'LocT@2031';
-$DB_NAME = 'practice2';
-
-// $HOST = 'localhost';
+// $HOST = '127.0.0.1';
 // $USERNAME = 'root';
-// $PASSWORD = '';
+// $PASSWORD = 'LocT@2031';
 // $DB_NAME = 'practice2';
+
+$HOST = 'localhost';
+$USERNAME = 'root';
+$PASSWORD = '';
+$DB_NAME = 'practice2';
 
 // Create connection
 $conn = new mysqli($HOST, $USERNAME, $PASSWORD, $DB_NAME);
@@ -144,7 +144,7 @@ if ($conn->query($sql) === TRUE) {
   echo "Error creating table: " . $conn->error;
 }
 
-//oomments table
+//comments table
 $sql = "CREATE TABLE if not exists comments (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   content VARCHAR(255) NULL,
@@ -160,5 +160,40 @@ if ($conn->query($sql) === TRUE) {
   echo "Error creating table: " . $conn->error;
 }
 
+//include table between comments & cards & users
+$sql = "CREATE TABLE if not exists includes (
+  cardid INT UNSIGNED,
+  commentid INT UNSIGNED,
+  userid INT UNSIGNED,
+  FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (commentid) REFERENCES comments (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (cardid, commentid, userid ))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;";
+
+if ($conn->query($sql) === TRUE) {
+echo "Table includes created successfully";
+} else {
+echo "Error creating table: " . $conn->error;
+}
+
+//has table between cards & checklists
+$sql = "CREATE TABLE if not exists has (
+  cardid INT UNSIGNED,
+  checklistid INT UNSIGNED,
+  percent FLOAT,
+  FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (checklistid) REFERENCES checklists (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (cardid, checklistid))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;";
+
+
+if ($conn->query($sql) === TRUE) {
+echo "Table has created successfully";
+} else {
+echo "Error creating table: " . $conn->error;
+}
 
 $conn->close();
