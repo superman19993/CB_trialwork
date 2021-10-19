@@ -14,7 +14,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
 
-$controllerName = ucfirst((strtolower($uri[4])) . 'Controller');
+$controllerName = ucfirst((strtolower($uri[2])) . 'Controller');
 require "./Controllers/${controllerName}.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];

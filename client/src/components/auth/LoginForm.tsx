@@ -1,6 +1,14 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import { FormControl, Button, FormLabel } from "react-bootstrap";
+import {
+  FormControl,
+  Button,
+  FormLabel,
+  FormText,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "../../css/auth/login.css";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/slices/user";
@@ -47,9 +55,20 @@ const LoginForm = () => {
               onChange={handleChange}
             />
 
-            <Button className="btn-form" type="submit">
-              Login
-            </Button>
+            <Row className="goto">
+              <Col lg={6}>
+                <FormText to="/Register" as={Link}>
+                  Register here
+                </FormText>
+              </Col>
+              <Col lg={6}>
+                <Button className="btn-form" type="submit">
+                  <FormText to="/dashboard" as={Link}>
+                    Login
+                  </FormText>
+                </Button>
+              </Col>
+            </Row>
           </Form>
         )}
       </Formik>

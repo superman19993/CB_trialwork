@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Nav, Navbar } from "react-bootstrap";
+import { Button, Nav, Navbar, FormText } from "react-bootstrap";
+import { Link, NavLink } from "react-router-dom";
 import "../../css/layout/navbar.css";
 
 const NavbarKanban = () => {
@@ -12,17 +13,34 @@ const NavbarKanban = () => {
     >
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse>
-        <Navbar.Brand href="#">Logo</Navbar.Brand>
+        <Navbar.Brand
+          style={{ marginTop: "-3px", fontWeight: "bold" }}
+          href="#"
+        >
+          Kanban
+        </Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link className="font-weight-bolder text-white">
+          <Nav.Link
+            to="/dashboard"
+            as={Link}
+            className="font-weight-bolder text-white"
+          >
             Dashboard
           </Nav.Link>
         </Nav>
         <Nav>
-          <Nav.Link className="font-weight-bolder text-white" disabled>
+          <Nav.Link
+            to="/Profile"
+            as={Link}
+            className="font-weight-bolder text-white mt"
+          >
             Welcome Loc
           </Nav.Link>
-          <Button>Logout</Button>
+          <Button>
+            <Nav.Link to="/login" as={Link}>
+              Logout
+            </Nav.Link>
+          </Button>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

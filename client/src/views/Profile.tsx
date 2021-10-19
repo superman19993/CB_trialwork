@@ -2,17 +2,17 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import CardProfile from "../components/layouts/CardProfile";
 import Workspace from "../components/layouts/CardWorkspace";
-import Navbar from "../components/layouts/Navbar";
+import NavbarKanban from "../components/layouts/Navbar";
 
 export const Profile = () => {
   return (
     <>
-      <Navbar />
+      <NavbarKanban />
       <Row>
-        <Col lg={4}>
+        <Col style={{ marginTop: "100px" }} lg={4}>
           <CardProfile />
         </Col>
-        <Col lg={8}>
+        <Col style={{ marginTop: "90px" }} lg={8}>
           <Workspace />
         </Col>
       </Row>

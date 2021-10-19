@@ -36,6 +36,7 @@ const CreateCardForm = ({ id }: { id: number }) => {
             value={values.title}
             onBlur={handleBlur}
             onChange={handleChange}
+            required
           />
           <FormControl
             className="create-input"
@@ -45,6 +46,7 @@ const CreateCardForm = ({ id }: { id: number }) => {
             value={values.description}
             onChange={handleChange}
             onBlur={handleBlur}
+            required
           />
 
           <Button className="btn-add" type="submit">

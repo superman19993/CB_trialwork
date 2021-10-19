@@ -1,4 +1,4 @@
-.container{
+.container {
     margin-top: 100px;
     position: relative;
     margin-left: 10px;
@@ -8,10 +8,21 @@
 .card-collumn {
     background-color: #eee;
     border-radius: 2px;
-    height: auto;
     min-width: 10rem;
     padding: 0px 7px;
     text-align: left;
+}
+
+.scroll {
+    overflow-y: scroll;
+    max-height: 55vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+}
+
+.scroll::-webkit-scrollbar {
+    display: none;
 }
 
 .card-title {
@@ -19,7 +30,7 @@
     font-weight: 600;
 }
 
-.card-btn{
+.card-btn {
     min-width: 12.4rem;
     padding: 0px 5px;
     text-align: center;
@@ -31,15 +42,15 @@
     color: black;
 }
 
-.card-btn:hover{
+.card-btn:hover {
     background-color: #888888;
     border-color: #333333;
     color: black;
 }
 
-.card-kanban{
+.card-kanban {
     min-width: 12rem;
-    height: fit-content;
+    height: max-content;
     position: relative;
     background-color: white;
     border-radius: 5px;
@@ -57,7 +68,7 @@
     width: 10.7rem;
 }
 
-.card-kanban-delete{
+.card-kanban-delete {
     position: absolute;
     font-size: 12px;
     top: 10%;
@@ -65,19 +76,18 @@
 }
 
 .card-kanban-content {
-    position: absolute;
     font-size: 14px;
     font-weight: 400;
-    top: 50%;
-    left: 6%;    
+    margin-left: -20px;
+    min-width: 10rem;
 }
 
-.create-input{
+.create-input {
     font-size: 14px;
     height: 30px;
 }
 
-.create-input:not(:last-child){
+.create-input:not(:last-child) {
     margin-bottom: 5px;
 }
 
@@ -87,7 +97,7 @@
     cursor: pointer;
 }
 
-.btn-add{
+.btn-add {
     width: 70px;
     height: 25px;
     padding: 2.5px;
@@ -98,7 +108,7 @@
     border-color: black;
 }
 
-.btn-add:hover{
+.btn-add:hover {
     background-color: #888888;
     color: black;
     border-color: black;
@@ -131,11 +141,11 @@
     margin-right: 10px;
 }
 
-.collumn{
+.collumn {
     margin-bottom: 30px;
 }
 
-.addCollumn{
+.addCollumn {
     background-color: #78c2ad;
     width: 60px;
     height: 60px;
@@ -149,7 +159,7 @@
     color: black;
 }
 
-.row{
+.row {
     flex-wrap: nowrap;
-    
+
 }

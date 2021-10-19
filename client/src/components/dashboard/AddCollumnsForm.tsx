@@ -32,6 +32,7 @@ const AddCollumnsForm = () => {
                 type="text"
                 onBlur={handleBlur}
                 onChange={handleChange}
+                required
               />
 
               <Button type="submit" className="btn-add-collumn">

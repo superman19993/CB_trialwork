@@ -7,6 +7,8 @@ import { Formik, Form, Field } from "formik";
 import InputField from "../InputField";
 import CreateCardForm from "./CreateCardForm";
 import DeleteCollumn from "./DeleteCollumn";
+import { useDrag } from "react-dnd";
+import UpdateColumnForm from "./UpdateColumnForm";
 
 interface ICard {
   card_id: number;
@@ -33,15 +35,26 @@ const Collumn = ({ collumn }: { collumn: ICollumn }) => {
     setOpenDeleteModal(!openDeleteModal);
   };
 
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+
+  const onClickUpdateCollumn = () => {
+    setOpenUpdateModal(!openUpdateModal);
+  };
+
   return (
     <>
       {openDeleteModal ? <DeleteCollumn id={collumn.id} /> : null}
+      {openUpdateModal ? (
+        <UpdateColumnForm colId={collumn.id} title={collumn.column_name} />
+      ) : null}
       <Card className="card-collumn">
         <Card.Body>
           <Card.Title onClick={onClickDeleteCollumn} style={{ float: "right" }}>
             x
           </Card.Title>
-          <Card.Title>{collumn.column_name}</Card.Title>
+          <Card.Title onClick={onClickUpdateCollumn}>
+            {collumn.column_name}
+          </Card.Title>
 
           {openFormCol ? (
             <>
@@ -55,16 +68,17 @@ const Collumn = ({ collumn }: { collumn: ICollumn }) => {
               +
             </Button>
           )}
-
-          {collumn.cards.map((card) => (
-            <CardKanban
-              key={card.card_id}
-              colId={collumn.id}
-              id={card.card_id}
-              title={card.title}
-              description={card.description}
-            />
-          ))}
+          <div className="scroll">
+            {collumn.cards.map((card) => (
+              <CardKanban
+                key={card.card_id}
+                colId={collumn.id}
+                id={card.card_id}
+                title={card.title}
+                description={card.description}
+              />
+            ))}
+          </div>
         </Card.Body>
       </Card>
     </>

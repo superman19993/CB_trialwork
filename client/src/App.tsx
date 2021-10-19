@@ -5,6 +5,7 @@ import Login from "./views/Login";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { Profile } from "./views/Profile";
+import Register from "./views/Register";
 
 const App: React.FC = () => {
   return (
@@ -12,6 +13,8 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <Route exact path="/" component={Login} />
+          <Route exact path="/Login" component={Login} />
+          <Route exact path="/Register" component={Register} />
           <Route exact path="/Dashboard" component={Dashboard} />
           <Route exact path="/profile" component={Profile} />
         </Switch>
