@@ -20,13 +20,8 @@ export const createCard = createAsyncThunk(
   async (cardForm: any) => {
     try {
       const { id, ...bodyData } = cardForm;
-      await axios.post(
-        `http://localhost/practice2/Server/index.php/card?columnId=${id}`,
-        bodyData
-      );
-      const response = await axios.get(
-        `http://localhost/practice2/Server/index.php/column`
-      );
+      await axios.post(`${apiUrl}/card?columnId=${id}`, bodyData);
+      const response = await axios.get(`${apiUrl}/column`);
       return response.data.data;
     } catch (error) {}
   }
@@ -36,10 +31,8 @@ export const deleteCard = createAsyncThunk(
   "/column/delete",
   async (id: number) => {
     try {
-      await axios.delete(`http://localhost/practice2/Server/index.php/card?cardId=${id}`);
-      const response = await axios.get(
-        `http://localhost/practice2/Server/index.php/column`
-      );
+      await axios.delete(`${apiUrl}/card?cardId=${id}`);
+      const response = await axios.get(`${apiUrl}/column`);
       return response.data.data;
     } catch (error) {}
   }
@@ -51,13 +44,11 @@ export const updateCard = createAsyncThunk(
     const { id, colId, ...bodyData } = updateForm;
     try {
       await axios.put(
-        `http://localhost/practice2/Server/index.php/card?columnId=${colId}&cardId=${id}
+        `${apiUrl}/card?columnId=${colId}&cardId=${id}
         `,
         bodyData
       );
-      const response = await axios.get(
-        `http://localhost/practice2/Server/index.php/column`
-      );
+      const response = await axios.get(`${apiUrl}/column`);
       return response.data.data;
     } catch (error) {}
   }

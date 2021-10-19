@@ -11,14 +11,13 @@ import {
 import { Link } from "react-router-dom";
 import "../../css/auth/login.css";
 import { useDispatch } from "react-redux";
-import { logIn } from "../../redux/slices/user";
+import { login } from "../../redux/slices/user";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handlerSubmit = (values: any, { resetForm }: any) => {
-    const bodyData = { ...values };
-    dispatch(logIn(bodyData));
+    dispatch(login(values));
     resetForm();
   };
 
@@ -63,9 +62,7 @@ const LoginForm = () => {
               </Col>
               <Col lg={6}>
                 <Button className="btn-form" type="submit">
-                  <FormText to="/dashboard" as={Link}>
-                    Login
-                  </FormText>
+                  <FormText>Login</FormText>
                 </Button>
               </Col>
             </Row>

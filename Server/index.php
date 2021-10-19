@@ -19,8 +19,7 @@ require "./Controllers/${controllerName}.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 $controllerObject = new $controllerName($requestMethod);
-$controllerObject->processRequest();
-
-//
-// $columnId= isset($_REQUEST['columnId']) ? $_REQUEST['columnId']: '';
-// $cardId= isset($_REQUEST['cardId'])? $_REQUEST['cardId']: '';
+if ($uri[4] === "auth")
+    $controllerObject->processRequest($uri[5]);
+else
+    $controllerObject->processRequest();

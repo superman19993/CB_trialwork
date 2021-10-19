@@ -32,6 +32,8 @@ class ChecklistController extends BaseController
 
         $id = $this->checklistModel->store($data);
         $response['message'] = 'Success';
+        $data['id']= $id;
+        $response['data']= $data;
         echo json_encode($response);
         return $id;
     }
