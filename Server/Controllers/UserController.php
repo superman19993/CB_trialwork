@@ -24,7 +24,7 @@ class UserController extends BaseController
             if ($user){
                 $_SESSION['username']= $user['username'];
                 echo json_encode($user);
-            }
+            }   
             else echo json_encode(array('message'=> 'Wrong username or password provided'));
         } else {
             echo json_encode(array('message'=>'input or password is not provided'));

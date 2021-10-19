@@ -144,7 +144,7 @@ echo "Table checklists created successfully";
 echo "Error creating table: " . $conn->error;
 }
 
-//oomments table
+//comments table
 $sql = "CREATE TABLE if not exists comments (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   content VARCHAR(255) NULL,
@@ -160,5 +160,41 @@ echo "Table comments created successfully";
 echo "Error creating table: " . $conn->error;
 }
 
+//include table between comments & cards & users
+$sql = "CREATE TABLE if not exists includes (
+  cardid INT UNSIGNED,
+  commentid INT UNSIGNED,
+  userid INT UNSIGNED,
+  FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (commentid) REFERENCES comments (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;";
+
+if ($conn->query($sql) === TRUE) {
+echo "Table includes created successfully";
+} else {
+echo "Error creating table: " . $conn->error;
+}
+
+
+
+//has table between cards & checklists
+$sql = "CREATE TABLE if not exists has (
+  cardid INT UNSIGNED,
+  checklistid INT UNSIGNED,
+  percent FLOAT,
+  FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (checklistid) REFERENCES checklists (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (cardid, checklistid))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;";
+
+
+if ($conn->query($sql) === TRUE) {
+echo "Table has created successfully";
+} else {
+echo "Error creating table: " . $conn->error;
+}
 
 $conn->close();
