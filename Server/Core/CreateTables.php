@@ -10,15 +10,15 @@
 // $PASSWORD = getenv('DB_PASSWORD');
 // $DB_NAME = getenv('DB_NAME');
 
-$HOST = '127.0.0.1';
-$USERNAME = 'root';
-$PASSWORD = 'LocT@2031';
-$DB_NAME = 'practice2';
-
-// $HOST = 'localhost';
+// $HOST = '127.0.0.1';
 // $USERNAME = 'root';
-// $PASSWORD = '';
+// $PASSWORD = 'LocT@2031';
 // $DB_NAME = 'practice2';
+
+$HOST = 'localhost';
+$USERNAME = 'root';
+$PASSWORD = '';
+$DB_NAME = 'practice2';
 
 // Create connection
 $conn = new mysqli($HOST, $USERNAME, $PASSWORD, $DB_NAME);
@@ -167,7 +167,8 @@ $sql = "CREATE TABLE if not exists includes (
   userid INT UNSIGNED,
   FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (commentid) REFERENCES comments (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE)
+  FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (cardid, commentid, userid ))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
 
@@ -176,8 +177,6 @@ echo "Table includes created successfully";
 } else {
 echo "Error creating table: " . $conn->error;
 }
-
-
 
 //has table between cards & checklists
 $sql = "CREATE TABLE if not exists has (

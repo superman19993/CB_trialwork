@@ -1,5 +1,5 @@
 <?php
-require './Core/CreateTables.php';        //if db has existed, please comment this line
+//require './Core/CreateTables.php';        //if db has existed, please comment this line
 require './Controllers/BaseController.php';
 require './Core/Database.php';
 require './Models/BaseModel.php';
@@ -14,7 +14,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
 
-$controllerName = ucfirst((strtolower($uri[2])) . 'Controller');
+$controllerName = ucfirst((strtolower($uri[4])) . 'Controller');
 require "./Controllers/${controllerName}.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
