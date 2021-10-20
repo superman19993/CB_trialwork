@@ -5,8 +5,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 
-require '../vendor/autoload.php';
-
 class SampleTest extends TestCase
 {
 

@@ -1,1 +1,0 @@
-{"version":1,"defects":{"Warning":6,"SampleTest::testTrueAssertTo":3,"SampleTest::testCreateChecklist":4,"SampleTest::testCreateChecklistMissingCardid":4},"times":{"Warning":0.004,"SampleTest::testTrueAssertTo":0.004,"SampleTest::testCreateChecklist":0.1,"SampleTest::testCreateChecklistMissingCardid":0.024}}
