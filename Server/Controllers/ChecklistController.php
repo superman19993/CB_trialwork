@@ -16,7 +16,7 @@ class ChecklistController extends BaseController
     // POST: http://localhost/practice2/Server/index.php/checklist?cardId={int}
     public function create()
     {
-        if (!isset($_REQUEST['cardId']) || $_REQUEST['cardId'] <=    0) {
+        if (!isset($_REQUEST['cardId']) || $_REQUEST['cardId'] <= 0) {
             echo json_encode(array('message' => "Invalid card id."));
             return http_response_code(400);
         }
