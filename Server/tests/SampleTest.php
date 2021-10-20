@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\RequestException;
 
 class SampleTest extends TestCase
 {
-
+    private $url= "http://localhost/practice2/Server/index.php";
     public function testCreateChecklist()
     {
         $client = new Client();
@@ -17,7 +17,7 @@ class SampleTest extends TestCase
             "title" => "test unit",
             "status" => 0
         ];
-        $request = new Request('POST', 'http://localhost/practice2/Server/index.php/checklist?cardId=4', $header, json_encode($bodyData));
+        $request = new Request('POST', "{$this->url}/checklist?cardId=4", $header, json_encode($bodyData));
         $response = $client->send($request);
         $data= json_decode($response->getBody(),true);
         $this->assertEquals(200, $response->getStatusCode());
@@ -33,7 +33,7 @@ class SampleTest extends TestCase
             "title" => "test unit",
             "status" => 0
         ];
-        $request = new Request('POST', 'http://localhost/practice2/Server/index.php/checklist', $header, json_encode($bodyData));
+        $request = new Request('POST', "{$this->url}/checklist", $header, json_encode($bodyData));
 
         try{
             $response = $client->send($request);
