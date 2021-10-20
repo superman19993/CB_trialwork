@@ -23,6 +23,12 @@ class ChecklistModel extends BaseModel{
     }
 
     public function getByCardId($cardId){
-        return $this->readChecklistByCardId(self::TABLE, $cardId);
+        $sql= "SELECT * FROM checklists WHERE cardid = ${cardId}";
+        $result= $this->_query($sql);
+        $data=[];
+        while ($row = mysqli_fetch_assoc($result)){
+            array_push($data, $row);
+        }
+        return $data;
     }
 }

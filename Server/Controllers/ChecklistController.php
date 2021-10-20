@@ -16,7 +16,7 @@ class ChecklistController extends BaseController
     // POST: http://localhost/practice2/Server/index.php/checklist?cardId={int}
     public function create()
     {
-        if (!isset($_REQUEST['cardId'])) {
+        if (!isset($_REQUEST['cardId']) || $_REQUEST['cardId'] <=    0) {
             echo json_encode(array('message' => "Invalid card id."));
             return http_response_code(400);
         }
@@ -31,6 +31,10 @@ class ChecklistController extends BaseController
         ];
 
         $id = $this->checklistModel->store($data);
+        if ($id==0){
+            echo json_encode(array('message' => 'Card not found.'));
+            return http_response_code(400);
+        }
         $response['message'] = 'Success';
         $data['id']= $id;
         $response['data']= $data;
@@ -55,9 +59,14 @@ class ChecklistController extends BaseController
         }
     }
 
+    // GET: http://localhost/practice2/Server/index.php/checklist?cardId={number}
     public function readByCardId(){
         $cardId= isset($_REQUEST['cardId']) ? $_REQUEST['cardId']:'';
-        if ($cardId<=0) return http_response_code(400);
+        if ($cardId<=0) 
+        {
+            echo json_encode(array('message'=>'Invalid card id.'));
+            return http_response_code(400);
+        }
         $checklists= $this->checklistModel->getByCardId($cardId);
         if (!$checklists) {
             echo json_encode(array('message'=>'No checklist found.'));
@@ -104,20 +113,22 @@ class ChecklistController extends BaseController
         echo json_encode($response);
     }
 
+    //DELETE: http://localhost/practice2/Server/index.php/checklist?id={}
     public function delete()
     {
-        // $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
-        // if (!$cardId) {
-        //     echo json_encode(array('message' => 'URL parameters not found'));
-        //     return http_response_code(400);
-        // }
-        // if (!$this->readOne()) {
-        //     echo json_encode(array('message' => 'Card not found'));
-        //     return http_response_code(400);
-        // }
-        // $response['message'] = 'Success';
-        // echo json_encode($response);
-        // return $this->cardModel->destroy($cardId);
+        $checklistId= isset($_REQUEST['id']) ? $_REQUEST['id'] : '';
+        if ($checklistId=='') {
+            echo json_encode(array('message'=>'No id provided.'));
+            return http_response_code(400);
+        }
+        $oldChecklist = $this->readOne($checklistId);
+        if (!$oldChecklist) {
+            echo json_encode(array('message' => 'Checklist not found'));
+            return http_response_code(400);
+        };
+        $response['message'] = 'Success';
+        echo json_encode($response);
+        return $this->checklistModel->destroy($checklistId);
     }
 
     public function processRequest()

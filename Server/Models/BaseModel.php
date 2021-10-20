@@ -66,7 +66,7 @@ class BaseModel extends Database
     public function delete($table, $id)
     {
         $sql = "DELETE FROM ${table} WHERE id = ${id}";
-        $this->_query($sql);
+        return $this->_query($sql);
     }
     
     //for login
@@ -76,17 +76,7 @@ class BaseModel extends Database
         return mysqli_fetch_assoc($result);
     }
 
-    public function readChecklistByCardId($table, $cardId){
-        $sql= "SELECT * FROM checklists WHERE cardid = ${cardId}";
-        $result= $this->_query($sql);
-        $data=[];
-        while ($row = mysqli_fetch_assoc($result)){
-            array_push($data, $row);
-        }
-        return $data;
-    }
-
-    private function _query($sql)
+    public function _query($sql)
     {
         return mysqli_query($this->connect, $sql);
     }
