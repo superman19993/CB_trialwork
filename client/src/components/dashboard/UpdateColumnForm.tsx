@@ -24,7 +24,7 @@ const UpdateColumnForm = ({
   };
 
   const handlerSubmit = async (values: any) => {
-    const bodyData = { ...values, id: colId };
+    const bodyData = { ...values, id: colId, wid: workspace.wid };
     await dispatch(updateColumn(bodyData));
     await dispatch(fetchColumns(workspace.wid));
     toggleModal();

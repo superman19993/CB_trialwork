@@ -28,7 +28,7 @@ const UpdateCardForm = ({
   };
 
   const handlerSubmit = async (values: any, { resetForm }: any) => {
-    const bodyData = { ...values, id, colId };
+    const bodyData = { ...values, id, colId, wid: workspace.wid };
     await dispatch(updateCard(bodyData));
     await dispatch(fetchColumns(workspace.wid));
     toggleModal();

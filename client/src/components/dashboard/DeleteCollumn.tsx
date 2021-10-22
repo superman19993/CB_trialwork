@@ -13,7 +13,8 @@ const DeleteCollumn = ({ id }: { id: number }) => {
   const dispatch = useDispatch();
 
   const onClickDelete = async () => {
-    await dispatch(deleteColumn(id));
+    const condition= {id, wid: workspace.wid}
+    await dispatch(deleteColumn(condition));
     await dispatch(fetchColumns(workspace.wid));
     setShowModal(!showModal);
   };

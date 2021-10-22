@@ -22,7 +22,7 @@ class CardController extends BaseController
         }
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        $cardName = isset($input['title']) ? $input['title'] : '';
+        $cardName = isset($input['card_name']) ? $input['card_name'] : '';
         $des = isset($input['description']) ? $input['description'] : '';
         $data = [
             'card_name' => $cardName,

@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { Modal, Button, FormControl, FormLabel } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
 import { createColumn } from "../../redux/slices/collumns";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const AddCollumnsForm = () => {
   const [showModal, setShowModal] = useState(true);
 
+  const workspace= useSelector((state:RootState)=>state.workspaces);
   const dispatch = useDispatch();
 
   const handlerSubmit = (values: any, { resetForm }: any) => {
-    dispatch(createColumn(values));
+    const condition= {...values, wid: workspace.wid};
+    dispatch(createColumn(condition));
     setShowModal(!showModal);
     resetForm();
   };

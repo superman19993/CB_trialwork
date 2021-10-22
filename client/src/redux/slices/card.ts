@@ -21,9 +21,10 @@ export const createCard = createAsyncThunk(
   "/column/create",
   async (cardForm: any) => {
     try {
-      const { id, ...bodyData } = cardForm;
+      const { id ,wid, ...bodyData } = cardForm;
+      console.log(bodyData);
       await axios.post(`${apiUrl}/card?columnId=${id}`, bodyData);
-      const response = await axios.get(`${apiUrl}/column`);
+      const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
       return response.data.data;
     } catch (error) {}
   }
@@ -31,10 +32,11 @@ export const createCard = createAsyncThunk(
 
 export const deleteCard = createAsyncThunk(
   "/column/delete",
-  async (id: number) => {
+  async (condition: any) => {
     try {
+      const {id, wid} =condition;
       await axios.delete(`${apiUrl}/card?cardId=${id}`);
-      const response = await axios.get(`${apiUrl}/column`);
+      const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
       return response.data.data;
     } catch (error) {}
   }
@@ -43,14 +45,14 @@ export const deleteCard = createAsyncThunk(
 export const updateCard = createAsyncThunk(
   "/column/update",
   async (updateForm: any) => {
-    const { id, colId, ...bodyData } = updateForm;
+    const { id, colId, wid, ...bodyData } = updateForm;
     try {
       await axios.put(
         `${apiUrl}/card?columnId=${colId}&cardId=${id}
         `,
         bodyData
       );
-      const response = await axios.get(`${apiUrl}/column`);
+      const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
       return response.data.data;
     } catch (error) {}
   }

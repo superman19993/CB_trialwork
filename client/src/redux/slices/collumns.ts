@@ -28,8 +28,9 @@ export const createColumn = createAsyncThunk(
   "/column/create",
   async (columnForm: any) => {
     try {
-      await axios.post(`${apiUrl}/column`, columnForm);
-      const response = await axios.get(`${apiUrl}/column`);
+      const {wid, ...bodyData}= columnForm;
+      await axios.post(`${apiUrl}/column`, bodyData);
+      const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
       return response.data.data;
     } catch (error) {}
   }
@@ -38,10 +39,10 @@ export const createColumn = createAsyncThunk(
 export const updateColumn = createAsyncThunk(
   "/column/update",
   async (columnUpdateForm: any) => {
-    const { id, ...bodyData } = columnUpdateForm;
+    const { id,wid, ...bodyData } = columnUpdateForm;
     try {
       await axios.put(`${apiUrl}/column?columnId=${id}`, bodyData);
-      const response = await axios.get(`${apiUrl}/column`);
+      const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
       return response.data.data;
     } catch (error) {}
   }
@@ -49,10 +50,11 @@ export const updateColumn = createAsyncThunk(
 
 export const deleteColumn = createAsyncThunk(
   "column/delete",
-  async (id: number) => {
+  async (condition: any) => {
     try {
+      const {wid, id}= condition;
       await axios.delete(`${apiUrl}/column?columnId=${id}`);
-      const response = await axios.get(`${apiUrl}/column`);
+      const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
       return response.data.data;
     } catch (error) {}
   }
