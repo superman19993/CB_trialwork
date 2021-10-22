@@ -1,0 +1,11 @@
+.navKanban {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.mt {
+    margin-top: 8px;
+}

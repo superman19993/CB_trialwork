@@ -1,0 +1,50 @@
+.cardw-side {
+  margin-top: 10px;
+  height: 100px;
+  width: 200px;
+  margin-top: 20px;
+}
+
+.card-position {
+  height: 30px;
+}
+
+.side {
+  z-index: -100;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.card-wp {
+  height: 25px;
+  padding: 5px;
+  position: relative;
+}
+
+.icon-update {
+  position: absolute;
+  top: -8%;
+  right: 15%;
+}
+
+.icon-delete {
+  position: absolute;
+  top: -8%;
+  right: 5%;
+}
+
+.cardw-side-2 {
+  margin-top: 10px;
+  height: 100px;
+  width: 200px;
+  margin-top: 20px;
+}
+
+.create {
+  width: fit-content;
+  flex-wrap: nowrap;
+  font-size: 14px;
+  padding-top: 37px;
+  padding-left: 27px;
+}
