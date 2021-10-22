@@ -21,6 +21,7 @@ class SampleTest extends TestCase
         $request = new Request('POST', "{$this->url}?cardId=4", $header, json_encode($bodyData));
         $response = $client->send($request);
         $data= json_decode($response->getBody(),true);
+        
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertArrayHasKey('data',$data);
     }
@@ -39,6 +40,7 @@ class SampleTest extends TestCase
         try{
             $response = $client->send($request);
         } catch(RequestException $error){
+
             if($error->hasResponse()){
                 $message= $error->getResponse()->getBody();
                 $code= $error->getResponse()->getStatusCode();

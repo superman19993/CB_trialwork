@@ -69,8 +69,10 @@ class ChecklistController extends BaseController
         }
         $checklists= $this->checklistModel->getByCardId($cardId);
         if (!$checklists) {
-            echo json_encode(array('message'=>'No checklist found.'));
-            return http_response_code(400);
+            $response['data']= [];
+            $response['message']= 'No checklist found.';
+            echo json_encode($response);
+            die;
         }
         $response['data'] = $checklists;
         $response['message'] = 'Success';

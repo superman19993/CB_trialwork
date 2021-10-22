@@ -4,12 +4,14 @@ import { useDispatch } from "react-redux";
 import { apiUrl } from "../types";
 
 interface State {
+  cardId: number;
   columns: any[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
 const initialState: State = {
+  cardId: 0,
   columns: [],
   status: "idle",
   error: null,
@@ -54,7 +56,16 @@ export const updateCard = createAsyncThunk(
   }
 );
 
-const columnsSlice = createSlice({
+export const chooseCard= createAsyncThunk(
+  "card/choose",
+  (cardId:number) => {
+    console.log(cardId);
+    return cardId;
+
+  }
+)
+
+const cardsSlice = createSlice({
   name: "columns",
   initialState,
   reducers: {},
@@ -71,8 +82,11 @@ const columnsSlice = createSlice({
       state.status = "succeeded";
       state.columns = action.payload;
     },
+    [chooseCard.fulfilled.toString()]: (state, action) => {
+      state.cardId = action.payload;
+    },
   },
 });
 
-export default columnsSlice.reducer;
-export const {} = columnsSlice.actions;
+export default cardsSlice.reducer;
+export const {} = cardsSlice.actions;

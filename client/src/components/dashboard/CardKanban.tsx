@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import CardDetail from "./CardDetail";
 import DeleteCardForm from "./DeleteCardForm";
 import UpdateCardForm from "./UpdateCardForm";
+import { fetchChecklists } from "../../redux/slices/checklist";
+import { chooseCard } from "../../redux/slices/card";
+import { addAbortSignal } from "stream";
 
 const CardKanban = ({
   colId,
@@ -14,7 +20,11 @@ const CardKanban = ({
   title: string;
   description: string;
 }) => {
+
+  const checklist= useSelector((state: RootState)=> state.checklists);
+  const card= {colId, id, card_name: title, card_description: description, checklists:checklist.checklists}
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
 
   const onClickDeleteCard = () => {
     setOpenDeleteModal(!openDeleteModal);
@@ -22,9 +32,19 @@ const CardKanban = ({
 
   const [updateCardModal, setUpdateCardModal] = useState(false);
 
+  const [cardDetailModal, setCardDetailModal] = useState(false);
+
   const onClickUpdateCard = () => {
     setUpdateCardModal(!updateCardModal);
   };
+
+  const dispatch= useDispatch();
+  const findCard= async (e: any, id: number)=>{
+    await dispatch(chooseCard(id));
+    await dispatch(fetchChecklists(id));
+    setCardDetailModal(!cardDetailModal);
+  }
+
 
   return (
     <>
@@ -34,6 +54,11 @@ const CardKanban = ({
           id={id}
           title={title}
           description={description}
+        />
+      ) : null}
+      {cardDetailModal ? (
+        <CardDetail
+          card={card}
         />
       ) : null}
       {openDeleteModal ? <DeleteCardForm id={id} /> : null}
@@ -51,7 +76,14 @@ const CardKanban = ({
           >
             X
           </Card.Title>
-          <Card.Text className="card-kanban-content">{description}</Card.Text>
+          <Card.Text
+            onClick={(e: any)=> {
+              findCard(e, id);
+            }}
+            className="card-kanban-content"
+          >
+            {description}
+          </Card.Text>
         </Card.Body>
       </Card>
     </>
