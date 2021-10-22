@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { Profile } from "./views/Profile";
 import Register from "./views/Register";
+import ProtectedRoute from "./components/routing/ProtectedRoute";
 
 const App: React.FC = () => {
   return (
@@ -15,8 +16,8 @@ const App: React.FC = () => {
           <Route exact path="/" component={Login} />
           <Route exact path="/Login" component={Login} />
           <Route exact path="/Register" component={Register} />
-          <Route exact path="/Dashboard" component={Dashboard} />
-          <Route exact path="/profile" component={Profile} />
+          <ProtectedRoute exact path="/Dashboard" component={Dashboard} />
+          <ProtectedRoute exact path="/profile" component={Profile} />
         </Switch>
       </Router>
     </Provider>

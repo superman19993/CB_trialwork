@@ -12,11 +12,15 @@ import AddCollumnsButton from "../components/dashboard/AddCollumnsButton";
 
 const Dashboard = () => {
   const columns = useSelector((state: RootState) => state.columns);
+  const workspace = useSelector((state: RootState) => state.workspaces);
 
   const dispatch = useDispatch();
 
+  localStorage.setItem("history", "/dashboard");
+
   useEffect(() => {
-    dispatch(fetchColumns());
+    console.log(workspace.wid);
+    dispatch(fetchColumns(workspace.wid));
   }, [dispatch]);
 
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -31,16 +35,18 @@ const Dashboard = () => {
 
       <Container className="container">
         <Row>
-          {columns.columns.map((collumn: ICollumn) => (
-            <Col
-              className="collumn"
-              style={{ display: "inline-block", float: "none" }}
-              key={collumn.id}
-              lg={3}
-            >
-              <Collumn collumn={collumn} />
-            </Col>
-          ))}
+          {columns.columns
+            ? columns.columns.map((collumn: ICollumn) => (
+                <Col
+                  className="collumn"
+                  style={{ display: "inline-block", float: "none" }}
+                  key={collumn.id}
+                  lg={3}
+                >
+                  <Collumn collumn={collumn} />
+                </Col>
+              ))
+            : null}
         </Row>
         <div onClick={onClickAddCollumn}>
           <AddCollumnsButton />

@@ -18,7 +18,9 @@ class ColumnController extends BaseController
         $columns = ['*'];
         $orderBys = ['column' => 'id', 'order' => 'asc'];
         $limit = 15;
-        $columns = $this->columnModel->getAll($columns, $orderBys, $limit);
+        $wid = isset($_REQUEST['wid']) ? $_REQUEST['wid'] : '';
+        $columns = $this->columnModel->getAll($columns, $orderBys, $limit, $wid);
+
 
         if (!$columns) echo json_encode(array('message' => 'No columns found.'));
         else $response['data'] = $columns;
@@ -86,14 +88,13 @@ class ColumnController extends BaseController
     }
 
     //DELETE: http://localhost/practice2/Server/index.php/column?columnId={}
-    public function delete($columnId){
-        $column= $this->readOne($columnId);
+    public function delete($columnId)
+    {
+        $column = $this->readOne($columnId);
         if (!$column) {
             echo json_encode(array('message' => 'No columns found.'));
             return http_response_code(400);
-        } 
-
-        else{
+        } else {
             $this->columnModel->destroy($columnId);
             $response['message'] = 'Success';
             echo json_encode($response);
@@ -101,14 +102,14 @@ class ColumnController extends BaseController
     }
 
     //PUT: http://localhost/practice2/Server/index.php/column?columnId={}
-    public function update($columnId){
+    public function update($columnId)
+    {
         //check if column is not existed
-        $oldColumn= $this->readOne($columnId);
+        $oldColumn = $this->readOne($columnId);
         if (!$oldColumn) {
             echo json_encode(array('message' => 'No columns found.'));
             return http_response_code(400);
-        }
-        else{
+        } else {
             $input = (array) json_decode(file_get_contents('php://input'), TRUE);
             $columnName = isset($input['column_name']) ? $input['column_name'] : $oldColumn['column_name'];
             $workspaceId = isset($input['workspace_id']) ? $input['workspace_id'] : $oldColumn['workspaceid'];
@@ -116,7 +117,7 @@ class ColumnController extends BaseController
                 'column_name' => $columnName,
                 'workspaceid' => $workspaceId
             ];
-            if (!$this->columnModel->updateData($columnId, $data)){
+            if (!$this->columnModel->updateData($columnId, $data)) {
                 echo json_encode(array('message' => 'Workspace not found.'));
                 return http_response_code(400);
             }
@@ -137,11 +138,11 @@ class ColumnController extends BaseController
                 break;
             case 'PUT':
                 if (isset($_REQUEST['columnId'])) $this->update($_REQUEST['columnId']);
-                else echo json_encode(array('message'=> 'columnId not found.'));
+                else echo json_encode(array('message' => 'columnId not found.'));
                 break;
             case 'DELETE':
                 if (isset($_REQUEST['columnId'])) $this->delete($_REQUEST['columnId']);
-                else echo json_encode(array('message'=> 'columnId not found.'));
+                else echo json_encode(array('message' => 'columnId not found.'));
                 break;
             default:
                 echo "Response not found!";

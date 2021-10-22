@@ -2,8 +2,9 @@ import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Button, FormControl, Modal } from "react-bootstrap";
 import { updateCard } from "../../redux/slices/card";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchColumns } from "../../redux/slices/collumns";
+import { RootState } from "../../redux/store";
 
 const UpdateCardForm = ({
   colId,
@@ -18,6 +19,8 @@ const UpdateCardForm = ({
 }) => {
   const [showModal, setShowModal] = useState(true);
 
+  const workspace = useSelector((state: RootState) => state.workspaces);
+
   const dispatch = useDispatch();
 
   const toggleModal = () => {
@@ -27,7 +30,7 @@ const UpdateCardForm = ({
   const handlerSubmit = async (values: any, { resetForm }: any) => {
     const bodyData = { ...values, id, colId };
     await dispatch(updateCard(bodyData));
-    await dispatch(fetchColumns());
+    await dispatch(fetchColumns(workspace.wid));
     toggleModal();
     resetForm();
   };

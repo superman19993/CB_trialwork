@@ -11,14 +11,15 @@ import {
 import { Link } from "react-router-dom";
 import "../../css/auth/login.css";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/slices/user";
+import { login, loadUser } from "../../redux/slices/user";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
 
-  const handlerSubmit = (values: any, { resetForm }: any) => {
-    dispatch(login(values));
-    resetForm();
+  const handlerSubmit = async (values: any, { resetForm }: any) => {
+    await dispatch(login(values));
+    await dispatch(loadUser());
+    // resetForm();
   };
 
   const initialValues = {

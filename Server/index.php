@@ -1,5 +1,5 @@
 <?php
-//require './Core/CreateTables.php';        //if db has existed, please comment this line
+require './Core/CreateTables.php';        //if db has existed, please comment this line
 require './Controllers/BaseController.php';
 require './Core/Database.php';
 require './Models/BaseModel.php';

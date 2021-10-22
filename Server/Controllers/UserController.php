@@ -13,6 +13,10 @@ class UserController extends BaseController
         session_start();
     }
 
+    public function updateProfile()
+    {
+    }
+
     public function processRequest()
     {
         switch ($this->requesMethod) {
