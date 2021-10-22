@@ -17,11 +17,8 @@ const ProtectedRoute = ({ component: Component, ...rest }: IProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(loadUser());
-    };
-    fetchData();
-  }, []);
+    dispatch(loadUser());
+  }, [dispatch]);
 
   if (auth.authLoading) {
     return (

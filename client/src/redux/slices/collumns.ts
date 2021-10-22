@@ -17,8 +17,9 @@ const initialState: State = {
 
 export const fetchColumns = createAsyncThunk(
   "/questions/fetchColumns",
-  async () => {
-    const response = await axios.get(`${apiUrl}/column`);
+  async (wid: any) => {
+    console.log(wid);
+    const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
     return response.data.data;
   }
 );

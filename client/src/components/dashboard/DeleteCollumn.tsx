@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import "../../css/card/card.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteColumn, fetchColumns } from "../../redux/slices/collumns";
+import { RootState } from "../../redux/store";
 
 const DeleteCollumn = ({ id }: { id: number }) => {
   const [showModal, setShowModal] = useState(true);
+
+  const workspace = useSelector((state: RootState) => state.workspaces);
 
   const dispatch = useDispatch();
 
   const onClickDelete = async () => {
     await dispatch(deleteColumn(id));
-    await dispatch(fetchColumns);
+    await dispatch(fetchColumns(workspace.wid));
     setShowModal(!showModal);
   };
 

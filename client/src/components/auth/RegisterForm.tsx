@@ -24,7 +24,7 @@ const RegisterForm = () => {
     username: "",
     email: "",
     password: "",
-    confirmPasword: "",
+    confirmPassword: "",
   };
 
   return (
@@ -62,7 +62,7 @@ const RegisterForm = () => {
               name="password"
               placeholder="Password"
               type="password"
-              value={values.username}
+              value={values.password}
               onBlur={handleBlur}
               onChange={handleChange}
               required
@@ -73,7 +73,7 @@ const RegisterForm = () => {
               name="confirmPassword"
               placeholder="Confirm Password"
               type="password"
-              value={values.password}
+              value={values.confirmPassword}
               onBlur={handleBlur}
               onChange={handleChange}
               required

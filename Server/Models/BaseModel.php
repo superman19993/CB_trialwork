@@ -9,7 +9,7 @@ class BaseModel extends Database
         $this->connect = $this->connect();
     }
 
-    public function all($table, $select = ['*'], $orderBys = [], $limit = 15)
+    public function all($table, $select = ['*'], $orderBys = [], $limit = 15, $condition = null)
     {
 
         $columns = implode(',', $select);            //concatenate chosen columns with ',' in between, ex: id,name,level 
@@ -17,7 +17,10 @@ class BaseModel extends Database
         $orderByString = implode(' ', $orderBys);   //concatenate chosen columns with order with ' ' in between, ex: id asc.
 
         if ($orderByString) {
-            $sql = "SELECT ${columns} FROM ${table} ORDER BY ${orderByString} LIMIT ${limit}";   //
+            if ($condition) {
+                $sql = "SELECT ${columns} FROM ${table} where $condition ORDER BY ${orderByString} LIMIT ${limit}";   //
+            } else
+                $sql = "SELECT ${columns} FROM ${table} ORDER BY ${orderByString} LIMIT ${limit}";   //
         } else {
             $sql = "SELECT ${columns} FROM ${table} LIMIT ${limit}";
         }

@@ -45,8 +45,10 @@ if ($conn->query($sql) === False) {
 
 //workspaces table
 $sql = "CREATE TABLE if not exists workspaces (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    id varchar(255),
     workspace_name VARCHAR(45) NOT NULL,
+    uid INT UNSIGNED,
+    FOREIGN KEY (uid) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (id))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;";
@@ -59,7 +61,7 @@ if ($conn->query($sql) === False) {
 
 $sql = "CREATE TABLE if not exists users_workspaces (
   userid INT UNSIGNED,
-  workspaceid INT UNSIGNED,
+  workspaceid varchar(255),
   FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (workspaceid) REFERENCES workspaces (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (userid, workspaceid))
@@ -75,7 +77,7 @@ if ($conn->query($sql) === False) {
 $sql = "CREATE TABLE if not exists columns (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     column_name VARCHAR(45) NOT NULL,
-    workspaceid INT UNSIGNED,
+    workspaceid varchar(255),
     FOREIGN KEY (workspaceid) REFERENCES workspaces (id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (id))
   ENGINE = InnoDB

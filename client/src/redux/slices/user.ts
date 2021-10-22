@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { setAuthToken } from "../../utils/setAuthToken";
 import { apiUrl, LoginForm } from "../types";
 
 interface State {
@@ -14,7 +15,7 @@ interface State {
 const initialState: State = {
   user: null,
   isAuthenticated: false,
-  authLoading: false,
+  authLoading: true,
   status: "idle",
   error: null,
 };
@@ -24,7 +25,9 @@ export const login = createAsyncThunk(
   async (loginForm: LoginForm) => {
     try {
       const response = await axios.post(`${apiUrl}/auth/login`, loginForm);
-      console.log(response.data);
+      localStorage.setItem("Authorization", response.data.id);
+      setAuthToken(response.data.id);
+
       return response.data;
     } catch (error) {}
   }
@@ -33,13 +36,21 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk("/user/logout", async () => {
   try {
     await axios.get(`${apiUrl}/auth/logout`);
+    localStorage.removeItem("history");
+    localStorage.removeItem("Authorization");
+    setAuthToken(null);
   } catch (error) {}
 });
 
 export const loadUser = createAsyncThunk("/user/loaduser", async () => {
   try {
-    const response = await axios.get(`${apiUrl}/auth/loaduser`);
-    return response.data;
+    if (localStorage.getItem("Authorization")) {
+      const uid = localStorage.getItem("Authorization");
+      const response = await axios.get(`${apiUrl}/auth/loaduser?uid=${uid}`);
+      return response.data;
+    } else {
+      return null;
+    }
   } catch (error) {}
 });
 
@@ -58,8 +69,8 @@ const userSlice = createSlice({
   extraReducers: {
     [login.fulfilled.toString()]: (state, action) => {
       state.status = "succeeded";
-      state.user = action.payload;
-      state.isAuthenticated = true;
+      // state.user = action.payload;
+      // state.isAuthenticated = true;
     },
     [login.rejected.toString()]: (state, action) => {
       state.status = "failed";
@@ -67,8 +78,11 @@ const userSlice = createSlice({
     },
     [loadUser.fulfilled.toString()]: (state, action) => {
       state.status = "succeeded";
-      state.user = action.payload;
-      state.isAuthenticated = true;
+      if (action.payload) {
+        state.user = action.payload;
+        state.isAuthenticated = true;
+        state.authLoading = false;
+      }
     },
     [logout.fulfilled.toString()]: (state, action) => {
       state.status = "idle";

@@ -14,12 +14,12 @@ const CardProfile = () => {
           width={120}
           height={120}
         />
-        <Card.Text className="card-info-side">
+        <div className="card-info-side">
           <Card.Text>Truong Thanh Loc</Card.Text>
           <Card.Text style={{ left: "35%" }}>
             Email: thanhloc1506@gmail.com
           </Card.Text>
-        </Card.Text>
+        </div>
       </Card.Body>
     </Card>
   );

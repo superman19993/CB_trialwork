@@ -35,6 +35,8 @@ class AuthController extends BaseController
                 }
                 $_SESSION['id'] = $user['id'];
 
+                setcookie("token", $user['id'], time() + 7200);
+
                 echo json_encode($user);
             } else {
                 echo json_encode(array('message' => 'input or password is not provided'));
@@ -75,6 +77,8 @@ class AuthController extends BaseController
 
             $_SESSION['id'] = $foundUser['id'];
 
+
+
             echo json_encode($createdUser);
         } catch (Exception $e) {
             echo json_encode(array('message' => "$e"));
@@ -84,12 +88,14 @@ class AuthController extends BaseController
 
     public function loadUser()
     {
-        if (isset($_SESSION['id'])) {
-            $user_id = $_SESSION['id'];
+        $uid = isset($_REQUEST['uid']) ? $_REQUEST['uid'] : '';
+        if (true) {
+            $user_id = $uid;
             $foundUser = $this->userModel->findUserById($user_id);
-            return json_encode($foundUser);
+            echo json_encode($foundUser);
+            return;
         }
-        return null;
+        echo "Not authorize";
     }
 
 

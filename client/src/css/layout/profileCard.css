@@ -1,8 +1,8 @@
 .card-side {
-    position: relative fixed;
+    position: relative;
     height: 400px;
     margin-left: 50px;
-    width: 80%;
+    width: 150%;
 }
 
 .card-header-side {
