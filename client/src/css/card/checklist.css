@@ -1,0 +1,11 @@
+.check-list{
+    font-size: 14px;
+}
+
+.border.card{
+    border-bottom-width: 3px !important;
+}
+
+.status.card-text{
+    text-align: right;
+}

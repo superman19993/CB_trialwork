@@ -18,7 +18,7 @@ class SampleTest extends TestCase
             "title" => "test unit",
             "status" => 0
         ];
-        $request = new Request('POST', "{$this->url}?cardId=4", $header, json_encode($bodyData));
+        $request = new Request('POST', "{$this->url}?cardId=11", $header, json_encode($bodyData));
         $response = $client->send($request);
         $data= json_decode($response->getBody(),true);
         
@@ -100,9 +100,10 @@ class SampleTest extends TestCase
     {
         $client = new Client();
         $header = [];
-        $request = new Request('GET', "{$this->url}?cardId=100", $header);
+        $request = new Request('GET', "{$this->url}?cardId=1000", $header);
         try {
             $response = $client->send($request);
+            $this->assertEquals(200, $response->getStatusCode());
         } catch (RequestException $error) {
             if ($error->hasResponse()) {
                 $message = $error->getResponse()->getBody();
@@ -122,7 +123,7 @@ class SampleTest extends TestCase
             "title" => "test unit edit",
             "status" => 0
         ];
-        $request = new Request('PUT', "{$this->url}?id=18", $header, json_encode($bodyData));
+        $request = new Request('PUT', "{$this->url}?id=1", $header, json_encode($bodyData));
         $response = $client->send($request);
         $data = json_decode($response->getBody(), true);
         $this->assertEquals(200, $response->getStatusCode());
