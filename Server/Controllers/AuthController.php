@@ -88,14 +88,10 @@ class AuthController extends BaseController
 
     public function loadUser()
     {
-        $uid = isset($_REQUEST['uid']) ? $_REQUEST['uid'] : '';
-        if (true) {
-            $user_id = $uid;
-            $foundUser = $this->userModel->findUserById($user_id);
-            echo json_encode($foundUser);
-            return;
-        }
-        echo "Not authorize";
+        $user_id = isset($_REQUEST['uid']) ? $_REQUEST['uid'] : '';
+        $foundUser = $this->userModel->findUserById($user_id);
+        echo json_encode($foundUser);
+        return;
     }
 
 
