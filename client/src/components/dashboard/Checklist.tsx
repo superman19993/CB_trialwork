@@ -20,7 +20,7 @@ const Checklist = ({
   const dispatch= useDispatch();
 
   const onClickChangeStatus = async () => {
-    //console.log(id, cardId, title, status);
+    console.log(id, cardId, title, status);
     setChecked(!checked);
     status= checked? 0:1;
     const updateForm= { id, status };
@@ -28,14 +28,17 @@ const Checklist = ({
     await dispatch(updateStatus(updateForm));
   };
 
-  const handleInputChange = () =>{
- 
+  const handleInputChange = (e: any) =>{
+    if (e.key =='Enter')
+    { 
+      console.log("ok");
+    }
   }
 
   return (
     <Card className="border">
       <Card.Body>
-        <Card.Title className="check-list" contentEditable="true" onInput={(e: any) => handleInputChange()}>
+        <Card.Title className="check-list" contentEditable="true" onInput={(e: any) => handleInputChange(e)}>
           {title}
         </Card.Title>
         <Card.Title style={{ float: "right" }}>

@@ -9,13 +9,13 @@ const CreateChecklistForm = ({ cardId }: { cardId: number }) => {
   const dispatch = useDispatch();
 
   const handlerSubmit = async (values: any, { resetForm }: any) => {
-    console.log("ok");
-    const {title}= values;
+    // console.log("ok");
+    // const {title}= values;
 
-    const bodyData = {title:title, cardId};
-    console.log(values);
-    await dispatch(createChecklist(bodyData));
-    resetForm();
+    // const bodyData = {title:title, cardId};
+    // console.log(values);
+    // await dispatch(createChecklist(bodyData));
+    // resetForm();
   };
 
   return (

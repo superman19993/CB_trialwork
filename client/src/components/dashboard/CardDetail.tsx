@@ -13,7 +13,7 @@ import CreateChecklistForm from "./CreateChecklistForm";
 
 
 interface IChecklist {
-  checklist_id: number;
+  id: number;
   title: string;
   status: number;
 }
@@ -63,8 +63,8 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
     ? card.checklists.map((i) => (
         <div >
           <Checklist
-            key={i.checklist_id}
-            id={i.checklist_id}
+            key={i.id}
+            id={i.id}
             cardId={card.id}
             title={i.title}
             status={i.status}
