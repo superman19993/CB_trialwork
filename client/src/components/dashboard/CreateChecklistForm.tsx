@@ -3,14 +3,14 @@ import { Button, FormControl } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { createChecklist, fetchChecklists } from "../../redux/slices/checklist";
 
-const CreateChecklistForm = ({ cardId }: { cardId: number }) => {
+const CreateChecklistForm = ({ cardid }: { cardid: number }) => {
   const initialValue = { title: "" };
 
   const dispatch = useDispatch();
 
-  const handlerSubmit = async (values: any, { resetForm }: any) => {
-    // console.log("ok");
-    // const {title}= values;
+  const handlerSubmit = (values: any, { resetForm }: any) => {
+    console.log("ok");
+    //const {title}= values;
 
     // const bodyData = {title:title, cardId};
     // console.log(values);
@@ -40,7 +40,7 @@ const CreateChecklistForm = ({ cardId }: { cardId: number }) => {
           onChange={handleChange}
           required
         />
-
+        
         <Button className="btn-add" type="submit">
           Add
         </Button>

@@ -19,6 +19,7 @@ const CreateCardForm = ({ id }: { id: number }) => {
     console.log(values);
     dispatch(createCard(bodyData));
     resetForm();
+
   };
 
   return (
@@ -31,6 +32,7 @@ const CreateCardForm = ({ id }: { id: number }) => {
         handleSubmit,
         handleReset,
         isSubmitting,
+        setSubmitting
       }) => (
         <Form onSubmit={handleSubmit}>
           <FormControl

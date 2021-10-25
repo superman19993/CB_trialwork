@@ -103,11 +103,11 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
                   <h2 className="hide-create" onClick={onClickOpenCreateChecklist}>
                     -
                   </h2>
-                  <CreateChecklistForm cardId={card.id} />
+                  <CreateChecklistForm cardid={card.id} />
                 </>
               ) : (
                 <Button onClick={onClickOpenCreateChecklist} className="card-btn">
-                  +
+                  Add checklist
                 </Button>
               )}
               {viewChecklist}

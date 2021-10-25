@@ -9,3 +9,15 @@
 .status.card-text{
     text-align: right;
 }
+
+.form-size{
+    width: 300px;
+}
+
+.checklist-delete{
+    position: absolute;
+    font-size: 12px;
+    top: 20%;
+    right: 5%;
+}
+

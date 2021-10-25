@@ -36,14 +36,20 @@ export const createChecklist= createAsyncThunk(
   }
 )
 
-export const updateStatus = createAsyncThunk(
-  "/checklists/updateStatus",
+export const updateChecklist = createAsyncThunk(
+  "/checklists/updateChecklist",
   async (updateChecklistForm: any) =>{
     const { id, ...bodyData } = updateChecklistForm;
     await axios.put(`${apiUrl}/checklist?id=${id}`, bodyData);
   }
 );
 
+export const deleteChecklist= createAsyncThunk(
+  "/checklists/delete",
+  async (id :number)=>{
+    await axios.delete(`${apiUrl}/checklist?id=${id}`);
+  }
+)
 
 const checklistsSlice = createSlice({
   name: "checklists",
