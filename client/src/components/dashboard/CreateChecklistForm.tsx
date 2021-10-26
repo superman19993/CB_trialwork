@@ -8,14 +8,14 @@ const CreateChecklistForm = ({ cardid }: { cardid: number }) => {
 
   const dispatch = useDispatch();
 
-  const handlerSubmit = (values: any, { resetForm }: any) => {
-    console.log("ok");
-    //const {title}= values;
+  const handlerSubmit = async (values: any, { resetForm }: any) => {
+    const {title}= values;
 
-    // const bodyData = {title:title, cardId};
-    // console.log(values);
-    // await dispatch(createChecklist(bodyData));
-    // resetForm();
+    const bodyData = {title:title, cardid};
+    console.log(values);
+    await dispatch(createChecklist(bodyData));
+    await dispatch(fetchChecklists(cardid));
+    resetForm();
   };
 
   return (
@@ -28,6 +28,7 @@ const CreateChecklistForm = ({ cardid }: { cardid: number }) => {
       handleSubmit,
       handleReset,
       isSubmitting,
+      submitForm,
     }) => (
       <Form onSubmit={handleSubmit}>
         <FormControl
@@ -41,7 +42,7 @@ const CreateChecklistForm = ({ cardid }: { cardid: number }) => {
           required
         />
         
-        <Button className="btn-add" type="submit">
+        <Button className="btn-add" onClick= {submitForm}>
           Add
         </Button>
       </Form>

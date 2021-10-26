@@ -27,11 +27,9 @@ export const createChecklist= createAsyncThunk(
   "/checklists/create",
   async (createChecklistForm: any)=>{
     try {
-      const { cardId, ...bodyData } = createChecklistForm;
+      const { cardid, ...bodyData } = createChecklistForm;
       console.log(bodyData);
-      await axios.post(`${apiUrl}/checklist?cardId=${cardId}`, bodyData);
-      // const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
-      // return response.data.data;
+      await axios.post(`${apiUrl}/checklist?cardId=${cardid}`, bodyData);
     } catch (error) {}
   }
 )
