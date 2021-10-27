@@ -135,11 +135,13 @@ if ($conn->query($sql) === False) {
 
 //comments table
 $sql = "CREATE TABLE if not exists comments (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  content VARCHAR(255) NULL,
+  id varchar(255) NOT NULL,
+  content VARCHAR(255),
   cardid INT UNSIGNED,
+  uid INT UNSIGNED NOT NUll,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (uid) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (id))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;";
@@ -151,7 +153,7 @@ if ($conn->query($sql) === False) {
 //include table between comments & cards & users
 $sql = "CREATE TABLE if not exists includes (
   cardid INT UNSIGNED,
-  commentid INT UNSIGNED,
+  commentid varchar(255),
   userid INT UNSIGNED,
   FOREIGN KEY (cardid) REFERENCES cards (id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (commentid) REFERENCES comments (id) ON DELETE CASCADE ON UPDATE CASCADE,

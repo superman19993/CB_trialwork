@@ -12,7 +12,7 @@ const UpdateCardForm = ({
   title,
   description,
 }: {
-  colId: number;
+  colId: number | string;
   id: number;
   title: string;
   description: string;

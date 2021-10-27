@@ -14,7 +14,7 @@ const initialState: State = {
   workspaces: [],
   status: "idle",
   error: null,
-  wid: null,
+  wid: localStorage.getItem("wid"),
 };
 
 export const fetchWorkspace = createAsyncThunk(

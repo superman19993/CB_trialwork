@@ -19,7 +19,7 @@ interface IChecklist {
 }
 
 export interface ICardDetail {
-  colId: number;
+  colId: number | string;
   id: number;
   card_name: string;
   card_description: string;
