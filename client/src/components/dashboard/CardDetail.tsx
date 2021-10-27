@@ -17,15 +17,15 @@ interface IChecklist {
 }
 
 export interface ICardDetail {
-  colId:number;
-  id :number;
+  colId: number | string;
+  id: number;
   card_name: string;
   card_description: string;
   checklists: any[];
 }
 
-const CardDetail = ({card}:{card: ICardDetail}) => {
-  const cardState= useSelector((state:RootState)=> state.cards)
+const CardDetail = ({ card }: { card: ICardDetail }) => {
+  const cardState = useSelector((state: RootState) => state.cards);
   const [showModal, setShowModal] = useState(true);
   const dispatch = useDispatch();
 
@@ -45,16 +45,17 @@ const CardDetail = ({card}:{card: ICardDetail}) => {
     // resetForm();
   };
 
-
-  const viewChecklist = card.checklists? card.checklists.map((i) =>(
-    <Checklist
-      key={i.checklist_id}
-      id= {i.checklist_id}
-      cardId={card.id}
-      title={i.title}
-      status={i.status}
-    />
-  )):null
+  const viewChecklist = card.checklists
+    ? card.checklists.map((i) => (
+        <Checklist
+          key={i.checklist_id}
+          id={i.checklist_id}
+          cardId={card.id}
+          title={i.title}
+          status={i.status}
+        />
+      ))
+    : null;
 
   return (
     <Modal show={showModal} onHide={() => setShowModal(!showModal)}>
@@ -98,4 +99,3 @@ const CardDetail = ({card}:{card: ICardDetail}) => {
 };
 
 export default CardDetail;
-

@@ -10,7 +10,7 @@ const UpdateColumnForm = ({
   colId,
   title,
 }: {
-  colId: number;
+  colId: number | string;
   title: string;
 }) => {
   const [showModal, setShowModal] = useState(true);
