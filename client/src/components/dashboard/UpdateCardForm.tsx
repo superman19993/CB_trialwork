@@ -68,7 +68,7 @@ const UpdateCardForm = ({
                 Update
               </Button>
               <Button onClick={toggleModal} className="btn-cancle-add">
-                Cancle
+                Cancel
               </Button>
             </Form>
           )}

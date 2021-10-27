@@ -31,7 +31,7 @@ const DeleteCollumn = ({ id }: { id: number }) => {
           Delete
         </Button>
         <Button onClick={onClickCancel} className="btn-cancle">
-          Cancle
+          Cancel
         </Button>
       </Modal.Body>
     </Modal>
