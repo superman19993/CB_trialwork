@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteColumn, fetchColumns } from "../../redux/slices/collumns";
 import { RootState } from "../../redux/store";
 
-const DeleteCollumn = ({ id }: { id: number }) => {
+const DeleteCollumn = ({ id }: { id: number | string }) => {
   const [showModal, setShowModal] = useState(true);
 
   const workspace = useSelector((state: RootState) => state.workspaces);
@@ -13,7 +13,7 @@ const DeleteCollumn = ({ id }: { id: number }) => {
   const dispatch = useDispatch();
 
   const onClickDelete = async () => {
-    const condition= {id, wid: workspace.wid}
+    const condition = { id, wid: workspace.wid };
     await dispatch(deleteColumn(condition));
     await dispatch(fetchColumns(workspace.wid));
     setShowModal(!showModal);
@@ -31,7 +31,7 @@ const DeleteCollumn = ({ id }: { id: number }) => {
           Delete
         </Button>
         <Button onClick={onClickCancel} className="btn-cancle">
-          Cancle
+          Cancel
         </Button>
       </Modal.Body>
     </Modal>

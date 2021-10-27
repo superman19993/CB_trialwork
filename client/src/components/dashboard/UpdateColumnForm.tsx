@@ -10,7 +10,7 @@ const UpdateColumnForm = ({
   colId,
   title,
 }: {
-  colId: number;
+  colId: number | string;
   title: string;
 }) => {
   const [showModal, setShowModal] = useState(true);
@@ -53,7 +53,7 @@ const UpdateColumnForm = ({
                 Update
               </Button>
               <Button onClick={toggleModal} className="btn-cancle-add">
-                Cancle
+                Cancel
               </Button>
             </Form>
           )}

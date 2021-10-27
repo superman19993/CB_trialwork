@@ -14,6 +14,7 @@ const SingleCardWorkspace = ({ workspace }: { [key: string]: any }) => {
 
   const findWorkspace = async (e: any, wid: any) => {
     await dispatch(chooseWorkspace(wid));
+    localStorage.setItem("wid", wid);
     await dispatch(fetchColumns(wid));
   };
 

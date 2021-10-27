@@ -79,7 +79,7 @@ const ModalUpdate = ({ category, categoryObj }: any) => {
             Update
           </Button>
           <Button onClick={toggleModal} className="btn-cancle-add">
-            Cancle
+            Cancel
           </Button>
         </Form>
       )}
@@ -114,7 +114,7 @@ const ModalUpdate = ({ category, categoryObj }: any) => {
             Update
           </Button>
           <Button onClick={toggleModal} className="btn-cancle-add">
-            Cancle
+            Cancel
           </Button>
         </Form>
       )}
@@ -139,7 +139,7 @@ const ModalUpdate = ({ category, categoryObj }: any) => {
             Update
           </Button>
           <Button onClick={toggleModal} className="btn-cancle-add">
-            Cancle
+            Cancel
           </Button>
         </Form>
       )}

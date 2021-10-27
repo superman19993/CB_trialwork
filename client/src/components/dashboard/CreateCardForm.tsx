@@ -6,19 +6,20 @@ import { createCard } from "../../redux/slices/card";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
-const CreateCardForm = ({ id }: { id: number }) => {
+const CreateCardForm = ({ id }: { id: string | number }) => {
   const initialValue = { title: "", description: "" };
 
-  const workspace = useSelector((state:RootState)=>state.workspaces);
+  const workspace = useSelector((state: RootState) => state.workspaces);
 
   const dispatch = useDispatch();
 
   const handlerSubmit = (values: any, { resetForm }: any) => {
-    const {title, description}= values;
-    const bodyData = {card_name: title, description, id, wid: workspace.wid };
+    const { title, description } = values;
+    const bodyData = { card_name: title, description, id, wid: workspace.wid };
     console.log(values);
     dispatch(createCard(bodyData));
     resetForm();
+
   };
 
   return (
@@ -31,6 +32,7 @@ const CreateCardForm = ({ id }: { id: number }) => {
         handleSubmit,
         handleReset,
         isSubmitting,
+        setSubmitting
       }) => (
         <Form onSubmit={handleSubmit}>
           <FormControl

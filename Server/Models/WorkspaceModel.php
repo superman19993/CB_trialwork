@@ -5,7 +5,7 @@ class WorkspaceModel extends BaseModel
 
     public function getAllWorkspace($uid)
     {
-        $sql = "SELECT * FROM workspaces where uid='$uid'";
+        $sql= "SELECT workspaces.* FROM workspaces INNER JOIN users_workspaces ON workspaces.id = users_workspaces.workspaceid WHERE users_workspaces.userid='$uid'";
         $workspace = $this->_query($sql);
         $data = [];
         while ($row = mysqli_fetch_assoc($workspace)) {

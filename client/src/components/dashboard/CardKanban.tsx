@@ -15,16 +15,20 @@ const CardKanban = ({
   title,
   description,
 }: {
-  colId: number;
+  colId: number | string;
   id: number;
   title: string;
   description: string;
 }) => {
-
-  const checklist= useSelector((state: RootState)=> state.checklists);
-  const card= {colId, id, card_name: title, card_description: description, checklists:checklist.checklists}
+  const checklist = useSelector((state: RootState) => state.checklists);
+  const card = {
+    colId,
+    id,
+    card_name: title,
+    card_description: description,
+    checklists: checklist.checklists,
+  };
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
 
   const onClickDeleteCard = () => {
     setOpenDeleteModal(!openDeleteModal);
@@ -38,13 +42,15 @@ const CardKanban = ({
     setUpdateCardModal(!updateCardModal);
   };
 
-  const dispatch= useDispatch();
-  const findCard= async (e: any, id: number)=>{
+  const dispatch = useDispatch();
+  const findCard = async (e: any, id: number) => {
     await dispatch(chooseCard(id));
     await dispatch(fetchChecklists(id));
     setCardDetailModal(!cardDetailModal);
-  }
+  };
 
+  const aliasDesc =
+    description.length > 20 ? description.substring(0, 20) : description;
 
   return (
     <>
@@ -56,11 +62,7 @@ const CardKanban = ({
           description={description}
         />
       ) : null}
-      {cardDetailModal ? (
-        <CardDetail
-          card={card}
-        />
-      ) : null}
+      {cardDetailModal ? <CardDetail card={card} /> : null}
       {openDeleteModal ? <DeleteCardForm id={id} /> : null}
       <Card className="card-kanban">
         <Card.Body>
@@ -77,12 +79,12 @@ const CardKanban = ({
             X
           </Card.Title>
           <Card.Text
-            onClick={(e: any)=> {
+            onClick={(e: any) => {
               findCard(e, id);
             }}
             className="card-kanban-content"
           >
-            {description}
+            {aliasDesc}
           </Card.Text>
         </Card.Body>
       </Card>

@@ -5,7 +5,7 @@ class ColumnModel extends BaseModel
 
     public function getAll($select = ['*'], $orderBys = [], $limit = 15, $wid)
     {
-        return $this->all(self::TABLE, $select, $orderBys, $limit, "workspaceid=$wid");
+        return $this->all(self::TABLE, $select, $orderBys, $limit, "workspaceid='$wid'");
     }
 
     public function find($id)

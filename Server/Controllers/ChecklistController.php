@@ -126,7 +126,7 @@ class ChecklistController extends BaseController
         $oldChecklist = $this->readOne($checklistId);
         if (!$oldChecklist) {
             echo json_encode(array('message' => 'Checklist not found'));
-            return http_response_code(400);
+            return http_response_code(400); //404
         };
         $response['message'] = 'Success';
         echo json_encode($response);

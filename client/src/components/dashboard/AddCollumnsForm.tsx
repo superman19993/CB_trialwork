@@ -23,7 +23,7 @@ const AddCollumnsForm = () => {
       <Modal.Header>Add new collumn</Modal.Header>
       <Modal.Body>
         <Formik
-          initialValues={{ column_name: "", workspace_id: 1 }}
+          initialValues={{ column_name: "", workspace_id: workspace.wid }}
           onSubmit={handlerSubmit}
         >
           {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
@@ -41,7 +41,7 @@ const AddCollumnsForm = () => {
               <Button type="submit" className="btn-add-collumn">
                 Add
               </Button>
-              <Button className="btn-cancle-add">Cancle</Button>
+              <Button className="btn-cancle-add">Cancel</Button>
             </Form>
           )}
         </Formik>

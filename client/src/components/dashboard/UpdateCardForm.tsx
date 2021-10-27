@@ -12,7 +12,7 @@ const UpdateCardForm = ({
   title,
   description,
 }: {
-  colId: number;
+  colId: number | string;
   id: number;
   title: string;
   description: string;
@@ -68,7 +68,7 @@ const UpdateCardForm = ({
                 Update
               </Button>
               <Button onClick={toggleModal} className="btn-cancle-add">
-                Cancle
+                Cancel
               </Button>
             </Form>
           )}
