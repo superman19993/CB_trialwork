@@ -21,12 +21,15 @@ const CardKanban = ({
   description: string;
 }) => {
   const checklist = useSelector((state: RootState) => state.checklists);
+  const user= useSelector((state:RootState)=> state.user)
+  const usersCards= useSelector((state:RootState)=> state.users_cards);
   const card = {
     colId,
     id,
     card_name: title,
     card_description: description,
     checklists: checklist.checklists,
+    users: usersCards.users,
   };
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 

@@ -5,3 +5,12 @@
 .checklist-side{
     margin-bottom: 10px;
 }
+
+.comment-btn{
+    min-width: 9.2rem;
+    background-color: #5eb69d;
+    border-color: #55b298;
+    margin-top: 5px;
+}
+
+

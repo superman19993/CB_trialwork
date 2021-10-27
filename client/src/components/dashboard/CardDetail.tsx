@@ -1,6 +1,14 @@
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Button, Col, Form, FormControl, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Dropdown,
+  Form,
+  FormControl,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Body } from "react-bootstrap/lib/Media";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +19,7 @@ import { RootState } from "../../redux/store";
 import Checklist from "./Checklist";
 import CreateChecklistForm from "./CreateChecklistForm";
 import "../../css/card/carddetail.css";
+import UsersCard from "./UsersCard";
 
 interface IChecklist {
   id: number;
@@ -24,6 +33,7 @@ export interface ICardDetail {
   card_name: string;
   card_description: string;
   checklists: any[];
+  users: any[];
 }
 
 const CardDetail = ({ card }: { card: ICardDetail }) => {
@@ -36,6 +46,7 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
     title: card.card_name,
     description: card.card_description,
     checklist: card.checklists,
+    user: card.users,
   };
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -73,18 +84,44 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
       ))
     : null;
 
+  const viewMembers = card.users
+    ? card.users.map((i) => (
+        <div>
+          <UsersCard cardid={card.id} userid={i.userid} username={i.username} />
+        </div>
+      ))
+    : null;
+
+  const DoneChecklists = card.checklists.reduce(
+    (counter, { status }) => (status === "1" ? (counter += 1) : counter),
+    0
+  );
+  const Percentage = ((DoneChecklists / card.checklists.length) * 100).toFixed(
+    1
+  );
+
   return (
     <Modal
       className="detail-card"
       show={showModal}
       onHide={() => setShowModal(!showModal)}
     >
-      <Modal.Header>Details</Modal.Header>
-      <Modal.Body >
-        <Formik initialValues={initializeValues} onSubmit={handlerSubmit}>
-          {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
-            <Form onSubmit={handleSubmit}>
-              <FormControl 
+      <Row>
+        <Col>
+          <Modal.Header>Details</Modal.Header>
+        </Col>
+        <Col style={{ right: "20%" }}>
+          <Modal.Header>Done: {Percentage}%</Modal.Header>
+        </Col>
+        <Col style={{ right: "35%" }}>
+          <Modal.Header>Members:  {viewMembers} </Modal.Header>
+        </Col>
+      </Row>
+      <Formik initialValues={initializeValues} onSubmit={handlerSubmit}>
+        {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Modal.Body>
+              <FormControl
                 className="create-input"
                 name="title"
                 placeholder="Title"
@@ -122,18 +159,39 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
               )}
               <Row>
                 <Col lg={8}>{viewChecklist}</Col>
-                <Col lg={4}>ok</Col>
+                <Col lg={4} style={{ right: "-9%" }}>
+                  <Row>
+                    <Dropdown>
+                      <Dropdown.Toggle>Add members</Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="#/action-1">User1</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">User2 </Dropdown.Item>
+                        <Dropdown.Item href="#/action-3">User3</Dropdown.Item>
+
+                        <Dropdown.Item href="#/action-4">User4</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Row>
+                  <Row>
+                    <Button onClick={() => {}} className="comment-btn">
+                      Comment
+                    </Button>
+                  </Row>
+                </Col>
               </Row>
+            </Modal.Body>
+            <Modal.Footer>
               <Button type="submit" className="btn-add-collumn">
                 Update
               </Button>
               <Button onClick={toggleModal} className="btn-cancle-add">
                 Cancel
               </Button>
-            </Form>
-          )}
-        </Formik>
-      </Modal.Body>
+            </Modal.Footer>
+          </Form>
+        )}
+      </Formik>
     </Modal>
   );
 };

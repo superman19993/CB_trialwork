@@ -96,6 +96,7 @@ class UserController extends BaseController
             echo json_encode(array('message' => 'User or Card not found'));
             return http_response_code(404);
         };
+
         // check if user has already in the card
         $user= $this->userModel->findUserInCard($cardId, $userId);
         if ($user) {
