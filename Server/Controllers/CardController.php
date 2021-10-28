@@ -51,10 +51,11 @@ class CardController extends BaseController
         }
     }
 
-    public function readOne(){
-        $cardId= isset($_REQUEST['cardId']) ? $_REQUEST['cardId']:'';
-        if ($cardId<=0) return http_response_code(400);
-        $card=$this->cardModel->find($cardId);
+    public function readOne()
+    {
+        $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
+        if ($cardId <= 0) return http_response_code(400);
+        $card = $this->cardModel->find($cardId);
         return $card;
     }
 
@@ -84,6 +85,21 @@ class CardController extends BaseController
         echo json_encode($response);
     }
 
+    public function changeCardForCol()
+    {
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $destColId = isset($input['destColId']) ? $input['destColId'] : '';
+
+        $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
+        try {
+            $res = $this->cardModel->changeCardForCol($cardId, $destColId);
+            return json_encode($res);
+        } catch (Exception $e) {
+            echo json_encode(array('message' => "$e"));
+            return http_response_code(500);
+        }
+    }
+
     public function delete()
     {
         $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
@@ -97,10 +113,11 @@ class CardController extends BaseController
         }
         $response['message'] = 'Success';
         echo json_encode($response);
+
         return $this->cardModel->destroy($cardId);
     }
 
-    public function processRequest()
+    public function processRequest($type = null)
     {
         switch ($this->requesMethod) {
             case 'GET':
@@ -111,7 +128,10 @@ class CardController extends BaseController
                 $this->create();
                 break;
             case 'PUT':
-                $this->update();
+                if ($type)
+                    $this->changeCardForCol();
+                else
+                    $this->update();
                 break;
             case 'DELETE':
                 $this->delete();

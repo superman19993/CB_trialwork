@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import "../../css/layout/workspace.css";
 import { RootState } from "../../redux/store";
 import SingleCardWorkspace from "./SingleCardWorkspace";
+import ModalCreate from "../common/ModalCreate";
 
 const Workspace = () => {
   const workspaces = useSelector((state: RootState) => state.workspaces);
@@ -25,13 +26,7 @@ const Workspace = () => {
       <Container fluid>
         <Row className="side" sm={12}>
           <Col lg={4}>
-            <Card className="cardw-side-2">
-              <Card.Body className="create">
-                <Card.Link onClick={onClickCreate}>
-                  Create new workspace
-                </Card.Link>
-              </Card.Body>
-            </Card>
+            <ModalCreate category={"workspace"} />
           </Col>
           {content}
         </Row>

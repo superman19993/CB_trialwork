@@ -5,9 +5,11 @@ import { apiUrl } from "../types";
 
 interface State {
   workspaces: any[];
+  joinUsers: string[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
   wid: string | null;
+  userLoading: boolean;
 }
 
 const initialState: State = {
@@ -15,6 +17,8 @@ const initialState: State = {
   status: "idle",
   error: null,
   wid: localStorage.getItem("wid"),
+  joinUsers: [],
+  userLoading: true,
 };
 
 export const fetchWorkspace = createAsyncThunk(
@@ -67,6 +71,25 @@ export const createWorkspace = createAsyncThunk(
       `${apiUrl}/workspace?uid=${uid}`,
       createdObj
     );
+    return response.data;
+  }
+);
+
+export const inviteUserToWorkspace = createAsyncThunk(
+  "workspace/invite",
+  async (condition: any) => {
+    const { wid, ...data } = condition;
+    console.log(`${apiUrl}/workspace/invite?wid=${wid}`);
+    await axios.post(`${apiUrl}/workspace/invite?wid=${wid}`, data);
+    return data.username;
+  }
+);
+
+export const getAllUsersInWorkspace = createAsyncThunk(
+  "workspace/user",
+  async (wid: string | null) => {
+    const response = await axios.get(`${apiUrl}/workspace/users?wid=${wid}`);
+    return response.data;
   }
 );
 
@@ -94,6 +117,19 @@ const workspacesSlice = createSlice({
         workspace.id === action.payload.id ? action.payload : workspace
       );
       state.workspaces = newWorkspaces;
+    },
+    [createWorkspace.fulfilled.toString()]: (state, action) => {
+      state.workspaces = [action.payload, ...state.workspaces];
+    },
+    [inviteUserToWorkspace.fulfilled.toString()]: (state, action) => {
+      state.joinUsers = [action.payload, ...state.joinUsers];
+    },
+    [getAllUsersInWorkspace.fulfilled.toString()]: (state, action) => {
+      state.joinUsers = action.payload;
+      state.userLoading = false;
+    },
+    [getAllUsersInWorkspace.pending.toString()]: (state, action) => {
+      state.userLoading = true;
     },
   },
 });

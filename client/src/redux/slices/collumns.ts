@@ -35,7 +35,6 @@ const initialState: State = {
 export const fetchColumns = createAsyncThunk(
   "/questions/fetchColumns",
   async (wid: any) => {
-    console.log(wid);
     const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
     const columns = response.data.data;
     let listColumns: IColumn = {};
@@ -43,7 +42,6 @@ export const fetchColumns = createAsyncThunk(
       const { id, ...rest } = columns[i];
       listColumns[id.toString()] = { ...rest };
     }
-    console.log(listColumns);
     return listColumns;
   }
 );
@@ -55,7 +53,13 @@ export const createColumn = createAsyncThunk(
       const { wid, ...bodyData } = columnForm;
       await axios.post(`${apiUrl}/column`, bodyData);
       const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
-      return response.data.data;
+      const columns = response.data.data;
+      let listColumns: IColumn = {};
+      for (const i in columns) {
+        const { id, ...rest } = columns[i];
+        listColumns[id.toString()] = { ...rest };
+      }
+      return listColumns;
     } catch (error) {}
   }
 );
@@ -63,7 +67,8 @@ export const createColumn = createAsyncThunk(
 export const updateColumn = createAsyncThunk(
   "/column/update",
   async (columnUpdateForm: any) => {
-    const { id, wid, ...bodyData } = columnUpdateForm;
+    const { id, wid, ...rest } = columnUpdateForm;
+    const bodyData = { ...rest, workspace_id: wid };
     try {
       await axios.put(`${apiUrl}/column?columnId=${id}`, bodyData);
       const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
@@ -105,18 +110,20 @@ const columnsSlice = createSlice({
     },
 
     [createColumn.fulfilled.toString()]: (state, action) => {
+      state.status = "idle";
+      state.colLoading = true;
+    },
+
+    [createColumn.fulfilled.toString()]: (state, action) => {
       state.status = "succeeded";
-      //   state.columns = [...state.columns, action.payload];
       state.columns = action.payload;
     },
     [updateColumn.fulfilled.toString()]: (state, action) => {
       state.status = "succeeded";
-      //   state.columns = [...state.columns, action.payload];
       state.columns = action.payload;
     },
     [deleteColumn.fulfilled.toString()]: (state, action) => {
       state.status = "succeeded";
-      //   state.columns = [...state.columns, action.payload];
       state.columns = action.payload;
     },
   },

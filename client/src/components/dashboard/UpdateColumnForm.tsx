@@ -33,7 +33,7 @@ const UpdateColumnForm = ({
   const initializeValues = { column_name: title, workspace_id: 1 };
 
   return (
-    <Modal show={showModal} onHide={() => setShowModal(!showModal)}>
+    <Modal show={showModal} onHide={toggleModal}>
       <Modal.Header>Update column</Modal.Header>
       <Modal.Body>
         <Formik initialValues={initializeValues} onSubmit={handlerSubmit}>

@@ -15,7 +15,7 @@ const DeleteCardForm = ({ id }: { id: number }) => {
 
   const onClickDelete = async () => {
     setShowModal(!showModal);
-    const condition= {id, wid: workspace.wid};
+    const condition = { id, wid: workspace.wid };
     await dispatch(deleteCard(condition));
     await dispatch(fetchColumns(workspace.wid));
   };

@@ -11,6 +11,8 @@ import { RootState } from "../../redux/store";
 import DeleteCollumn from "./DeleteCollumn";
 import UpdateColumnForm from "./UpdateColumnForm";
 import ModalTest from "./Modal";
+import HeaderColumn from "./HeaderColumn";
+import { changeCardForCol } from "../../redux/slices/card";
 
 interface ICard {
   card_id: number;
@@ -27,18 +29,23 @@ export interface IColumn {
   };
 }
 
-const onDragEnd = (result: any, columns: any, setColumns: any) => {
-  console.log(result);
-  console.log(columns);
-};
-
 function DND({ columnsProp }: { columnsProp: IColumn }) {
-  const [columns, setColumns] = useState(columnsProp);
-  const [openFormCol, setOpenFormCol] = useState(false);
+  const dispatch = useDispatch();
 
-  const onClickFormCol = () => {
-    setOpenFormCol(!openFormCol);
+  const onDragEnd = async (result: any, columns: any, setColumns: any) => {
+    const srcColId = result.source.droppableId;
+    const destColId = result.destination.droppableId;
+    const wid = localStorage.getItem("wid");
+    if (srcColId !== destColId) {
+      const srcColumns = columns[srcColId];
+      const srcCards = [...srcColumns.cards];
+      const [removed] = srcCards.splice(result.source.index, 1);
+      const cardId = removed.card_id;
+      await dispatch(changeCardForCol({ destColId, cardId, wid }));
+      await dispatch(fetchColumns(wid));
+    }
   };
+  const [columns, setColumns] = useState(columnsProp);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -63,26 +70,16 @@ function DND({ columnsProp }: { columnsProp: IColumn }) {
           {Object.entries(columns).map(([columnId, column], index) => {
             return (
               <>
-                <ModalTest columnId={columnId} column={column} />
                 <Card className="card-collumn" key={columnId}>
                   <Card.Body>
-                    <Card.Title style={{ float: "right" }}>x</Card.Title>
-                    <Card.Title onClick={onClickUpdateCollumn}>
-                      {column.column_name}
-                    </Card.Title>
+                    <ModalTest
+                      colName={column.column_name}
+                      columnId={columnId}
+                      column={column}
+                    />
 
-                    {openFormCol ? (
-                      <>
-                        <h2 className="hide-create" onClick={onClickFormCol}>
-                          -
-                        </h2>
-                        <CreateCardForm id={columnId} />
-                      </>
-                    ) : (
-                      <Button onClick={onClickFormCol} className="card-btn">
-                        +
-                      </Button>
-                    )}
+                    <HeaderColumn columnId={columnId} />
+
                     <div className="scroll">
                       <Droppable droppableId={columnId} key={columnId}>
                         {(provided, snapshot) => {

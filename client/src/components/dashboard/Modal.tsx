@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import DeleteCollumn from "./DeleteCollumn";
 import UpdateColumnForm from "./UpdateColumnForm";
+import { Row, Col, Card } from "react-bootstrap";
 
-const ModalTest = ({ columnId, column }: any) => {
+const ModalTest = ({ colName, columnId, column }: any) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const onClickDeleteCollumn = () => {
@@ -21,7 +22,16 @@ const ModalTest = ({ columnId, column }: any) => {
       {openUpdateModal ? (
         <UpdateColumnForm colId={columnId} title={column.column_name} />
       ) : null}
-      <div onClick={onClickUpdateCollumn}>update</div>
+      <Row>
+        <Col>
+          <Card.Title onClick={onClickUpdateCollumn}>{colName}</Card.Title>
+        </Col>
+        <Col>
+          <Card.Title style={{ float: "right" }} onClick={onClickDeleteCollumn}>
+            x
+          </Card.Title>
+        </Col>
+      </Row>
     </div>
   );
 };

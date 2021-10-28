@@ -5,6 +5,7 @@ import "../../css/card/card.css";
 import { createCard } from "../../redux/slices/card";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { fetchColumns } from "../../redux/slices/collumns";
 
 const CreateCardForm = ({ id }: { id: string | number }) => {
   const initialValue = { title: "", description: "" };
@@ -13,13 +14,13 @@ const CreateCardForm = ({ id }: { id: string | number }) => {
 
   const dispatch = useDispatch();
 
-  const handlerSubmit = (values: any, { resetForm }: any) => {
+  const handlerSubmit = async (values: any, { resetForm }: any) => {
     const { title, description } = values;
     const bodyData = { card_name: title, description, id, wid: workspace.wid };
-    console.log(values);
-    dispatch(createCard(bodyData));
+    const wid = localStorage.getItem("wid");
+    await dispatch(createCard(bodyData));
+    await dispatch(fetchColumns(wid));
     resetForm();
-
   };
 
   return (
@@ -32,7 +33,7 @@ const CreateCardForm = ({ id }: { id: string | number }) => {
         handleSubmit,
         handleReset,
         isSubmitting,
-        setSubmitting
+        setSubmitting,
       }) => (
         <Form onSubmit={handleSubmit}>
           <FormControl

@@ -14,12 +14,12 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
 
-$controllerName = ucfirst((strtolower($uri[4])) . 'Controller');
+$controllerName = ucfirst((strtolower($uri[2])) . 'Controller');
 require "./Controllers/${controllerName}.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 $controllerObject = new $controllerName($requestMethod);
-if ($uri[4] === "auth")
-    $controllerObject->processRequest($uri[5]);
+if ($uri[2] === "auth" || ($uri[3] === "changeCard" && $uri[2] === "card") || $uri[2] == 'workspace')
+    $controllerObject->processRequest($uri[3]);
 else
     $controllerObject->processRequest();
