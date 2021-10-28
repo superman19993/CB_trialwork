@@ -37,7 +37,7 @@ class WorkspaceController extends BaseController
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
         $workspace_name = isset($input['name']) ? $input['name'] : '';
-        $uid = $_SESSION['id'];
+        $uid = isset($_REQUEST['uid']) ? $_REQUEST['uid'] : '';
 
         try {
             $createdWorkspace = $this->workspaceModel->createWorkspace($workspace_name, $uid);
@@ -65,6 +65,15 @@ class WorkspaceController extends BaseController
         }
     }
 
+    public function inviteUserToWorkspace()
+    {
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $username = isset($input['username']) ? $input['username'] : '';
+        $wid = isset($_REQUEST['wid']) ? $_REQUEST['wid'] : '';
+        $res = $this->workspaceModel->inviteUserWorkspace($username, $wid);
+        echo json_encode($res);
+    }
+
     public function deleteWorkspace()
     {
         $wid = isset($_REQUEST['wid']) ? $_REQUEST['wid'] : '';
@@ -79,14 +88,27 @@ class WorkspaceController extends BaseController
         }
     }
 
-    public function processRequest()
+    public function getAllUserInWorkspace()
+    {
+        $wid = isset($_REQUEST['wid']) ? $_REQUEST['wid'] : '';
+        $usernameList = $this->workspaceModel->getAllUsers($wid);
+        echo json_encode($usernameList);
+    }
+
+    public function processRequest($type = null)
     {
         switch ($this->requesMethod) {
             case 'GET':
-                $this->getAllWorkspace();
+                if ($type)
+                    $this->getAllUserInWorkspace();
+                else
+                    $this->getAllWorkspace();
                 break;
             case 'POST':
-                $this->createNewWorkspace();
+                if ($type)
+                    $this->inviteUserToWorkspace();
+                else
+                    $this->createNewWorkspace();
                 break;
             case 'PUT':
                 $this->updateWorkspace();

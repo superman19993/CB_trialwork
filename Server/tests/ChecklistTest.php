@@ -4,9 +4,9 @@ use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
-use PhpParser\Node\Stmt\TryCatch;
 
-class SampleTest extends TestCase
+
+class ChecklistTest extends TestCase
 {
     private $url = "http://localhost/practice2/Server/index.php/checklist";
     public function testCreateChecklist()
@@ -39,7 +39,6 @@ class SampleTest extends TestCase
 
         try{
             $response = $client->send($request);
-            $this->assertEquals(200, $response->getStatusCode());
         } catch(RequestException $error){
 
             if($error->hasResponse()){

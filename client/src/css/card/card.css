@@ -1,5 +1,5 @@
 .container {
-    margin-top: 100px;
+    margin-top: 130px;
     position: relative;
     margin-left: 10px;
     margin-right: 10px;
@@ -11,7 +11,9 @@
     min-width: 10rem;
     padding: 0px 7px;
     text-align: left;
+    margin-right: 20px;
 }
+
 
 .scroll {
     overflow-y: scroll;
@@ -76,10 +78,13 @@
 }
 
 .card-kanban-content {
+    padding-top: 12px;
     font-size: 14px;
     font-weight: 400;
     margin-left: -20px;
     min-width: 10rem;
+    max-width: 10rem;
+    max-height: 40px;
 }
 
 .create-input {

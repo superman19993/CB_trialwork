@@ -33,6 +33,7 @@
     "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-app-rewired": "^2.1.8",
+    "react-beautiful-dnd": "^13.1.0",
     "react-bootstrap": "^1.6.1",
     "react-countdown": "^2.3.2",
     "react-countdown-circle-timer": "^2.5.3",
@@ -76,7 +77,9 @@
     ]
   },
   "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.2",
     "@types/redux-logger": "^3.0.9",
+    "@types/uuid": "^8.3.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"

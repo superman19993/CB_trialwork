@@ -10,11 +10,6 @@ class UserModel extends BaseModel
         return $this->all(self::TABLE, $select, $orderBys, $limit);
     }
 
-    public function find($id)
-    {
-        return $this->getById(self::TABLE, $id);
-    }
-
     public function store($data)
     {
         return $this->create(self::TABLE, $data);
@@ -73,4 +68,71 @@ class UserModel extends BaseModel
 
         return $createdUser;
     }
+
+    public function getUsersByWorkspaceId($workspaceId)
+    {
+        $sql= "SELECT users.* FROM users INNER JOIN users_workspaces ON users.id = users_workspaces.userid WHERE users_workspaces.workspaceid='$workspaceId'";
+        $users = $this->_query($sql);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($users)) {
+            array_push($data, $row);
+        }
+        return $data;
+    }
+
+    public function getUsersByCardId($cardId)
+    {
+        $sql= "SELECT users.* FROM users INNER JOIN users_cards ON users.id = users_cards.userid WHERE users_cards.cardid='$cardId'";
+        $users = $this->_query($sql);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($users)) {
+            array_push($data, $row);
+        }
+        return $data;
+    }
+
+    public function findWorkspaceById($workspaceId){
+        $sql = "SELECT * FROM workspaces WHERE id ='${workspaceId}'";
+        $workspace = $this->_query($sql);
+        return mysqli_fetch_assoc($workspace);
+    }
+
+    public function findCardById($cardId){
+        $sql = "SELECT * FROM cards WHERE id ='${cardId}'";
+        $card = $this->_query($sql);
+        return mysqli_fetch_assoc($card);
+    }
+
+    public function findUserInWorkspace($workspaceId, $userId){
+        $sql = "SELECT * FROM users_workspaces WHERE userid = ${userId} AND workspaceid= ${workspaceId}";
+        $user = $this->_query($sql);
+        return mysqli_fetch_assoc($user);
+    }
+
+    public function removeUserInWorkspace($workspaceId, $userId){
+        $sql = "DELETE FROM users_workspaces WHERE userid = ${userId} AND workspaceid= ${workspaceId}";
+        return $this->_query($sql);
+    }
+
+    public function findUserInCard($cardId, $userId){
+        $sql = "SELECT * FROM users_cards WHERE userid = ${userId} AND cardid= ${cardId}";
+        $user = $this->_query($sql);
+        return mysqli_fetch_assoc($user);
+    }
+
+    public function removeUserInCard($cardId, $userId){
+        $sql = "DELETE FROM users_cards WHERE userid = ${userId} AND cardid= ${cardId}";
+        return $this->_query($sql);
+    }
+
+    public function createUserToWorkspace($workspaceId, $userId){
+        $sql= "INSERT INTO users_workspaces (userid, workspaceid) VALUES (${userId}, ${workspaceId})";
+        return $this->_query($sql);
+    }
+
+    public function createUserToCard($cardId, $userId){
+        $sql= "INSERT INTO users_cards (userid, cardid) VALUES (${userId}, ${cardId})";
+        return $this->_query($sql);
+    }
+
 }

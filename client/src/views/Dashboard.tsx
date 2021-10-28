@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from "react";
-import Collumn, { ICollumn } from "../components/dashboard/Collumn";
-import { board } from "../data/data";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Spinner } from "react-bootstrap";
 import "../css/card/card.css";
 import NavbarKanban from "../components/layouts/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColumns } from "../redux/slices/collumns";
 import { RootState } from "../redux/store";
 import AddCollumnsForm from "../components/dashboard/AddCollumnsForm";
-import AddCollumnsButton from "../components/dashboard/AddCollumnsButton";
+import DND from "../components/dashboard/TestDND";
+import { getAllUsersInWorkspace } from "../redux/slices/workspace";
+import InviteFormWorkspace from "../components/layouts/InviteFormWorkspace";
+
+interface ICard {
+  card_id: number;
+  title: string;
+  description: string;
+}
+
+export interface IColumn {
+  [key: string]: {
+    id: number;
+    column_name: string;
+    workspaceid: string;
+    cards: ICard[];
+  };
+}
 
 const Dashboard = () => {
   const columns = useSelector((state: RootState) => state.columns);
@@ -19,38 +34,32 @@ const Dashboard = () => {
   localStorage.setItem("history", "/dashboard");
 
   useEffect(() => {
-    console.log(workspace.wid);
     dispatch(fetchColumns(workspace.wid));
   }, [dispatch]);
 
-  const [openAddModal, setOpenAddModal] = useState(false);
-  const onClickAddCollumn = () => {
-    setOpenAddModal(!openAddModal);
-  };
+  useEffect(() => {
+    dispatch(getAllUsersInWorkspace(workspace.wid));
+  }, [dispatch]);
+
+  const colState = useSelector((state: RootState) => state.columns);
+
+  if (colState.colLoading) {
+    return (
+      <div className="spinner-container">
+        <Spinner animation="border" variant="info" />
+      </div>
+    );
+  }
 
   return (
     <>
       <NavbarKanban />
-      {openAddModal ? <AddCollumnsForm /> : null}
-
+      <InviteFormWorkspace />
       <Container className="container">
         <Row>
-          {columns.columns
-            ? columns.columns.map((collumn: ICollumn) => (
-                <Col
-                  className="collumn"
-                  style={{ display: "inline-block", float: "none" }}
-                  key={collumn.id}
-                  lg={3}
-                >
-                  <Collumn collumn={collumn} />
-                </Col>
-              ))
-            : null}
+          <DND columnsProp={columns.columns} />
         </Row>
-        <div onClick={onClickAddCollumn}>
-          <AddCollumnsButton />
-        </div>
+        <AddCollumnsForm />
       </Container>
     </>
   );

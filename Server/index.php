@@ -19,7 +19,7 @@ require "./Controllers/${controllerName}.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 $controllerObject = new $controllerName($requestMethod);
-if ($uri[2] === "auth")
+if ($uri[2] === "auth" || ($uri[3] === "changeCard" && $uri[2] === "card") || $uri[2] == 'workspace')
     $controllerObject->processRequest($uri[3]);
 else
     $controllerObject->processRequest();

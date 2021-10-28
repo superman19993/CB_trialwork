@@ -54,7 +54,7 @@ const ModalDelete = ({
             Delete
           </Button>
           <Button onClick={onClickCancel} className="btn-cancle">
-            Cancle
+            Cancel
           </Button>
         </Modal.Body>
       </Modal>

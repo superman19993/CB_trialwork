@@ -2,10 +2,13 @@ import React from "react";
 import { Button, Nav, Navbar, FormText } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import "../../css/layout/navbar.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/slices/user";
+import { RootState } from "../../redux/store";
 
 const NavbarKanban = () => {
+  const authState = useSelector((state: RootState) => state.user);
+
   const dispatch = useDispatch();
 
   const onClickLogout = () => {
@@ -42,7 +45,7 @@ const NavbarKanban = () => {
             as={Link}
             className="font-weight-bolder text-white mt"
           >
-            Welcome Loc
+            Welcome {authState.user.username}
           </Nav.Link>
           <Button>
             <Nav.Link onClick={onClickLogout}>Logout</Nav.Link>

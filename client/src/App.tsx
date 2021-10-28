@@ -7,13 +7,14 @@ import store from "./redux/store";
 import { Profile } from "./views/Profile";
 import Register from "./views/Register";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
+import InviteFormWorkspace from "./components/layouts/InviteFormWorkspace";
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route exact path="/" component={Login} />
+          <Route exact path="/" component={InviteFormWorkspace} />
           <Route exact path="/Login" component={Login} />
           <Route exact path="/Register" component={Register} />
           <ProtectedRoute exact path="/Dashboard" component={Dashboard} />
