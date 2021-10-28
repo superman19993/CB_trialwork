@@ -3,22 +3,19 @@ import { Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 const UsersCard = ({
-    userid,
+    id,
+    email,
     username,
-    cardid,
   }: {
-    userid: number;
+    id: number;
+    email: string;
     username: string;
-    cardid: number;
   }) => {
   
     const dispatch = useDispatch();
-    const testing=()=>{
-        console.log(cardid);
-    }
   
     return (
-        <div>alo</div>
+        <div>{username}</div>
     );
   };
   

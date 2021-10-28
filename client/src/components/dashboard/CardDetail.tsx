@@ -33,7 +33,7 @@ export interface ICardDetail {
   card_name: string;
   card_description: string;
   checklists: any[];
-  users: any[];
+  usersInCard: any[];
 }
 
 const CardDetail = ({ card }: { card: ICardDetail }) => {
@@ -46,7 +46,7 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
     title: card.card_name,
     description: card.card_description,
     checklist: card.checklists,
-    user: card.users,
+    usersInCard: card.usersInCard,
   };
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -84,11 +84,11 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
       ))
     : null;
 
-  const viewMembers = card.users
-    ? card.users.map((i) => (
-        <div>
-          <UsersCard cardid={card.id} userid={i.userid} username={i.username} />
-        </div>
+  const viewMembers = card.usersInCard
+    ? card.usersInCard.map((i) => (
+        <Col lg={2}>
+          <UsersCard id={i.id} email={i.email} username={i.username} />
+        </Col>
       ))
     : null;
 
@@ -97,7 +97,7 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
     0
   );
   const Percentage = ((DoneChecklists / card.checklists.length) * 100).toFixed(
-    1
+    0
   );
 
   return (
@@ -108,13 +108,15 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
     >
       <Row>
         <Col>
-          <Modal.Header>Details</Modal.Header>
-        </Col>
-        <Col style={{ right: "20%" }}>
           <Modal.Header>Done: {Percentage}%</Modal.Header>
         </Col>
-        <Col style={{ right: "35%" }}>
-          <Modal.Header>Members:  {viewMembers} </Modal.Header>
+        <Col lg={6}>
+          <Modal.Header>
+            <Row sm={12}>
+              <Col lg={2}>Members:</Col>
+              {viewMembers}
+            </Row>
+          </Modal.Header>
         </Col>
       </Row>
       <Formik initialValues={initializeValues} onSubmit={handlerSubmit}>
@@ -168,7 +170,6 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
                         <Dropdown.Item href="#/action-1">User1</Dropdown.Item>
                         <Dropdown.Item href="#/action-2">User2 </Dropdown.Item>
                         <Dropdown.Item href="#/action-3">User3</Dropdown.Item>
-
                         <Dropdown.Item href="#/action-4">User4</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>

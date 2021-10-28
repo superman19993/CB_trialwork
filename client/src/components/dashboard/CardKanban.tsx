@@ -8,6 +8,7 @@ import UpdateCardForm from "./UpdateCardForm";
 import { fetchChecklists } from "../../redux/slices/checklist";
 import { chooseCard } from "../../redux/slices/card";
 import { addAbortSignal } from "stream";
+import { fetchUsersInCard, fetchUsersInWorkspace } from "../../redux/slices/usersCards";
 
 const CardKanban = ({
   colId,
@@ -23,13 +24,14 @@ const CardKanban = ({
   const checklist = useSelector((state: RootState) => state.checklists);
   const user= useSelector((state:RootState)=> state.user)
   const usersCards= useSelector((state:RootState)=> state.users_cards);
+
   const card = {
     colId,
     id,
     card_name: title,
     card_description: description,
     checklists: checklist.checklists,
-    users: usersCards.users,
+    usersInCard: usersCards.usersInCard,
   };
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -44,11 +46,12 @@ const CardKanban = ({
   const onClickUpdateCard = () => {
     setUpdateCardModal(!updateCardModal);
   };
-
+  
   const dispatch = useDispatch();
   const findCard = async (e: any, id: number) => {
     await dispatch(chooseCard(id));
     await dispatch(fetchChecklists(id));
+    await dispatch(fetchUsersInCard(id));
     setCardDetailModal(!cardDetailModal);
   };
 

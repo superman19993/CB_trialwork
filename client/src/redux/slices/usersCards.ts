@@ -4,25 +4,33 @@ import { useDispatch } from "react-redux";
 import { apiUrl } from "../types";
 
 interface State {
-  users: any[];
+  usersInCard: any[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
 const initialState: State = {
-  users: [],
+  usersInCard: [],
   status: "idle",
   error: null,
 };
 
-// export const fetchChecklists = createAsyncThunk(
-//   "/questions/fetchChecklists",
-//   async (cardId: number) => {
-//     const response = await axios.get(`${apiUrl}/checklist?cardId=${cardId}`);
-//     return response.data.data;
-//   }
-// );
+export const fetchUsersInCard = createAsyncThunk(
+  "/card/fetchUsersInCard",
+  async (cardId: number) => {
+    const response = await axios.get(`${apiUrl}/user?cardId=${cardId}`);
+    return response.data.data;
+  }
+);
 
+
+export const fetchUsersInWorkspace = createAsyncThunk(
+  "/card/fetchUsersInWorkspace",
+  async (wid: string|null) => {
+    const response = await axios.get(`${apiUrl}/user?workspaceId=${wid}`);
+    return response.data.data;
+  }
+);
 // export const createChecklist= createAsyncThunk(
 //   "/checklists/create",
 //   async (createChecklistForm: any)=>{
@@ -54,7 +62,10 @@ const usersCardsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-
+    [fetchUsersInCard.fulfilled.toString()]: (state, action) => {
+      state.usersInCard = action.payload;
+      state.status = "succeeded";
+    },
   },
 });
 
