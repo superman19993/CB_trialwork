@@ -39,6 +39,7 @@ export interface ICardDetail {
 const CardDetail = ({ card }: { card: ICardDetail }) => {
   const cardState = useSelector((state: RootState) => state.cards);
   const workspace = useSelector((state: RootState) => state.workspaces);
+  const checklists= useSelector((state:RootState)=> state.checklists);
   const [showModal, setShowModal] = useState(true);
   const dispatch = useDispatch();
 
@@ -70,6 +71,8 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
     setOpenForm(!openCreateChecklist);
   };
 
+  
+
   const viewChecklist = card.checklists
     ? card.checklists.map((i) => (
         <div className="checklist-side">
@@ -92,13 +95,13 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
       ))
     : null;
 
-  const DoneChecklists = card.checklists.reduce(
-    (counter, { status }) => (status === "1" ? (counter += 1) : counter),
-    0
-  );
-  const Percentage = ((DoneChecklists / card.checklists.length) * 100).toFixed(
-    0
-  );
+  // const DoneChecklists = card.checklists.reduce(
+  //   (counter, { status }) => (status === "1" ? (counter += 1) : counter),
+  //   0
+  // );
+  // const Percentage = ((DoneChecklists / card.checklists.length) * 100).toFixed(
+  //   0
+  // );
 
   return (
     <Modal
@@ -108,7 +111,7 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
     >
       <Row>
         <Col>
-          <Modal.Header>Done: {Percentage}%</Modal.Header>
+          <Modal.Header>Done: {checklists.percentage}%</Modal.Header>
         </Col>
         <Col lg={6}>
           <Modal.Header>

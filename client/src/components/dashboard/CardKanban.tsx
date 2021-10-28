@@ -5,7 +5,7 @@ import { RootState } from "../../redux/store";
 import CardDetail from "./CardDetail";
 import DeleteCardForm from "./DeleteCardForm";
 import UpdateCardForm from "./UpdateCardForm";
-import { fetchChecklists } from "../../redux/slices/checklist";
+import { calculatePercentage, fetchChecklists } from "../../redux/slices/checklist";
 import { chooseCard } from "../../redux/slices/card";
 import { addAbortSignal } from "stream";
 import { fetchUsersInCard, fetchUsersInWorkspace } from "../../redux/slices/usersCards";
@@ -52,6 +52,8 @@ const CardKanban = ({
     await dispatch(chooseCard(id));
     await dispatch(fetchChecklists(id));
     await dispatch(fetchUsersInCard(id));
+    await dispatch(calculatePercentage(checklist.checklists));
+    await dispatch(fetchChecklists(id));
     setCardDetailModal(!cardDetailModal);
   };
 

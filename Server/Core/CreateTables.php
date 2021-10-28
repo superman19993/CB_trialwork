@@ -93,6 +93,8 @@ $sql = "CREATE TABLE if not exists cards (
     card_name VARCHAR(40) NOT NULL,
     description VARCHAR(255) NULL,
     columnid INT UNSIGNED,
+    position INT NOT NULL,
+    percentage INT,
     FOREIGN KEY (columnid) REFERENCES columns (id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (id))
   ENGINE = InnoDB

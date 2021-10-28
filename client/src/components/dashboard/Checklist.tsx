@@ -1,13 +1,15 @@
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { Button, Card, Col, FormControl, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../../css/card/checklist.css";
 import {
+  calculatePercentage,
   deleteChecklist,
   fetchChecklists,
   updateChecklist,
 } from "../../redux/slices/checklist";
+import { RootState } from "../../redux/store";
 
 const Checklist = ({
   id,
@@ -20,6 +22,8 @@ const Checklist = ({
   title: string;
   status: number;
 }) => {
+  const checklists= useSelector((state:RootState)=> state.checklists);
+
   const [checked, setChecked] = useState(status == 0 ? false : true);
 
   const dispatch = useDispatch();
@@ -29,6 +33,9 @@ const Checklist = ({
     status = checked ? 0 : 1;
     const updateForm = { id, status };
     await dispatch(updateChecklist(updateForm));
+    await dispatch(fetchChecklists(cardId));
+    await dispatch(calculatePercentage(checklists.checklists));
+
   };
 
   const handleInputChange = async (values: any) => {
