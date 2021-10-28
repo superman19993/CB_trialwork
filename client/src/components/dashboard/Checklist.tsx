@@ -34,7 +34,7 @@ const Checklist = ({
     const updateForm = { id, status };
     await dispatch(updateChecklist(updateForm));
     await dispatch(fetchChecklists(cardId));
-    await dispatch(calculatePercentage(checklists.checklists));
+    //await dispatch(calculatePercentage(checklists.checklists));
 
   };
 

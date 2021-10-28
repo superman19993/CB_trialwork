@@ -5,25 +5,33 @@ import { RootState } from "../../redux/store";
 import CardDetail from "./CardDetail";
 import DeleteCardForm from "./DeleteCardForm";
 import UpdateCardForm from "./UpdateCardForm";
-import { calculatePercentage, fetchChecklists } from "../../redux/slices/checklist";
+import {
+  calculatePercentage,
+  fetchChecklists,
+} from "../../redux/slices/checklist";
 import { chooseCard } from "../../redux/slices/card";
 import { addAbortSignal } from "stream";
-import { fetchUsersInCard, fetchUsersInWorkspace } from "../../redux/slices/usersCards";
+import {
+  fetchUsersInCard,
+  fetchUsersInWorkspace,
+} from "../../redux/slices/usersCards";
 
 const CardKanban = ({
   colId,
   id,
   title,
   description,
+  percentage,
 }: {
   colId: number | string;
   id: number;
   title: string;
   description: string;
+  percentage: number;
 }) => {
   const checklist = useSelector((state: RootState) => state.checklists);
-  const user= useSelector((state:RootState)=> state.user)
-  const usersCards= useSelector((state:RootState)=> state.users_cards);
+  const user = useSelector((state: RootState) => state.user);
+  const usersCards = useSelector((state: RootState) => state.users_cards);
 
   const card = {
     colId,
@@ -32,6 +40,7 @@ const CardKanban = ({
     card_description: description,
     checklists: checklist.checklists,
     usersInCard: usersCards.usersInCard,
+    percentage,
   };
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -46,14 +55,13 @@ const CardKanban = ({
   const onClickUpdateCard = () => {
     setUpdateCardModal(!updateCardModal);
   };
-  
+
   const dispatch = useDispatch();
   const findCard = async (e: any, id: number) => {
+    console.log(percentage);
     await dispatch(chooseCard(id));
     await dispatch(fetchChecklists(id));
     await dispatch(fetchUsersInCard(id));
-    await dispatch(calculatePercentage(checklist.checklists));
-    await dispatch(fetchChecklists(id));
     setCardDetailModal(!cardDetailModal);
   };
 

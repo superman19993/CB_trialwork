@@ -31,4 +31,19 @@ class ChecklistModel extends BaseModel{
         }
         return $data;
     }
+
+    public function getDoneChecklist($cardId){
+        $sql= "SELECT * FROM checklists WHERE status = 1 AND cardid = ${cardId}";
+        $result= $this->_query($sql);
+        $data=[];
+        while ($row = mysqli_fetch_assoc($result)){
+            array_push($data, $row);
+        }
+        return $data;
+    }
+
+    public function updateCardPercentage($cardId, $percentage){
+        $sql= "UPDATE cards SET percentage=${percentage} WHERE id = ${cardId}";
+        $this->_query($sql);
+    }
 }

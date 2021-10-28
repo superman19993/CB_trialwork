@@ -113,6 +113,11 @@ class ChecklistController extends BaseController
         }
         $response['message'] = 'Success';
         echo json_encode($response);
+        //update percentage of the include card
+        $totalChecklists= count($this->checklistModel->getByCardId($data['cardid']));
+        $doneChecklists= count($this->checklistModel->getDoneChecklist($data['cardid']));
+        $percentage= ($doneChecklists/$totalChecklists)*100;
+        $this->checklistModel->updateCardPercentage($data['cardid'], $percentage);
     }
 
     //DELETE: http://localhost/practice2/Server/index.php/checklist?id={}

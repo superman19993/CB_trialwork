@@ -34,6 +34,7 @@ export interface ICardDetail {
   card_description: string;
   checklists: any[];
   usersInCard: any[];
+  percentage: number;
 }
 
 const CardDetail = ({ card }: { card: ICardDetail }) => {
@@ -68,6 +69,7 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
   const [openCreateChecklist, setOpenForm] = useState(false);
 
   const onClickOpenCreateChecklist = () => {
+    console.log(card.percentage);
     setOpenForm(!openCreateChecklist);
   };
 
@@ -111,7 +113,7 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
     >
       <Row>
         <Col>
-          <Modal.Header>Done: {checklists.percentage}%</Modal.Header>
+          <Modal.Header>Done: {card.percentage}%</Modal.Header>
         </Col>
         <Col lg={6}>
           <Modal.Header>

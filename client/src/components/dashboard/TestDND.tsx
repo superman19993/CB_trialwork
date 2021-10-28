@@ -18,6 +18,7 @@ interface ICard {
   card_id: number;
   title: string;
   description: string;
+  percentage: number;
 }
 
 export interface IColumn {
@@ -120,6 +121,7 @@ function DND({ columnsProp }: { columnsProp: IColumn }) {
                                             id={item.card_id}
                                             title={item.title}
                                             description={item.description}
+                                            percentage={item.percentage}
                                           />
                                         </div>
                                       );

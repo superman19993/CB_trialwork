@@ -14,6 +14,7 @@ interface ICard {
   card_id: number;
   title: string;
   description: string;
+  percentage: number;
 }
 
 export interface IColumn {

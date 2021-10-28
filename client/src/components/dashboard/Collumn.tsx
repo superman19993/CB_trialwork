@@ -14,6 +14,7 @@ interface ICard {
   card_id: number;
   title: string;
   description: string;
+  percentage: number;
 }
 
 export interface ICollumn {
@@ -76,6 +77,7 @@ const Collumn = ({ collumn }: { collumn: ICollumn }) => {
                 id={card.card_id}
                 title={card.title}
                 description={card.description}
+                percentage={card.percentage}
               />
             ))}
           </div>
