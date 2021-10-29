@@ -48,6 +48,7 @@ const Checklist = ({
   const onClickDeleteChecklist = async () => {
     await dispatch(deleteChecklist(id));
     await dispatch(fetchChecklists(cardId));
+    await dispatch(getPercentage(cardId));
   };
 
   const initializeValues = { title: title };

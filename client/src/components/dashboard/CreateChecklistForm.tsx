@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik";
 import { Button, FormControl } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { getPercentage } from "../../redux/slices/card";
 import { createChecklist, fetchChecklists } from "../../redux/slices/checklist";
 
 const CreateChecklistForm = ({ cardid }: { cardid: number }) => {
@@ -15,6 +16,7 @@ const CreateChecklistForm = ({ cardid }: { cardid: number }) => {
     console.log(values);
     await dispatch(createChecklist(bodyData));
     await dispatch(fetchChecklists(cardid));
+    await dispatch(getPercentage(cardid));
     resetForm();
   };
 
