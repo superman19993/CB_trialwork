@@ -31,14 +31,17 @@ class ChecklistController extends BaseController
         ];
 
         $id = $this->checklistModel->store($data);
-        if ($id==0){
+        if ($id == 0) {
             echo json_encode(array('message' => 'Card not found.'));
             return http_response_code(400);
         }
         $response['message'] = 'Success';
-        $data['id']= $id;
-        $response['data']= $data;
+        $data['id'] = $id;
+        $response['data'] = $data;
         echo json_encode($response);
+
+        $this->updateCardPercentage($data['cardId']);
+
         return $id;
     }
 
@@ -60,17 +63,17 @@ class ChecklistController extends BaseController
     }
 
     // GET: http://localhost/practice2/Server/index.php/checklist?cardId={number}
-    public function readByCardId(){
-        $cardId= isset($_REQUEST['cardId']) ? $_REQUEST['cardId']:'';
-        if ($cardId<=0) 
-        {
-            echo json_encode(array('message'=>'Invalid card id.'));
+    public function readByCardId()
+    {
+        $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
+        if ($cardId <= 0) {
+            echo json_encode(array('message' => 'Invalid card id.'));
             return http_response_code(400);
         }
-        $checklists= $this->checklistModel->getByCardId($cardId);
+        $checklists = $this->checklistModel->getByCardId($cardId);
         if (!$checklists) {
-            $response['data']= [];
-            $response['message']= 'No checklist found.';
+            $response['data'] = [];
+            $response['message'] = 'No checklist found.';
             echo json_encode($response);
             die;
         }
@@ -79,17 +82,18 @@ class ChecklistController extends BaseController
         echo json_encode($response);
     }
 
-    public function readOne($id){
-        $checklist= $this->checklistModel->find($id);
+    public function readOne($id)
+    {
+        $checklist = $this->checklistModel->find($id);
         return $checklist;
     }
 
     // PUT: http://localhost/practice2/Server/index.php/checklist?id={}
     public function update()
     {
-        $checklistId= isset($_REQUEST['id']) ? $_REQUEST['id'] : '';
-        if ($checklistId=='') {
-            echo json_encode(array('message'=>'No id provided.'));
+        $checklistId = isset($_REQUEST['id']) ? $_REQUEST['id'] : '';
+        if ($checklistId == '') {
+            echo json_encode(array('message' => 'No id provided.'));
             return http_response_code(400);
         }
         $oldChecklist = $this->readOne($checklistId);
@@ -105,27 +109,24 @@ class ChecklistController extends BaseController
             'title' => $title,
             'status' => $status
         ];
-        $result= $this->checklistModel->updateData($checklistId, $data);
-        if ($result==1){
-            $data['id']= $checklistId;
-            $data['cardid']= $oldChecklist['cardid'];
-            $response['data']= $data;
+        $result = $this->checklistModel->updateData($checklistId, $data);
+        if ($result == 1) {
+            $data['id'] = $checklistId;
+            $data['cardid'] = $oldChecklist['cardid'];
+            $response['data'] = $data;
         }
         $response['message'] = 'Success';
         echo json_encode($response);
         //update percentage of the include card
-        $totalChecklists= count($this->checklistModel->getByCardId($data['cardid']));
-        $doneChecklists= count($this->checklistModel->getDoneChecklist($data['cardid']));
-        $percentage= ($doneChecklists/$totalChecklists)*100;
-        $this->checklistModel->updateCardPercentage($data['cardid'], $percentage);
+        $this->updateCardPercentage($data['cardid']);
     }
 
     //DELETE: http://localhost/practice2/Server/index.php/checklist?id={}
     public function delete()
     {
-        $checklistId= isset($_REQUEST['id']) ? $_REQUEST['id'] : '';
-        if ($checklistId=='') {
-            echo json_encode(array('message'=>'No id provided.'));
+        $checklistId = isset($_REQUEST['id']) ? $_REQUEST['id'] : '';
+        if ($checklistId == '') {
+            echo json_encode(array('message' => 'No id provided.'));
             return http_response_code(400);
         }
         $oldChecklist = $this->readOne($checklistId);
@@ -133,9 +134,19 @@ class ChecklistController extends BaseController
             echo json_encode(array('message' => 'Checklist not found'));
             return http_response_code(400); //404
         };
+        $this->checklistModel->destroy($checklistId);
         $response['message'] = 'Success';
         echo json_encode($response);
-        return $this->checklistModel->destroy($checklistId);
+        //update card percentage
+        $this->updateCardPercentage($oldChecklist['cardid']);
+    }
+
+    public function updateCardPercentage($cardId)
+    {
+        $totalChecklists = count($this->checklistModel->getByCardId($cardId));
+        $doneChecklists = count($this->checklistModel->getDoneChecklist($cardId));
+        $percentage = ($doneChecklists / $totalChecklists) * 100;
+        $this->checklistModel->updateCardPercentage($cardId, $percentage);
     }
 
     public function processRequest()
