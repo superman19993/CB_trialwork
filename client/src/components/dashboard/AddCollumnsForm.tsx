@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Modal, Button, FormControl, FormLabel } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  FormControl,
+  FormLabel,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
 import { createColumn, fetchColumns } from "../../redux/slices/collumns";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,6 +61,7 @@ const AddCollumnsForm = () => {
           </Formik>
         </Modal.Body>
       </Modal>
+
       <div onClick={toggleBtn}>
         <AddCollumnsButton />
       </div>

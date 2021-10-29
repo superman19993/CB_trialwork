@@ -27,8 +27,9 @@ export const addMemberToCard= createAsyncThunk(
   "/card/addUser",
   async (condition:any)=>{
     console.log(condition);
-    const {userid, cardid}= condition;
-    await axios.post(`${apiUrl}/user?userId=${userid}&cardId=${cardid}`);
+    const {username, cardId}= condition;
+    const response= await axios.post(`${apiUrl}/user?cardId=${cardId}`, {username});
+    return response.data.username;
   }
 )
 
@@ -76,7 +77,7 @@ const usersCardsSlice = createSlice({
       state.status = "succeeded";
     },
     [addMemberToCard.fulfilled.toString()]: (state, action) => {
-      state.usersInCard = action.payload;
+      state.usersInCard = [action.payload,...state.usersInCard];
       state.status = "succeeded";
     },
   },

@@ -2,19 +2,23 @@ import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Card } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchColumns } from "../../redux/slices/collumns";
 import { chooseWorkspace } from "../../redux/slices/workspace";
+import { RootState } from "../../redux/store";
 import ModalDelete from "../common/ModalDelete";
 import ModalUpdate from "../common/ModalUpdate";
 
 const SingleCardWorkspace = ({ workspace }: { [key: string]: any }) => {
   const dispatch = useDispatch();
 
+  const workspaceState = useSelector((state: RootState) => state.workspaces);
+
   const findWorkspace = async (e: any, wid: any) => {
-    await dispatch(chooseWorkspace(wid));
+    const bodyData = { wid, workspaces: workspaceState.workspaces };
     localStorage.setItem("wid", wid);
+    await dispatch(chooseWorkspace(bodyData));
     await dispatch(fetchColumns(wid));
   };
 

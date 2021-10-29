@@ -81,29 +81,34 @@ class UserController extends BaseController
         echo json_encode($response);
     }
 
-    //POST: http://localhost/practice2/Server/index.php/user?userId={number}&cardId={number}
+    //POST: http://localhost/practice2/Server/index.php/user?cardId={number}
     public function addUserToCard(){
         $cardId= isset($_REQUEST['cardId']) ? $_REQUEST['cardId']:'';
-        $userId= isset($_REQUEST['userId']) ? $_REQUEST['userId']:'';
-        if ($cardId<=0 || $userId <=0) 
+        if ($cardId<=0 ) 
         {
             echo json_encode(array('message'=>'Invalid parameters.'));
             return http_response_code(400);
         }
-        $user= $this->userModel->findUserById($userId);
-        $card = $this->userModel->findCardById($cardId);
-        if (!$user || !$card) {
-            echo json_encode(array('message' => 'User or Card not found'));
-            return http_response_code(404);
-        };
-        // check if user has already in the card
-        $user= $this->userModel->findUserInCard($cardId, $userId);
-        if ($user) {
-            echo json_encode(array('message' => 'User has already in the card'));
-            die;
-        };
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        //$user= $this->userModel->findUserById($userId);
+
+        $username = isset($input['username']) ? $input['username'] : '';
+        // $card = $this->userModel->findCardById($cardId);
+        // if (!$user || !$card) {
+        //     echo json_encode(array('message' => 'User or Card not found'));
+        //     return http_response_code(404);
+        // };
+        // // check if user has already in the card
+        // $user= $this->userModel->findUserInCard($cardId, $userId);
+        // if ($user) {
+        //     echo json_encode(array('message' => 'User has already in the card'));
+        //     die;
+        // };
+        $user= $this->userModel->findUserByUsername($username);
+        $userId=$user['id'];
         $this->userModel->createUserToCard($cardId, $userId);
         $response['message'] = 'Success';
+        $response['username']= $user['username'];
         echo json_encode($response);
     }
 
@@ -155,7 +160,7 @@ class UserController extends BaseController
                 break;
             case 'POST':
                 if (isset($_REQUEST['workspaceId']) && isset($_REQUEST['userId']) ) $this->addUserToWorkspace();
-                elseif (isset($_REQUEST['cardId']) && isset($_REQUEST['userId']) ) $this->addUserToCard();
+                elseif (isset($_REQUEST['cardId'])) $this->addUserToCard();
                 break;
             case 'PUT':
                 break;

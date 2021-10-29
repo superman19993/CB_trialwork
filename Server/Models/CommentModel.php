@@ -21,11 +21,20 @@ class CommentModel extends BaseModel
         return mysqli_fetch_assoc($createdWorkspace);
     }
 
+    public function readAllCommentByCardId($cardId){
+        $sql = "SELECT * FROM comments where cardid='$cardId'";
+        $comments = $this->_query($sql);
+        $data=[];
+        while ($row = mysqli_fetch_assoc($comments)) {
+            array_push($data, $row);
+        }
+        return $data;
+    }
+
     public function createComment($content, $uid, $cardId)
     {
         $id = uniqid();
         $sql = "INSERT INTO comments (id, content,cardid, uid) values ('$id', '$content', '$cardId','$uid')";
-        echo $sql;
         $this->_query($sql);
 
         $createdComment = $this->findCommentById($id);

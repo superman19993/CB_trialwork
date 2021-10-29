@@ -7,6 +7,7 @@ import workspacesSlice from "./slices/workspace";
 import checklistsSlice from "./slices/checklist";
 import cardsSlice from "./slices/card";
 import usersCardsSlice from "./slices/usersCards";
+import commentsSlice from "./slices/comment";
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     workspaces: workspacesSlice,
     cards: cardsSlice,
     checklists: checklistsSlice,
-    users_cards: usersCardsSlice
+    users_cards: usersCardsSlice,
+    comments: commentsSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

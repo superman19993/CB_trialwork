@@ -40,11 +40,11 @@ const InviteFormWorkspace = () => {
   } else
     usernames = (
       <>
-        {workspaceState.joinUsers.map((username, index) => {
+        {workspaceState.joinUsers.map((username, index) => (
           <Col key={index} lg={2}>
             <UserIcon username={username} />
-          </Col>;
-        })}
+          </Col>
+        ))}
       </>
     );
 
@@ -63,8 +63,13 @@ const InviteFormWorkspace = () => {
         }) => (
           <Form onSubmit={handleSubmit}>
             <Row sm={12}>
-              <Col lg={2}>
-                <FormText>Workspace name</FormText>
+              <Col lg={3}>
+                <FormText className="workspace-name">
+                  <span style={{ fontSize: "16px", fontWeight: "bold" }}>
+                    Workspace name:{" "}
+                  </span>
+                  {workspaceState.workspaceName}
+                </FormText>
               </Col>
               <Col lg={2}>
                 <Row>{usernames}</Row>

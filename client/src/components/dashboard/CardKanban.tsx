@@ -14,6 +14,7 @@ import {
   fetchUsersInCard,
   fetchUsersInWorkspace,
 } from "../../redux/slices/usersCards";
+import { getComments } from "../../redux/slices/comment";
 
 const CardKanban = ({
   colId,
@@ -58,6 +59,7 @@ const CardKanban = ({
   const findCard = async (e: any, id: number) => {
     await dispatch(getPercentage(id));
     await dispatch(chooseCard(id));
+    await dispatch(getComments(id));
     await dispatch(fetchChecklists(id));
     await dispatch(fetchUsersInCard(id));
     setCardDetailModal(!cardDetailModal);

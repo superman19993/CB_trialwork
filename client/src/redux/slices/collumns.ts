@@ -36,7 +36,8 @@ const initialState: State = {
 export const fetchColumns = createAsyncThunk(
   "/questions/fetchColumns",
   async (wid: any) => {
-    const response = await axios.get(`${apiUrl}/column?wid=${wid}`);
+    const workspaceid= localStorage.getItem('wid');
+    const response = await axios.get(`${apiUrl}/column?wid=${workspaceid}`);
     const columns = response.data.data;
     let listColumns: IColumn = {};
     for (const i in columns) {

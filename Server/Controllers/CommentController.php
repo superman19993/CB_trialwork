@@ -35,6 +35,21 @@ class CommentController extends BaseController
         }
     }
 
+    public function getAllCommentByCardId()
+    {
+        $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
+
+        try {
+            $comment_list = $this->commentModel->readAllCommentByCardId($cardId);
+            $response = array();
+            $response['data'] = $comment_list;
+            echo json_encode($response);
+        } catch (Exception $e) {
+            echo json_encode(array('message' => "$e"));
+            return http_response_code(500);
+        }
+    }
+
     public function createNewComment()
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
@@ -92,7 +107,7 @@ class CommentController extends BaseController
     {
         switch ($this->requesMethod) {
             case 'GET':
-                $this->getAllComment();
+                $this->getAllCommentByCardId();
                 break;
             case 'POST':
                 $this->createNewComment();

@@ -97,19 +97,27 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
       ))
     : null;
 
-  const addUserToCard = async () => {
-    const userid: number = 3;
-    const cardid: number = 1;
-    const bodyData = { userid, cardid };
+  const addUserToCard = async (e: any, username: string) => {
+    const bodyData = { username, cardId: card.id };
     await dispatch(addMemberToCard(bodyData));
     await dispatch(fetchUsersInCard(card.id));
   };
 
-  // const membersDropdown= card.usersInWorkspace? card.usersInWorkspace.map((i)=>(
-  //   <Dropdown.Item onSelect={addUserToCard}>
-  //     <UserWorkspace id={workspace.wid}></UserWorkspace>
-  //   </Dropdown.Item>
-  // ))    : null;
+  const onClickCreateComment = async (values: any, { resetForm }: any) => {
+    console.log(values);
+    resetForm();
+  };
+
+  const membersDropdown = workspace.joinUsers
+    ? workspace.joinUsers.map((username, index) => (
+        <Dropdown.Item
+          key={index}
+          onClick={(e: any) => addUserToCard(e, username)}
+        >
+          {username}
+        </Dropdown.Item>
+      ))
+    : null;
 
   return (
     <Modal
@@ -177,23 +185,43 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
                     <Dropdown>
                       <Dropdown.Toggle>Add members</Dropdown.Toggle>
 
-                      <Dropdown.Menu>
-                        <Dropdown.Item onClick={addUserToCard}>
-                          User1
-                        </Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">User2</Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">User3</Dropdown.Item>
-                        <Dropdown.Item href="#/action-4">User4</Dropdown.Item>
-                      </Dropdown.Menu>
+                      <Dropdown.Menu>{membersDropdown}</Dropdown.Menu>
                     </Dropdown>
-                  </Row>
-                  <Row>
-                    <Button onClick={() => {}} className="comment-btn">
-                      Comment
-                    </Button>
                   </Row>
                 </Col>
               </Row>
+              <Formik
+                initialValues={{ content: "" }}
+                onSubmit={onClickCreateComment}
+              >
+                {({ values, handleChange, handleBlur, handleSubmit }) => (
+                  <Form onSubmit={handleSubmit}>
+                    <Row>
+                      <Col lg={8}>
+                        <FormControl
+                          as="textarea"
+                          aria-label="With textarea"
+                          name="content"
+                          placeholder="Write something here"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.content}
+                        />
+                      </Col>
+                      <Col lg={4}>
+                        <Button
+                          type="submit"
+                          style={{ float: "right" }}
+                          onClick={() => {}}
+                          className="comment-btn"
+                        >
+                          Comment
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
+                )}
+              </Formik>
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit" className="btn-add-collumn">

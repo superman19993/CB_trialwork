@@ -8,7 +8,6 @@ const UserIcon = ({ username }: { username: string }) => {
       {username}
     </Tooltip>
   );
-  console.log(username);
   return (
     <OverlayTrigger
       placement="bottom"
