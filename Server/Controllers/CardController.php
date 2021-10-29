@@ -117,11 +117,17 @@ class CardController extends BaseController
         return $this->cardModel->destroy($cardId);
     }
 
+    public function getPercentage(){
+        $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
+        $response= $this->cardModel->readPercentage($cardId);
+        echo json_encode($response);
+    }
+
     public function processRequest($type = null)
     {
         switch ($this->requesMethod) {
             case 'GET':
-                if (isset($_REQUEST['cardId'])) $this->readOne();
+                if (isset($_REQUEST['cardId'])) $this->getPercentage();
                 else $this->read();
                 break;
             case 'POST':

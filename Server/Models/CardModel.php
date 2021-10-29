@@ -34,4 +34,9 @@ class CardModel extends BaseModel
         echo $sql;
         return $this->_query($sql);
     }
+    public function readPercentage($cardId){
+        $sql= "SELECT percentage from cards WHERE id= '$cardId'";
+        $result = $this->_query($sql);
+        return mysqli_fetch_assoc($result);
+    }
 }

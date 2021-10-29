@@ -8,6 +8,7 @@ interface State {
   columns: any[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
+  percentage: number|null;
 }
 
 const initialState: State = {
@@ -15,6 +16,7 @@ const initialState: State = {
   columns: [],
   status: "idle",
   error: null,
+  percentage: 0,
 };
 
 export const createCard = createAsyncThunk(
@@ -39,6 +41,14 @@ export const deleteCard = createAsyncThunk(
     } catch (error) {}
   }
 );
+
+export const getPercentage= createAsyncThunk(
+  "/card/getPercentage",
+  async (cardId: number)=>{
+    const response= await axios.get(`${apiUrl}/card?cardId=${cardId}`);
+    return response.data.percentage;
+  }
+)
 
 export const updateCard = createAsyncThunk(
   "/column/update",
@@ -96,6 +106,10 @@ const cardsSlice = createSlice({
     [changeCardForCol.fulfilled.toString()]: (state, action) => {
       state.status = "succeeded";
       state.columns = action.payload;
+    },
+    [getPercentage.fulfilled.toString()]: (state, action) => {
+      state.status = "succeeded";
+      state.percentage = action.payload;
     },
   },
 });

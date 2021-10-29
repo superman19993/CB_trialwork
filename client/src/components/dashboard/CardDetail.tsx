@@ -20,7 +20,10 @@ import Checklist from "./Checklist";
 import CreateChecklistForm from "./CreateChecklistForm";
 import "../../css/card/carddetail.css";
 import UsersCard from "./UsersCard";
-import { addMemberToCard, fetchUsersInCard } from "../../redux/slices/usersCards";
+import {
+  addMemberToCard,
+  fetchUsersInCard,
+} from "../../redux/slices/usersCards";
 
 interface IChecklist {
   id: number;
@@ -35,13 +38,12 @@ export interface ICardDetail {
   card_description: string;
   checklists: any[];
   usersInCard: any[];
-  percentage: number;
 }
 
 const CardDetail = ({ card }: { card: ICardDetail }) => {
   const cardState = useSelector((state: RootState) => state.cards);
   const workspace = useSelector((state: RootState) => state.workspaces);
-  const checklists= useSelector((state:RootState)=> state.checklists);
+  const checklists = useSelector((state: RootState) => state.checklists);
   const [showModal, setShowModal] = useState(true);
   const dispatch = useDispatch();
 
@@ -70,11 +72,8 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
   const [openCreateChecklist, setOpenForm] = useState(false);
 
   const onClickOpenCreateChecklist = () => {
-    console.log(card.percentage);
     setOpenForm(!openCreateChecklist);
   };
-
-  
 
   const viewChecklist = card.checklists
     ? card.checklists.map((i) => (
@@ -98,23 +97,19 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
       ))
     : null;
 
-  const addUserToCard= async ()=>{
-    
-    const userid:number=3;
-    const cardid:number=1;
-    const bodyData={userid, cardid};
+  const addUserToCard = async () => {
+    const userid: number = 3;
+    const cardid: number = 1;
+    const bodyData = { userid, cardid };
     await dispatch(addMemberToCard(bodyData));
     await dispatch(fetchUsersInCard(card.id));
-  }
+  };
 
   // const membersDropdown= card.usersInWorkspace? card.usersInWorkspace.map((i)=>(
   //   <Dropdown.Item onSelect={addUserToCard}>
   //     <UserWorkspace id={workspace.wid}></UserWorkspace>
   //   </Dropdown.Item>
   // ))    : null;
-
-  
-
 
   return (
     <Modal
@@ -124,7 +119,7 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
     >
       <Row>
         <Col>
-          <Modal.Header>Done: {card.percentage}%</Modal.Header>
+          <Modal.Header>Done: {cardState.percentage}%</Modal.Header>
         </Col>
         <Col lg={6}>
           <Modal.Header>
@@ -183,7 +178,9 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
                       <Dropdown.Toggle>Add members</Dropdown.Toggle>
 
                       <Dropdown.Menu>
-                        <Dropdown.Item onClick={addUserToCard}>User1</Dropdown.Item>
+                        <Dropdown.Item onClick={addUserToCard}>
+                          User1
+                        </Dropdown.Item>
                         <Dropdown.Item href="#/action-2">User2</Dropdown.Item>
                         <Dropdown.Item href="#/action-3">User3</Dropdown.Item>
                         <Dropdown.Item href="#/action-4">User4</Dropdown.Item>

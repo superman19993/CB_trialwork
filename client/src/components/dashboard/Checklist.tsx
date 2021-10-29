@@ -3,12 +3,13 @@ import { useState } from "react";
 import { Button, Card, Col, FormControl, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "../../css/card/checklist.css";
+import { getPercentage } from "../../redux/slices/card";
 import {
-  calculatePercentage,
   deleteChecklist,
   fetchChecklists,
   updateChecklist,
 } from "../../redux/slices/checklist";
+import { fetchColumns } from "../../redux/slices/collumns";
 import { RootState } from "../../redux/store";
 
 const Checklist = ({
@@ -34,7 +35,8 @@ const Checklist = ({
     const updateForm = { id, status };
     await dispatch(updateChecklist(updateForm));
     await dispatch(fetchChecklists(cardId));
-    //await dispatch(calculatePercentage(checklists.checklists));
+    const wid = localStorage.getItem('wid');
+    await dispatch(getPercentage(cardId));
 
   };
 

@@ -41,7 +41,10 @@ class ColumnController extends BaseController
                     $temp = array(
                         'card_id' => $key2['id'],
                         'title' => $key2['card_name'],
-                        'description' => $key2['description']
+                        'description' => $key2['description'],
+                        'percentage'=> $key2['percentage'],
+                        'position'=> $key2['position']
+
                     );
                     array_push($key['cards'], $temp);
                 }

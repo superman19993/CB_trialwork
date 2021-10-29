@@ -121,7 +121,6 @@ function DND({ columnsProp }: { columnsProp: IColumn }) {
                                             id={item.card_id}
                                             title={item.title}
                                             description={item.description}
-                                            percentage={item.percentage}
                                           />
                                         </div>
                                       );

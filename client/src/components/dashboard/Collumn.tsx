@@ -77,7 +77,6 @@ const Collumn = ({ collumn }: { collumn: ICollumn }) => {
                 id={card.card_id}
                 title={card.title}
                 description={card.description}
-                percentage={card.percentage}
               />
             ))}
           </div>
