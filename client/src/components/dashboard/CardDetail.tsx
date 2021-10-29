@@ -20,6 +20,7 @@ import Checklist from "./Checklist";
 import CreateChecklistForm from "./CreateChecklistForm";
 import "../../css/card/carddetail.css";
 import UsersCard from "./UsersCard";
+import { addMemberToCard, fetchUsersInCard } from "../../redux/slices/usersCards";
 
 interface IChecklist {
   id: number;
@@ -97,13 +98,23 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
       ))
     : null;
 
-  // const DoneChecklists = card.checklists.reduce(
-  //   (counter, { status }) => (status === "1" ? (counter += 1) : counter),
-  //   0
-  // );
-  // const Percentage = ((DoneChecklists / card.checklists.length) * 100).toFixed(
-  //   0
-  // );
+  const addUserToCard= async ()=>{
+    
+    const userid:number=3;
+    const cardid:number=1;
+    const bodyData={userid, cardid};
+    await dispatch(addMemberToCard(bodyData));
+    await dispatch(fetchUsersInCard(card.id));
+  }
+
+  // const membersDropdown= card.usersInWorkspace? card.usersInWorkspace.map((i)=>(
+  //   <Dropdown.Item onSelect={addUserToCard}>
+  //     <UserWorkspace id={workspace.wid}></UserWorkspace>
+  //   </Dropdown.Item>
+  // ))    : null;
+
+  
+
 
   return (
     <Modal
@@ -172,8 +183,8 @@ const CardDetail = ({ card }: { card: ICardDetail }) => {
                       <Dropdown.Toggle>Add members</Dropdown.Toggle>
 
                       <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">User1</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">User2 </Dropdown.Item>
+                        <Dropdown.Item onClick={addUserToCard}>User1</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">User2</Dropdown.Item>
                         <Dropdown.Item href="#/action-3">User3</Dropdown.Item>
                         <Dropdown.Item href="#/action-4">User4</Dropdown.Item>
                       </Dropdown.Menu>

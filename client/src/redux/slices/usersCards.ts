@@ -23,6 +23,15 @@ export const fetchUsersInCard = createAsyncThunk(
   }
 );
 
+export const addMemberToCard= createAsyncThunk(
+  "/card/addUser",
+  async (condition:any)=>{
+    console.log(condition);
+    const {userid, cardid}= condition;
+    await axios.post(`${apiUrl}/user?userId=${userid}&cardId=${cardid}`);
+  }
+)
+
 
 export const fetchUsersInWorkspace = createAsyncThunk(
   "/card/fetchUsersInWorkspace",
@@ -63,6 +72,10 @@ const usersCardsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchUsersInCard.fulfilled.toString()]: (state, action) => {
+      state.usersInCard = action.payload;
+      state.status = "succeeded";
+    },
+    [addMemberToCard.fulfilled.toString()]: (state, action) => {
       state.usersInCard = action.payload;
       state.status = "succeeded";
     },
