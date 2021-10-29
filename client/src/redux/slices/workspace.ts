@@ -10,6 +10,7 @@ interface State {
   error: string | null;
   wid: string | null;
   userLoading: boolean;
+  workspaceName: string;
 }
 
 const initialState: State = {
@@ -19,6 +20,7 @@ const initialState: State = {
   wid: localStorage.getItem("wid"),
   joinUsers: [],
   userLoading: true,
+  workspaceName: "workspace name",
 };
 
 export const fetchWorkspace = createAsyncThunk(
@@ -33,8 +35,16 @@ export const fetchWorkspace = createAsyncThunk(
 
 export const chooseWorkspace = createAsyncThunk(
   "/workspace/choose",
-  (wid: any) => {
-    return wid;
+  (bodyData: any) => {
+    let workspaceName: string = "Workspace name";
+    const { wid, workspaces } = bodyData;
+    console.log(bodyData);
+    for (const i in workspaces) {
+      if (workspaces[i].id === wid) {
+        workspaceName = workspaces[i].workspace_name;
+      }
+    }
+    return { wid, workspaceName };
   }
 );
 
@@ -103,8 +113,8 @@ const workspacesSlice = createSlice({
       state.workspaces = action.payload;
     },
     [chooseWorkspace.fulfilled.toString()]: (state, action) => {
-      state.wid = action.payload;
-      console.log(state.wid);
+      state.wid = action.payload.wid;
+      state.workspaceName = action.payload.workspaceName;
     },
     [deleteWorkspace.fulfilled.toString()]: (state, action) => {
       state.wid = action.payload;
