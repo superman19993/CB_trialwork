@@ -3,6 +3,8 @@ require './Core/CreateTables.php';        //if db has existed, please comment th
 require './Controllers/BaseController.php';
 require './Core/Database.php';
 require './Models/BaseModel.php';
+require './Models/CardModel.php';
+require './Core/InputReader.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -18,7 +20,14 @@ $controllerName = ucfirst((strtolower($uri[4])) . 'Controller');
 require "./Controllers/${controllerName}.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
-$controllerObject = new $controllerName($requestMethod);
+if ($controllerName=='CardController'){
+    $service= new CardModel();
+    $inputReader= new inputReader();
+    $controllerObject = new $controllerName($requestMethod, $service, $inputReader);
+}
+else{
+    $controllerObject = new $controllerName($requestMethod);
+}
 if ($uri[4] === "auth" || ($uri[4] === "card") || $uri[4] == 'workspace'){
     if (count($uri)<=5) $controllerObject->processRequest();
     else $controllerObject->processRequest($uri[5]);

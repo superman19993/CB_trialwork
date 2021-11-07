@@ -35,6 +35,7 @@ class CommentController extends BaseController
         }
     }
 
+    // GET: http://localhost/practice2/Server/index.php/comment?cardId={number}
     public function getAllCommentByCardId()
     {
         $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
@@ -50,6 +51,7 @@ class CommentController extends BaseController
         }
     }
 
+    // POST: http://localhost/practice2/Server/index.php/comment?uid={number}&cardId={number}
     public function createNewComment()
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
@@ -70,6 +72,7 @@ class CommentController extends BaseController
         }
     }
 
+    // PUT: http://localhost/practice2/Server/index.php/comment?uid={number}&cardId={number}&commentId={number}
     public function updateComment()
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
@@ -88,6 +91,7 @@ class CommentController extends BaseController
         }
     }
 
+    // DELETE: http://localhost/practice2/Server/index.php/comment?uid={number}&carId={number}&commentId={number}
     public function deleteComment()
     {
         $commentid = isset($_REQUEST['commentId']) ? $_REQUEST['commentId'] : '';

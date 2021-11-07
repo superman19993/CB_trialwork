@@ -4,12 +4,16 @@ class CardController extends BaseController
 {
 
     private $requesMethod;
+    private $service;
+    private $inputReader;
 
-    public function __construct($method)
+    public function __construct($method, $service, $inputReader)
     {
-        $this->loadModel('CardModel');
-        $this->cardModel = new CardModel;
+        //$this->loadModel('CardModel');
+        //$this->cardModel = new CardModel;
+        $this->service= $service;
         $this->requesMethod = $method;
+        $this->inputReader=$inputReader;
     }
 
 
@@ -20,8 +24,8 @@ class CardController extends BaseController
             echo json_encode(array('message' => "Invalid columnId."));
             return http_response_code(400);
         }
-        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
-
+        //$input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $input= $this->inputReader->read();
         $cardName = isset($input['card_name']) ? $input['card_name'] : '';
         $des = isset($input['description']) ? $input['description'] : '';
         $data = [
@@ -30,9 +34,17 @@ class CardController extends BaseController
             'columnid' => $_REQUEST['columnId']
         ];
 
-        $this->cardModel->store($data);
-        $response['message'] = 'Success';
-        echo json_encode($response);
+        $results=$this->service->store($data);
+        if ($results!=0){
+            $response['message'] = 'Success';
+            echo json_encode($response);
+            return $results;
+        }
+        else{
+            echo json_encode(array('message' => "Create failed"));
+            return http_response_code(400);
+        }
+
     }
 
     public function read()
@@ -40,15 +52,16 @@ class CardController extends BaseController
         $columns = ['*'];
         $orderBys = ['column' => 'id', 'order' => 'desc'];
         $limit = 15;
-        $results = $this->cardModel->findAll($columns, $orderBys, $limit);
+        $results = $this->service->findAll($columns, $orderBys, $limit);
 
-        if (!$results) echo json_encode(array('message' => 'No columns found.'));
+        if (!$results) echo json_encode(array('message' => 'No cards found.'));
 
         else {
             $response['data'] = $results;
             $response['message'] = 'Success';
             echo json_encode($response);
         }
+        return $results;
     }
 
     public function readOne()
@@ -82,6 +95,7 @@ class CardController extends BaseController
         ];
         $this->cardModel->updateData($cardId, $data);
         $response['message'] = 'Success';
+        $response['data'] = $data;
         echo json_encode($response);
     }
 
@@ -117,9 +131,10 @@ class CardController extends BaseController
         return $this->cardModel->destroy($cardId);
     }
 
-    public function getPercentage(){
+    public function getPercentage()
+    {
         $cardId = isset($_REQUEST['cardId']) ? $_REQUEST['cardId'] : '';
-        $response= $this->cardModel->readPercentage($cardId);
+        $response = $this->cardModel->readPercentage($cardId);
         echo json_encode($response);
     }
 
